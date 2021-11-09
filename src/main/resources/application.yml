@@ -1,0 +1,72 @@
+
+spring:
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    properties:
+#        mail:
+#            smtp:  
+#                auth: true
+#                starttls:
+#                    required: true
+#                    enable: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/HistoMed?allowPublicKeyRetrieval=true&useSSL=false&useTimezone=true&serverTimezone=GMT&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  thymeleaf:
+    cache: false
+  mustache:
+    cache: false
+  groovy:
+    template:
+      cache: false
+  freemarker:
+    cache: false
+  devtools:
+    livereload:
+      enabled: false
+    
+    
+    
+    
+    
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          timeout: '5000'
+          auth: 'true'
+          connectiontimeout: '5000'
+          writetimeout: '5000'
+    host: smtp.gmail.com
+    username: vani.chiarpotti@gmail.com
+    password: sseecayakwfwovzw
+    port: '587'
+
+    
+    
+    
+ 
+#server:
+#  error:
+#    whitelabel:
+#      enabled: false
+#  servlet:
+#    session:
+#      cookie:
+#        http-only: true
+#      tracking-modes:
+#      - cookie
+#logging.level.org.springframework.web: DEBUG
+#logging.level.org.hibernate: ERROR
