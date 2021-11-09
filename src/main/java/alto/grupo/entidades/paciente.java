@@ -46,7 +46,7 @@ public class paciente implements Serializable {
     private String departamento;
     private String otros;
     private String clave;
-    private String var;
+    private String hola;
 
     public paciente() {
     }
