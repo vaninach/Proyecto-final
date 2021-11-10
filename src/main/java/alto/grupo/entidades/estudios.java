@@ -26,8 +26,7 @@ public class estudios {
     private String especialidad;
     private Integer matriculaInforme;
     private Integer matriculaPide;
-    @ManyToOne
-    private centroMedico centromedico;
+    private Integer centromedico;
     private String archivo; // investigar como van los pdf
     private String informe;
 
@@ -58,7 +57,7 @@ public class estudios {
         return matriculaPide;
     }
 
-    public centroMedico getCentromedico() {
+    public Integer getCentromedico() {
         return centromedico;
     }
 
@@ -94,7 +93,7 @@ public class estudios {
         this.matriculaPide = matriculaPide;
     }
 
-    public void setCentromedico(centroMedico centromedico) {
+    public void setCentromedico(Integer centromedico) {
         this.centromedico = centromedico;
     }
 

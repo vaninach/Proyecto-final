@@ -25,8 +25,8 @@ public class historiasClinicas {
     private Date fechaVisita;
     private String especialidad;
     private Integer matricula;
-    @ManyToOne
-    private centroMedico centromedico;
+    
+    private Integer centromedico;
     private String informe;
 
     
@@ -50,7 +50,7 @@ public class historiasClinicas {
         return matricula;
     }
 
-    public centroMedico getCentromedico() {
+    public Integer getCentromedico() {
         return centromedico;
     }
 
@@ -74,7 +74,7 @@ public class historiasClinicas {
         this.matricula = matricula;
     }
 
-    public void setCentromedico(centroMedico centromedico) {
+    public void setCentromedico(Integer centromedico) {
         this.centromedico = centromedico;
     }
 

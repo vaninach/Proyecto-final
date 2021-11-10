@@ -34,8 +34,7 @@ public class medico {
     private String especialidad2;
     private String especialidad3;
     
-    @ManyToMany
-    private List<centroMedico> centrosMedicos;
+    private List<Integer> centrosMedicos;
 
     public medico() {
     }
@@ -94,7 +93,7 @@ public class medico {
         return especialidad3;
     }
 
-    public List<centroMedico> getCentrosMedicos() {
+    public List<Integer> getCentrosMedicos() {
         return centrosMedicos;
     }
 
@@ -150,7 +149,7 @@ public class medico {
         this.especialidad3 = especialidad3;
     }
 
-    public void setCentrosMedicos(List<centroMedico> centrosMedicos) {
+    public void setCentrosMedicos(List<Integer> centrosMedicos) {
         this.centrosMedicos = centrosMedicos;
     }
     

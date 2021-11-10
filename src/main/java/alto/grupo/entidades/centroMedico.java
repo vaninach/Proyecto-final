@@ -33,8 +33,8 @@ public class centroMedico {
     private List<String> ObraSocial;
     private List<String> especialidades;
     
-    @ManyToMany
-    private List<medico> medicos;
+    
+    private List<Integer> medicos;
 
     public centroMedico() {
     }
@@ -96,7 +96,7 @@ public class centroMedico {
         this.especialidades = especialidades;
     }
 
-    public void setMedicos(List<medico> medicos) {
+    public void setMedicos(List<Integer> medicos) {
         this.medicos = medicos;
     }
 
@@ -159,7 +159,7 @@ public class centroMedico {
         return especialidades;
     }
 
-    public List<medico> getMedicos() {
+    public List<Integer> getMedicos() {
         return medicos;
     }
     
