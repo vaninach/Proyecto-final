@@ -20,7 +20,7 @@ import javax.persistence.Id;
 public class paciente implements Serializable {
     
     @Id
-    private Integer DNI;
+    private String DNI;
     private String nombre;
     private String apellido;
     private Date fechaNac;
@@ -46,15 +46,13 @@ public class paciente implements Serializable {
     private String departamento;
     private String otros;
     private String clave;
-    private String hola;
-    private String variables;
 
     public paciente() {
     }
     
     
 
-    public Integer getDNI() {
+    public String getDNI() {
         return DNI;
     }
 
@@ -158,7 +156,7 @@ public class paciente implements Serializable {
         return clave;
     }
 
-    public void setDNI(Integer DNI) {
+    public void setDNI(String DNI) {
         this.DNI = DNI;
     }
 
