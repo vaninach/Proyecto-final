@@ -29,6 +29,7 @@ public class pacienteSe implements UserDetailsService {
     @Autowired
     pacienteRep parep;
 
+    //@Transactional
     public void Crearpaciente(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         Optional<paciente> paci = parep.findById(DNI);
         if (!paci.isPresent()) {
@@ -56,8 +57,9 @@ public class pacienteSe implements UserDetailsService {
                 validar(numero);
                 validar(piso);
                 validar(departamento);
-                validar(otros);
-                validar(clave);
+                // validar(otros); <-- si puede ser nulo
+                validar(clave);  // no seria otro metodo? que aparte verifique que las dos claves son =?
+                
 
                 paciente pac = new paciente();
                 pac.setDNI(DNI);
