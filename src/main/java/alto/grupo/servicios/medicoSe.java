@@ -24,7 +24,7 @@ public class medicoSe {
     
     @Autowired medicoRep medRep;
     
-    public medico crearMedico(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos){
+    public void crearMedico(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos){
         Optional<medico> medOpt =  medRep.findById(matricula);
         
         if(!medOpt.isPresent()){
