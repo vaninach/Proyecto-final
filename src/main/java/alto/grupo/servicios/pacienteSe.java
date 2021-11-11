@@ -102,7 +102,7 @@ public class pacienteSe implements UserDetailsService {
 
     }
 
-    private void Modificar(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void Modificar(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
 
         Optional<paciente> paciop = parep.findById(DNI);
         if (paciop.isPresent()) {
@@ -174,7 +174,7 @@ public class pacienteSe implements UserDetailsService {
         
     }
 
-    private void Eliminar(String DNI) throws Errores {
+    public void Eliminar(String DNI) throws Errores {
         Optional<paciente> paci = parep.findById(DNI);
         if (paci.isPresent()) {
             parep.deleteById(DNI);
@@ -183,6 +183,20 @@ public class pacienteSe implements UserDetailsService {
         }
 
     }
+    
+    
+    public paciente BuscarPorDNI(String DNI) throws Errores{
+        Optional<paciente> paci = parep.findById(DNI);
+        if (paci.isPresent()) {
+            return paci.get();
+        } else {
+            throw new Errores("No se encontro el paciente solicitado");
+        }
+    }
+    
+    
+    
+    
 
     private void validar(String nombre) throws Errores {
         if (nombre == null || nombre.isEmpty()) {
