@@ -50,10 +50,6 @@ public class paciente implements Serializable {
     public paciente() {
     }
 
-    
-    
-    
-
     public String getDNI() {
         return DNI;
     }

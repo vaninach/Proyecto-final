@@ -19,7 +19,7 @@ import javax.persistence.ManyToMany;
 public class medico {
     
     @Id
-    private Integer Matricula;
+    private Integer matricula;
     private String nombre;
     private String apellido;
     private Date fechaNac;
@@ -42,7 +42,7 @@ public class medico {
     
     
     public Integer getMatricula() {
-        return Matricula;
+        return matricula;
     }
 
     public String getNombre() {
@@ -98,7 +98,7 @@ public class medico {
     }
 
     public void setMatricula(Integer Matricula) {
-        this.Matricula = Matricula;
+        this.matricula = Matricula;
     }
 
     public void setNombre(String nombre) {
