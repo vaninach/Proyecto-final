@@ -10,7 +10,6 @@ import alto.grupo.enums.Genero;
 import alto.grupo.enums.GrupoS;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
-import alto.grupo.repositorios.pacienteRep;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +17,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import alto.grupo.repositorios.PacienteRep;
 
 /**
  *
  * @author vani
  */
 @Service
-public class pacienteSe implements UserDetailsService {
+public class PacienteSe implements UserDetailsService {
 
     @Autowired
-    pacienteRep parep;
+    PacienteRep parep;
 
     //@Transactional
     public void Crearpaciente(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {

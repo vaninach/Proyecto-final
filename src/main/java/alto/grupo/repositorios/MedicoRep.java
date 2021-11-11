@@ -5,7 +5,7 @@
  */
 package alto.grupo.repositorios;
 
-import alto.grupo.entidades.medico;
+import alto.grupo.entidades.Medico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author miact
  */
 @Repository
-public interface medicoRep extends JpaRepository<medico, Integer>{
+public interface MedicoRep extends JpaRepository<Medico, Integer>{
     
 }

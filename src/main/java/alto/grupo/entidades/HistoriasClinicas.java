@@ -15,28 +15,25 @@ import org.hibernate.annotations.GenericGenerator;
  *
  * @author vani
  */
-public class estudios {
+public class HistoriasClinicas {
     
-     @Id
+    @Id
     @GeneratedValue(generator="uuid")
     @GenericGenerator(name="uuid",strategy="uuid2")
     private String id;
     private String DNI;
     private Date fechaVisita;
     private String especialidad;
-    private Integer matriculaInforme;
-    private Integer matriculaPide;
+    private Integer matricula;
+    
     private Integer centromedico;
-    private String archivo; // investigar como van los pdf
     private String informe;
 
-    public estudios() {
+    
+    
+    public HistoriasClinicas() {
     }
     
-    public String getId() {
-        return id;
-    }
-
     public String getDNI() {
         return DNI;
     }
@@ -49,28 +46,16 @@ public class estudios {
         return especialidad;
     }
 
-    public Integer getMatriculaInforme() {
-        return matriculaInforme;
-    }
-
-    public Integer getMatriculaPide() {
-        return matriculaPide;
+    public Integer getMatricula() {
+        return matricula;
     }
 
     public Integer getCentromedico() {
         return centromedico;
     }
 
-    public String getArchivo() {
-        return archivo;
-    }
-
     public String getInforme() {
         return informe;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setDNI(String DNI) {
@@ -85,25 +70,17 @@ public class estudios {
         this.especialidad = especialidad;
     }
 
-    public void setMatriculaInforme(Integer matriculaInforme) {
-        this.matriculaInforme = matriculaInforme;
-    }
-
-    public void setMatriculaPide(Integer matriculaPide) {
-        this.matriculaPide = matriculaPide;
+    public void setMatricula(Integer matricula) {
+        this.matricula = matricula;
     }
 
     public void setCentromedico(Integer centromedico) {
         this.centromedico = centromedico;
     }
 
-    public void setArchivo(String archivo) {
-        this.archivo = archivo;
-    }
-
     public void setInforme(String informe) {
         this.informe = informe;
     }
-
+    
     
 }

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface pacienteRep extends JpaRepository<Paciente, String>{
+public interface PacienteRep extends JpaRepository<Paciente, String>{
     
     @Query("SELECT c FROM Paciente WHERE C.nombre LIKE %:nombre% AND C.apellido LIKE %:apellido% AND C.provincia=:provincia")
     public List<Paciente> BuscarNombreApellidoProvincia(@Param("nombre") String nombre,@Param("apellido") String apellido,@Param("provincia") Provincia provincia);

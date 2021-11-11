@@ -5,7 +5,7 @@
  */
 package alto.grupo;
 
-import alto.grupo.servicios.pacienteSe;
+import alto.grupo.servicios.PacienteSe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,7 +25,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter {
     @Autowired
-    public pacienteSe pase;
+    public PacienteSe pase;
     
 //    @Autowired
 //        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{

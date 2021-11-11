@@ -5,30 +5,30 @@
  */
 package alto.grupo.servicios;
 
-import alto.grupo.entidades.medico;
+import alto.grupo.entidades.Medico;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
-import alto.grupo.repositorios.medicoRep;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import alto.grupo.repositorios.MedicoRep;
 
 /**
  *
  * @author miact
  */
 @Service
-public class medicoSe {
+public class MedicoSe {
     
-    @Autowired medicoRep medRep;
+    @Autowired MedicoRep medRep;
     
     @Transactional
     public void crear(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
-        Optional<medico> medOpt =  medRep.findById(matricula);
+        Optional<Medico> medOpt =  medRep.findById(matricula);
         
         if(!medOpt.isPresent()){
             try {
@@ -48,7 +48,7 @@ public class medicoSe {
                 // validar(centrosMedicos); List de integers
                 
                 // == si ninguna validacion da error, crear y persistir ==  
-                medico med = new medico();
+                Medico med = new Medico();
                 med.setMatricula(matricula);
                 med.setNombre(nombre);
                 med.setApellido(apellido);
@@ -82,7 +82,7 @@ public class medicoSe {
     }
     
     public void modificar(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
-        Optional<medico> medOpt = medRep.findById(matricula);
+        Optional<Medico> medOpt = medRep.findById(matricula);
         
         // ==========================================================
         // PROBLEMA: sin validacion => posibles cpos vacios seteados
@@ -90,7 +90,7 @@ public class medicoSe {
         // ==========================================================
         
         if(medOpt.isPresent()){
-            medico med = medOpt.get();
+            Medico med = medOpt.get();
             // if(buscarCambios(matricula))  Integer
                 med.setMatricula(matricula);
             if(buscarCambios(nombre))
@@ -127,7 +127,7 @@ public class medicoSe {
     }
     
     public void eliminar(Integer matricula) throws Errores {
-        Optional<medico> medOpt = medRep.findById(matricula);
+        Optional<Medico> medOpt = medRep.findById(matricula);
         if(medOpt.isPresent()){
             medRep.deleteById(matricula);
         } else {

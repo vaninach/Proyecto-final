@@ -14,7 +14,7 @@ import javax.persistence.ManyToMany;
  *
  * @author vani
  */
-public class centroMedico {
+public class CentroMedico {
     
     @Id
     private Integer codigoRegistro;
@@ -36,7 +36,7 @@ public class centroMedico {
     
     private List<Integer> medicos;
 
-    public centroMedico() {
+    public CentroMedico() {
     }
     
 
