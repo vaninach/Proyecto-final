@@ -17,7 +17,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class paciente implements Serializable {
+public class Paciente implements Serializable {
     
     @Id
     private String DNI;
@@ -47,7 +47,7 @@ public class paciente implements Serializable {
     private String otros;
     private String clave;
 
-    public paciente() {
+    public Paciente() {
     }
 
     public String getDNI() {

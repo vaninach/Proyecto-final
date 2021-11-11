@@ -5,7 +5,7 @@
  */
 package alto.grupo.servicios;
 
-import alto.grupo.entidades.paciente;
+import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.GrupoS;
 import alto.grupo.enums.Provincia;
@@ -31,7 +31,7 @@ public class pacienteSe implements UserDetailsService {
 
     //@Transactional
     public void Crearpaciente(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
-        Optional<paciente> paci = parep.findById(DNI);
+        Optional<Paciente> paci = parep.findById(DNI);
         if (!paci.isPresent()) {
 
             try {
@@ -61,7 +61,7 @@ public class pacienteSe implements UserDetailsService {
                 validar(clave);  // no seria otro metodo? que aparte verifique que las dos claves son =?
                 
 
-                paciente pac = new paciente();
+                Paciente pac = new Paciente();
                 pac.setDNI(DNI);
                 pac.setNombre(nombre);
                 pac.setApellido(apellido);
@@ -104,10 +104,10 @@ public class pacienteSe implements UserDetailsService {
 
     public void Modificar(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
 
-        Optional<paciente> paciop = parep.findById(DNI);
+        Optional<Paciente> paciop = parep.findById(DNI);
         if (paciop.isPresent()) {
 
-                paciente pac=paciop.get();
+                Paciente pac=paciop.get();
 
                 if(BuscarCambios(DNI))
                     pac.setDNI(DNI);
@@ -175,7 +175,7 @@ public class pacienteSe implements UserDetailsService {
     }
 
     public void Eliminar(String DNI) throws Errores {
-        Optional<paciente> paci = parep.findById(DNI);
+        Optional<Paciente> paci = parep.findById(DNI);
         if (paci.isPresent()) {
             parep.deleteById(DNI);
         } else {
@@ -185,8 +185,8 @@ public class pacienteSe implements UserDetailsService {
     }
     
     
-    public paciente BuscarPorDNI(String DNI) throws Errores{
-        Optional<paciente> paci = parep.findById(DNI);
+    public Paciente BuscarPorDNI(String DNI) throws Errores{
+        Optional<Paciente> paci = parep.findById(DNI);
         if (paci.isPresent()) {
             return paci.get();
         } else {
