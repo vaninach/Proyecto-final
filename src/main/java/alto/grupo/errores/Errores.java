@@ -9,6 +9,8 @@ package alto.grupo.errores;
  *
  * @author miact
  */
-public class Errores {
-    
+public class Errores extends Exception{
+    public Errores(String msn){
+        super(msn);
+    }
 }
