@@ -62,7 +62,7 @@ public class HistClinicaSe {
     }
     
     public void modificar(String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
-        Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
+        Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(DNI);
         
         if(histClinOpt.isPresent()){
            HistoriasClinicas histC = histClinOpt.get();
