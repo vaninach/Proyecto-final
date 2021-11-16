@@ -91,7 +91,7 @@ public class EstudiosSe {
            
         } else {
             throw new Errores("No se encuentra la historia clinica eque busca modificar en la base de datos.");
-        }       
+        }      
     }
     
     public void eliminar(String id) throws Errores {

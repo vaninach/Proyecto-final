@@ -13,20 +13,17 @@ import alto.grupo.errores.Errores;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import alto.grupo.repositorios.PacienteRep;
 import java.util.List;
 import javax.transaction.Transactional;
+import alto.grupo.repositorios.PacienteRep;
 
 /**
  *
  * @author vani
  */
 @Service
-public class PacienteSe implements UserDetailsService {
+public class PacienteSe {
 
     @Autowired
     PacienteRep parep;
@@ -268,9 +265,5 @@ public class PacienteSe implements UserDetailsService {
 //            return null;
 //        }
 //    }
-    @Override
-    public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+  
 }

@@ -6,6 +6,7 @@
 package alto.grupo.entidades;
 
 import java.util.Date;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -15,6 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
  *
  * @author vani
  */
+@Entity
 public class HistoriasClinicas {
     
     @Id

@@ -5,6 +5,7 @@
  */
 package alto.grupo.servicios;
 
+import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.Medico;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
@@ -27,7 +28,7 @@ public class MedicoSe {
     @Autowired MedicoRep medRep;
     
     @Transactional
-    public void crear(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void crear(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<CentroMedico> centrosMedicos) throws Errores{
         Optional<Medico> medOpt =  medRep.findById(matricula);
         
         if(!medOpt.isPresent()){
@@ -81,7 +82,7 @@ public class MedicoSe {
         }
     }
     
-    public void modificar(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void modificar(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<CentroMedico> centrosMedicos) throws Errores{
         Optional<Medico> medOpt = medRep.findById(matricula);
         
         // ==========================================================

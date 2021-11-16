@@ -6,14 +6,17 @@
 package alto.grupo.entidades;
 
 import alto.grupo.enums.Provincia;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author vani
  */
+@Entity
 public class CentroMedico {
     
     @Id
@@ -29,12 +32,17 @@ public class CentroMedico {
     private String departamento;
     private String otros;
     private String clave;
+    @OneToMany(targetEntity = Medico.class)
+    private List<Medico> ObraSocial=new ArrayList<>();
     
-    private List<String> ObraSocial;
-    private List<String> especialidades;
+   // @OneToMany(targetEntity=Libro.class)
+   // private List<Libro> libros=new ArrayList<>();
     
+    @OneToMany(targetEntity = Medico.class)
+    private List<Medico> especialidades=new ArrayList<>();;
     
-    private List<Integer> medicos;
+    @OneToMany(targetEntity = Medico.class)
+    private List<Medico> medicos=new ArrayList<>();;
 
     public CentroMedico() {
     }
@@ -88,15 +96,15 @@ public class CentroMedico {
         this.clave = clave;
     }
 
-    public void setObraSocial(List<String> ObraSocial) {
+    public void setObraSocial(List<Medico> ObraSocial) {
         this.ObraSocial = ObraSocial;
     }
 
-    public void setEspecialidades(List<String> especialidades) {
+    public void setEspecMedicoialidades(List<Medico> especialidades) {
         this.especialidades = especialidades;
     }
 
-    public void setMedicos(List<Integer> medicos) {
+    public void setMedicos(List<Medico> medicos) {
         this.medicos = medicos;
     }
 
@@ -151,15 +159,15 @@ public class CentroMedico {
         return clave;
     }
 
-    public List<String> getObraSocial() {
+    public List<Medico> getObraSocial() {
         return ObraSocial;
     }
 
-    public List<String> getEspecialidades() {
+    public List<Medico> getEspecialidades() {
         return especialidades;
     }
 
-    public List<Integer> getMedicos() {
+    public List<Medico> getMedicos() {
         return medicos;
     }
     
