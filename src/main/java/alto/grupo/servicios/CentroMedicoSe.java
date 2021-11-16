@@ -10,6 +10,7 @@ import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.CentroMedicoRep;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class CentroMedicoSe {
 
     
     //Metodo para Crear Centro de salud.
+    @Transactional
     public void crearCentro (Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         
   
@@ -70,7 +72,7 @@ public class CentroMedicoSe {
     
     
      
-     
+     @Transactional
      public void modificarCentro(Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
          
       Optional<CentroMedico> CentroMedicoOpt = centrorep.findById(codigoRegistro);   
@@ -113,7 +115,7 @@ public class CentroMedicoSe {
               
               
       }
-     
+     @Transactional
      public void eliminarCentro (Integer codigoRegistro) throws Errores{
          Optional<CentroMedico> CentroMedicoOpt = centrorep.findById(codigoRegistro); 
          
