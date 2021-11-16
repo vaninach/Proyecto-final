@@ -35,11 +35,15 @@ public class CentroMedico {
     @OneToMany(targetEntity = Medico.class)
     private List<Medico> ObraSocial=new ArrayList<>();
     
-    @OneToMany(targetEntity = Medico.class)
-    private List<Medico> especialidades=new ArrayList<>();;
-    
+
+    @OneToMany(targetEntity=Medico.class)   // Verificar
+    private List<Medico> ObraSocial;
+    @OneToMany(targetEntity=Medico.class)   // Verificar
+    private List<Medico> especialidades;
+
     @OneToMany(targetEntity = Medico.class)
     private List<Medico> medicos=new ArrayList<>();;
+
 
     public CentroMedico() {
     }
@@ -97,7 +101,7 @@ public class CentroMedico {
         this.ObraSocial = ObraSocial;
     }
 
-    public void setEspecMedicoialidades(List<Medico> especialidades) {
+    public void setEspecialidades(List<Medico> especialidades) {
         this.especialidades = especialidades;
     }
 

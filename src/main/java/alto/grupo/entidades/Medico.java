@@ -37,7 +37,7 @@ public class Medico {
     private String especialidad2;
     private String especialidad3;
     
-    @OneToMany(targetEntity = CentroMedico.class)
+    @OneToMany(targetEntity=CentroMedico.class)   // Verificar
     private List<CentroMedico> centrosMedicos;
 
     public Medico() {
