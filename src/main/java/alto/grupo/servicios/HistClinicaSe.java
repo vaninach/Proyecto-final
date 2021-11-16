@@ -55,14 +55,14 @@ public class HistClinicaSe {
         }
     }
     
-    private void validar(String nombre) throws Errores {
-        if (nombre == null || nombre.isEmpty()) {
-            throw new Errores("El dato " + nombre + "no es valido");
+    private void validar(String text) throws Errores {
+        if (text == null || text.isEmpty()) {
+            throw new Errores("El dato " + text + "no es valido");
         }
     }
     
-    public void modificar(String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
-        Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(DNI);
+    public void modificar(String id, String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
+        Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
         
         if(histClinOpt.isPresent()){
            HistoriasClinicas histC = histClinOpt.get();
