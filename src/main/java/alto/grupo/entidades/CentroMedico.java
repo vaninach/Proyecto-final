@@ -35,9 +35,6 @@ public class CentroMedico {
     @OneToMany(targetEntity = Medico.class)
     private List<Medico> ObraSocial=new ArrayList<>();
     
-
-    @OneToMany(targetEntity=Medico.class)   // Verificar
-    private List<Medico> ObraSocial;
     @OneToMany(targetEntity=Medico.class)   // Verificar
     private List<Medico> especialidades;
 
