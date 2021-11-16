@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import alto.grupo.repositorios.PacienteRep;
+import java.util.List;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -29,7 +31,7 @@ public class PacienteSe implements UserDetailsService {
     @Autowired
     PacienteRep parep;
 
-    //@Transactional
+    @Transactional
     public void Crearpaciente(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         Optional<Paciente> paci = parep.findById(DNI);
         if (!paci.isPresent()) {
@@ -102,6 +104,7 @@ public class PacienteSe implements UserDetailsService {
 
     }
 
+    @Transactional
     public void Modificar(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
 
         Optional<Paciente> paciop = parep.findById(DNI);
@@ -174,6 +177,7 @@ public class PacienteSe implements UserDetailsService {
         
     }
 
+     @Transactional
     public void Eliminar(String DNI) throws Errores {
         Optional<Paciente> paci = parep.findById(DNI);
         if (paci.isPresent()) {
@@ -184,7 +188,7 @@ public class PacienteSe implements UserDetailsService {
 
     }
     
-    
+     @Transactional
     public Paciente BuscarPorDNI(String DNI) throws Errores{
         Optional<Paciente> paci = parep.findById(DNI);
         if (paci.isPresent()) {
@@ -194,6 +198,35 @@ public class PacienteSe implements UserDetailsService {
         }
     }
     
+     @Transactional
+    public List<Paciente> BuscarPorNAPC(String nombre,String apellido,Provincia provincia, String ciudad) throws Errores{
+        List<Paciente> paci = parep.BuscarNombreApellidoProvincia(nombre, apellido, provincia, ciudad);
+        if (!paci.isEmpty()) {
+            return paci;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
+    
+     @Transactional
+    public List<Paciente> BuscarPorNAPC(String nombre,String apellido,Provincia provincia) throws Errores{
+        List<Paciente> paci = parep.BuscarNombreApellidoProvincia(nombre, apellido, provincia);
+        if (!paci.isEmpty()) {
+            return paci;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
+    
+     @Transactional
+    public List<Paciente> BuscarPorNAPC(String nombre,String apellido) throws Errores{
+        List<Paciente> paci = parep.BuscarNombreApellidoProvincia(nombre, apellido);
+        if (!paci.isEmpty()) {
+            return paci;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
     
     
     
