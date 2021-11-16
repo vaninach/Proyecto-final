@@ -21,22 +21,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MedicoRep extends JpaRepository<Medico, Integer> {
 
-    @Query("SELECT c FROM Medico WHERE C.nombre LIKE %:nombre% AND C.apellido LIKE %:apellido% AND C.provincia=:provincia")
+    @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido% AND c.provincia=:provincia")
     public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("provincia") Provincia provincia);
 
-    @Query("SELECT c FROM Medico WHERE C.nombre LIKE %:nombre% AND C.apellido LIKE %:apellido% AND C.provincia=:provincia AND C.ciudad=:ciudad")
+    @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido% AND c.provincia=:provincia AND c.ciudad=:ciudad")
     public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("provincia") Provincia provincia, @Param("ciudad") String ciudad);
 
-    @Query("SELECT c FROM Medico WHERE C.nombre LIKE %:nombre% AND C.apellido LIKE %:apellido%")
+    @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido%")
     public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido);
 
-    @Query("SELECT c FROM Medico WHERE (C.especialidad1 LIKE %:esp1% OR C.especialidad2 LIKE %:esp2% OR C.especialidad3 LIKE %:esp3%) AND C.provincia=:prov")
+    @Query("SELECT c FROM Medico c WHERE (c.especialidad1 LIKE %:esp1% OR c.especialidad2 LIKE %:esp2% OR c.especialidad3 LIKE %:esp3%) AND c.provincia=:prov")
     public List<Medico> BuscarNombreApellidoProvinciaEsp(@Param("esp1") String esp1, @Param("esp2") String esp2, @Param("esp3") String esp3, @Param("prov") Provincia prov);
 
-    @Query("SELECT c FROM Medico WHERE (C.especialidad1 LIKE %:esp1% OR C.especialidad2 LIKE %:esp2%) AND C.provincia=:prov")
+    @Query("SELECT c FROM Medico c WHERE (c.especialidad1 LIKE %:esp1% OR c.especialidad2 LIKE %:esp2%) AND c.provincia=:prov")
     public List<Medico> BuscarNombreApellidoProvinciaEsp(@Param("esp1") String esp1, @Param("esp2") String esp2,  @Param("prov") Provincia prov);
 
-    @Query("SELECT c FROM Medico WHERE (C.especialidad1 LIKE %:esp1% ) AND C.provincia=:prov")
+    @Query("SELECT c FROM Medico c WHERE (c.especialidad1 LIKE %:esp1% ) AND c.provincia=:prov")
     public List<Medico> BuscarNombreApellidoProvinciaEsp(@Param("esp1") String esp1, @Param("prov") Provincia prov);
 
 }

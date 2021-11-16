@@ -7,13 +7,16 @@ package alto.grupo.entidades;
 
 import alto.grupo.enums.Provincia;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author vani
  */
+@Entity
 public class CentroMedico {
     
     @Id
@@ -30,11 +33,13 @@ public class CentroMedico {
     private String otros;
     private String clave;
     
-    private List<String> ObraSocial;
-    private List<String> especialidades;
+    @OneToMany(targetEntity=Medico.class)   // Verificar
+    private List<Medico> ObraSocial;
+    @OneToMany(targetEntity=Medico.class)   // Verificar
+    private List<Medico> especialidades;
     
-    
-    private List<Integer> medicos;
+    @OneToMany(targetEntity=Medico.class)   // Verificar
+    private List<Medico> medicos;
 
     public CentroMedico() {
     }
@@ -88,15 +93,15 @@ public class CentroMedico {
         this.clave = clave;
     }
 
-    public void setObraSocial(List<String> ObraSocial) {
+    public void setObraSocial(List<Medico> ObraSocial) {
         this.ObraSocial = ObraSocial;
     }
 
-    public void setEspecialidades(List<String> especialidades) {
+    public void setEspecialidades(List<Medico> especialidades) {
         this.especialidades = especialidades;
     }
 
-    public void setMedicos(List<Integer> medicos) {
+    public void setMedicos(List<Medico> medicos) {
         this.medicos = medicos;
     }
 
@@ -151,15 +156,15 @@ public class CentroMedico {
         return clave;
     }
 
-    public List<String> getObraSocial() {
+    public List<Medico> getObraSocial() {
         return ObraSocial;
     }
 
-    public List<String> getEspecialidades() {
+    public List<Medico> getEspecialidades() {
         return especialidades;
     }
 
-    public List<Integer> getMedicos() {
+    public List<Medico> getMedicos() {
         return medicos;
     }
     

@@ -9,13 +9,16 @@ import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author vani
  */
+@Entity
 public class Medico {
     
     @Id
@@ -34,7 +37,8 @@ public class Medico {
     private String especialidad2;
     private String especialidad3;
     
-    private List<Integer> centrosMedicos;
+    @OneToMany(targetEntity=CentroMedico.class)   // Verificar
+    private List<CentroMedico> centrosMedicos;
 
     public Medico() {
     }
@@ -93,7 +97,7 @@ public class Medico {
         return especialidad3;
     }
 
-    public List<Integer> getCentrosMedicos() {
+    public List<CentroMedico> getCentrosMedicos() {
         return centrosMedicos;
     }
 
@@ -149,7 +153,7 @@ public class Medico {
         this.especialidad3 = especialidad3;
     }
 
-    public void setCentrosMedicos(List<Integer> centrosMedicos) {
+    public void setCentrosMedicos(List<CentroMedico> centrosMedicos) {
         this.centrosMedicos = centrosMedicos;
     }
     

@@ -21,13 +21,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PacienteRep extends JpaRepository<Paciente, String>{
     
-    @Query("SELECT c FROM Paciente WHERE C.nombre LIKE %:nombre% AND C.apellido LIKE %:apellido% AND C.provincia=:provincia")
+    @Query("SELECT c FROM Paciente c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido% AND c.provincia=:provincia")
     public List<Paciente> BuscarNombreApellidoProvincia(@Param("nombre") String nombre,@Param("apellido") String apellido,@Param("provincia") Provincia provincia);
 
-    @Query("SELECT c FROM Paciente WHERE C.nombre LIKE %:nombre% AND C.apellido LIKE %:apellido% AND C.provincia=:provincia AND C.ciudad=:ciudad")
+    @Query("SELECT c FROM Paciente c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido% AND c.provincia=:provincia AND c.ciudad=:ciudad")
     public List<Paciente> BuscarNombreApellidoProvincia(@Param("nombre") String nombre,@Param("apellido") String apellido,@Param("provincia") Provincia provincia,@Param("ciudad") String ciudad);
     
-    @Query("SELECT c FROM Paciente WHERE C.nombre LIKE %:nombre% AND C.apellido LIKE %:apellido%")
+    @Query("SELECT c FROM Paciente c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido%")
     public List<Paciente> BuscarNombreApellidoProvincia(@Param("nombre") String nombre,@Param("apellido") String apellido);
     
     

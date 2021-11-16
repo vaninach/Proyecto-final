@@ -65,6 +65,7 @@ public class EstudiosSe {
         }
     }
     
+    @Transactional
     public void modificar(String id, String DNI, Date fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores{
         Optional<Estudios> estOpt = estRep.findById(id);
         
@@ -94,6 +95,7 @@ public class EstudiosSe {
         }       
     }
     
+    @Transactional
     public void eliminar(String id) throws Errores {
         Optional<Estudios> estOpt = estRep.findById(id);
         

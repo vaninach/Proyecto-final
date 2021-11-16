@@ -11,15 +11,16 @@ import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.CentroMedicoRep;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
+// Verificar List
+@Service
 public class CentroMedicoSe {
     
     
     @Autowired
     CentroMedicoRep centrorep;
-    @Autowired 
-    CentroMedico centromedico;
     
     //Metodo para Crear Centro de salud.
     public void crearCentro (Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {

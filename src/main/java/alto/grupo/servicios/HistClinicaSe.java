@@ -61,6 +61,7 @@ public class HistClinicaSe {
         }
     }
     
+    @Transactional
     public void modificar(String id, String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
         Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
         
@@ -86,6 +87,7 @@ public class HistClinicaSe {
         }       
     }
     
+    @Transactional
     public void eliminar(String id) throws Errores {
         Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
         
