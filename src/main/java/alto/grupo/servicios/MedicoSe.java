@@ -140,4 +140,89 @@ public class MedicoSe {
         return text == null || text.isEmpty();
     }
     
+    
+    
+    @Transactional
+    public Medico BuscarPorDNI(Integer matricula) throws Errores{
+        Optional<Medico> med = medRep.findById(matricula);
+        if (med.isPresent()) {
+            return med.get();
+        } else {
+            throw new Errores("No se encontro el medico solicitado");
+        }
+    }
+    
+     @Transactional
+    public List<Medico> BuscarPorNAPC(String nombre,String apellido,Provincia provincia, String ciudad) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia, ciudad);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
+    
+     @Transactional
+    public List<Medico> BuscarPorNAPC(String nombre,String apellido,Provincia provincia) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
+    
+     @Transactional
+    public List<Medico> BuscarPorNAPC(String nombre,String apellido) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
+    
+    
+     @Transactional
+    public List<Medico> BuscarPorNAPCE(String esp1,String esp2,String esp3,Provincia provincia) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, esp2, esp3, provincia);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
+     @Transactional
+    public List<Medico> BuscarPorNAPCE(String esp1,String esp2,Provincia provincia) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, esp2, provincia);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
+    
+    
+     @Transactional
+    public List<Medico> BuscarPorNAPCE(String esp1,Provincia provincia) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, provincia);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun paciente");
+        }
+    }
+    
+    
+    
+    
+    //Hacer la busqueda de centros medicos, para eso necesito tener hecho el repositorio de centro medico
+    
+    
+
+    
+    
+    
+    
+    
 }
