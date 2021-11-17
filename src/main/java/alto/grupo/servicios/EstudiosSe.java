@@ -25,10 +25,10 @@ public class EstudiosSe {
     @Autowired EstudioRep estRep;
     
     @Transactional
-    public void crear(String id, String DNI, Date fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores {
-        Optional<Estudios> estOpt = estRep.findById(id);
+    public void crear(String DNI, Date fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores {
+       
         
-        if(!estOpt.isPresent()){
+       
             try {
                 validar(DNI);
                 // validar(fechaVisita);    Date
@@ -46,7 +46,7 @@ public class EstudiosSe {
                 estud.setEspecialidad(especialidad);
                 estud.setMatriculaInforme(matriculaInforme);
                 estud.setMatriculaPide(matriculaPide);
-                estud.setCentromedico(centroMedico);
+                estud.setCentroMedico(centroMedico);
                 estud.setArchivo(archivo);
                 estud.setInforme(informe);    
                 
@@ -55,9 +55,7 @@ public class EstudiosSe {
             } catch (Errores e) {
                 System.out.println(e);
             }
-        } else {
-            throw new Errores("Error en la creacion del estudio.");
-        }
+       
     }
     
     private void validar(String text) throws Errores {
@@ -83,7 +81,7 @@ public class EstudiosSe {
            // if(buscarCambios(matriculaPide))  Integer
            estud.setMatriculaPide(matriculaPide);
            // if(buscarCambios(centroMedico))  Integer
-           estud.setCentromedico(centroMedico);
+           estud.setCentroMedico(centroMedico);
            if(buscarCambios(archivo))   // PDF?
                estud.setInforme(archivo);
            if(buscarCambios(informe))

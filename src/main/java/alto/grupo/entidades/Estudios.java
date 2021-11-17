@@ -62,7 +62,7 @@ public class Estudios {
         return matriculaPide;
     }
 
-    public Integer getCentromedico() {
+    public Integer getCentroMedico() {
         return centroMedico;
     }
 
@@ -98,7 +98,7 @@ public class Estudios {
         this.matriculaPide = matriculaPide;
     }
 
-    public void setCentromedico(Integer centroMedico) {
+    public void setCentroMedico(Integer centroMedico) {
         this.centroMedico = centroMedico;
     }
 
