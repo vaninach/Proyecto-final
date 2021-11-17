@@ -6,6 +6,7 @@
 package alto.grupo.controladores;
 
 import alto.grupo.entidades.CentroMedico;
+import alto.grupo.entidades.Medico;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,7 @@ public class MedicoController {
     
 @Autowired
 private MedicoSe medicose;
-
+  
 @GetMapping("/NuevoMedico")
 public String Medico(){
     return "Medico/NuevoMedico.html";
@@ -40,6 +42,21 @@ public String nuevoMedico (Integer matricula, String nombre, String apellido, St
     
     medicose.crear(matricula, nombre, apellido, null, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
     return "Medico/NuevoMedico.html";
+}
+    
+@GetMapping("/NuevoMedico2")
+public String Medico2(Model modelo,Medico medico){
+    modelo.addAttribute("medico",medico);
+    return "Medico/NuevoMedico_1.html";
+}
+
+@PostMapping("/NuevoMedico2")
+public String nuevoMedico2 (Model modelo,Medico medico) throws Errores{
+    modelo.addAttribute("medico",medico);
+    System.out.println("todo correcto");
+    //Podria hacerce un metodo crear medico que reciba ya un medico y lo persistamos directamente (haciendo las validaciones)
+    //medicose.crear(matricula, nombre, apellido, null, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
+    return "Medico/NuevoMedico_1.html";
 }
     
 }
