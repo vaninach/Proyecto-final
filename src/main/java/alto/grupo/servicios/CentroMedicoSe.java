@@ -22,6 +22,7 @@ public class CentroMedicoSe {
     
     @Autowired
     CentroMedicoRep centrorep;
+
     
     //Metodo para Crear Centro de salud.
     @Transactional

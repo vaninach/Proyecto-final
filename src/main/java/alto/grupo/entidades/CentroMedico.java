@@ -6,10 +6,10 @@
 package alto.grupo.entidades;
 
 import alto.grupo.enums.Provincia;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -32,14 +32,15 @@ public class CentroMedico {
     private String departamento;
     private String otros;
     private String clave;
+    @OneToMany(targetEntity = Medico.class)
+    private List<Medico> ObraSocial=new ArrayList<>();
     
-    @OneToMany(targetEntity=Medico.class)   // Verificar
-    private List<Medico> ObraSocial;
     @OneToMany(targetEntity=Medico.class)   // Verificar
     private List<Medico> especialidades;
-    
-    @OneToMany(targetEntity=Medico.class)   // Verificar
-    private List<Medico> medicos;
+
+    @OneToMany(targetEntity = Medico.class)
+    private List<Medico> medicos=new ArrayList<>();;
+
 
     public CentroMedico() {
     }
