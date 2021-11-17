@@ -11,152 +11,152 @@
     </head>
     <body>
         <h1>Registro de Pacientes </h1>
-        <form class="need-validation" th:action="@{/usuario/guardar}" method="POST">
+        <form class="need-validation" th:action="@{/NuevoPaciente}" th:object="${paciente}" method="POST">
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="DNI" aria-describedby="dniHelp" name="DNI" placeholder="DNI"/>
+                <input type=string class="form-control" id="DNI" aria-describedby="dniHelp" name="DNI" th:field="*{DNI}" placeholder="DNI"/>
 
             </div> 
 
             <div class="form-group col-md-6 " >
 
                 <br/>
-                <input type=text class="form-control" id="nombre" aria-describedby="nombreHelp" name="nombre" placeholder="NOMBRE"/>
+                <input type=text class="form-control" id="nombre" aria-describedby="nombreHelp" name="nombre" th:field="*{nombre}" placeholder="NOMBRE"/>
 
             </div>
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="apellido" aria-describedby="apellidoHelp" name="apellido" placeholder="APELLIDO"/>
+                <input type=string class="form-control" id="apellido" aria-describedby="apellidoHelp" name="apellido" th:field="*{apellido}" placeholder="APELLIDO"/>
 
             </div>  
 
-            <div class="form-group col-md-6">
+<!--            <div class="form-group col-md-6">
 
                 <br/>
                 <input type=date class="form-control" id="fechaNac" aria-describedby="fechaNacHelp" name="fechaNac" placeholder="FECHA NACIMIENTO"/>
 
-            </div> 
+            </div> -->
 
-            <div class="form-group col-md-6">
+<!--            <div class="form-group col-md-6">
 
                 <br/>
                 <input type=genero class="form-control" id="genero" aria-describedby="generoHelp" name="genero" placeholder="GENERO"/>
 
-            </div> 
+            </div> -->
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="estadoCivil" aria-describedby="estadoCivilHelp" name="estadoCivil" placeholder="ESTADO CIVIL"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=string class="form-control" id="telefono" aria-describedby="telefonoHelp" name="telefono" placeholder="TELEFONO"/>
+                <input type=string class="form-control" id="estadoCivil" aria-describedby="estadoCivilHelp" name="estadoCivil" th:field="*{estadoCivil}" placeholder="ESTADO CIVIL"/>
 
             </div> 
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="mail" aria-describedby="mailHelp" name="mail" placeholder="MAIL"/>
+                <input type=string class="form-control" id="telefono" aria-describedby="telefonoHelp" name="telefono" th:field="*{telefono}" placeholder="TELEFONO"/>
 
             </div> 
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="nombreContacto" aria-describedby="nombreContactoHelp" name="nombreContacto" placeholder="NOMBRE CONTACTO"/>
+                <input type=string class="form-control" id="mail" aria-describedby="mailHelp" name="mail" th:field="*{mail}" placeholder="MAIL"/>
 
             </div> 
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="telefonoContacto" aria-describedby="telefonoContactoHelp" name="telefonoContacto" placeholder="TELEFONO CONTACTO"/>
+                <input type=string class="form-control" id="nombreContacto" aria-describedby="nombreContactoHelp" name="nombreContacto" th:field="*{nombreContacto}" placeholder="NOMBRE CONTACTO"/>
 
             </div> 
             <div class="form-group col-md-6">
+
+                <br/>
+                <input type=string class="form-control" id="telefonoContacto" aria-describedby="telefonoContactoHelp" name="telefonoContacto" th:field="*{telefonoContacto}" placeholder="TELEFONO CONTACTO"/>
+
+            </div> 
+<!--            <div class="form-group col-md-6">
 
                 <br/>
                 <input type=grupoS class="form-control" id="grupoS" aria-describedby="grupoSHelp" name="grupoS" placeholder="GRUPO SANGUINO"/>
 
+            </div> -->
+            <div class="form-group col-md-6">
+
+                <br/>
+                <input type=string class="form-control" id="obraS1" aria-describedby="obaS1Help" name="obraS1" th:field="*{obraS1}" placeholder="OBRA SOCIAL 1"/>
+
             </div> 
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="obraS1" aria-describedby="obaS1Help" name="obraS1" placeholder="OBRA SOCIAL 1"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=string class="form-control" id="nAfiliadoOS1" aria-describedby="nAfiliadoOS1Help" name="nAfiliadoOS1" placeholder="NUMERO DE AFILIADO"/>
+                <input type=string class="form-control" id="nAfiliadoOS1" aria-describedby="nAfiliadoOS1Help" name="nAfiliadoOS1" th:field="*{nAfiliadoOS1}" placeholder="NUMERO DE AFILIADO"/>
 
             </div> <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="obraS2" aria-describedby="obaS2Help" name="obraS2" placeholder="OBRA SOCIAL 2"/>
+                <input type=string class="form-control" id="obraS2" aria-describedby="obaS2Help" name="obraS2" th:field="*{obraS2}" placeholder="OBRA SOCIAL 2"/>
 
             </div> 
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="nAfiliadoOS1" aria-describedby="nAfiliadoOS2Help" name="nAfiliadoOS2" placeholder="NUMERO DE AFILIADO"/>
+                <input type=string class="form-control" id="nAfiliadoOS2" aria-describedby="nAfiliadoOS2Help" name="nAfiliadoOS2" th:field="*{nAfiliadoOS2}" placeholder="NUMERO DE AFILIADO"/>
 
 
             </div>
             <div> 
-                <input type=string class="form-control" id="obraS3" aria-describedby="obaS3Help" name="obraS3" placeholder="OBRA SOCIAL 3"/>
+                <input type=string class="form-control" id="obraS3" aria-describedby="obaS3Help" name="obraS3" th:field="*{obraS3}" placeholder="OBRA SOCIAL 3"/>
                 <br/>
             </div>
             <div>
-                <input type=string class="form-control" id="nAfiliadoOS3" aria-describedby="nAfiliadoOS3Help" name="nAfiliadoOS3" placeholder="NUMERO DE AFILIADO"/>
+                <input type=string class="form-control" id="nAfiliadoOS3" aria-describedby="nAfiliadoOS3Help" name="nAfiliadoOS3" th:field="*{nAfiliadoOS3}" placeholder="NUMERO DE AFILIADO"/>
                 <br/>
             </div> 
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="nacionalidad" aria-describedby="nacionalidadHelp" name="nacionalidad" placeholder="NACIONALIDAD"/>
+                <input type=string class="form-control" id="nacionalidad" aria-describedby="nacionalidadHelp" name="nacionalidad" th:field="*{nacionalidad}" placeholder="NACIONALIDAD"/>
             </div>
-            <div class="form-group col-md-6">
+<!--            <div class="form-group col-md-6">
 
                 <br/>
                 <input type=provincia class="form-control" id="provincia" aria-describedby="provinciaHelp" name="provincia" placeholder="PROVINCIA"/>
+            </div>-->
+            <div class="form-group col-md-6">
+
+                <br/>
+                <input type=string class="form-control" id="ciudad" aria-describedby="ciudadHelp" name="ciudad" th:field="*{ciudad}" placeholder="CIUDAD"/>
             </div>
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="ciudad" aria-describedby="ciudadHelp" name="ciudad" placeholder="CIUDAD"/>
+                <input type=string class="form-control" id="calle" aria-describedby="calleHelp" name="calle" th:field="*{calle}" placeholder="CALLE"/>
             </div>
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="calle" aria-describedby="calleHelp" name="calle" placeholder="CALLE"/>
+                <input type=string class="form-control" id="numero" aria-describedby="numeroHelp" name="numero" th:field="*{numero}" placeholder="NUMERO"/>
             </div>
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="numero" aria-describedby="numeroHelp" name="numero" placeholder="NUMERO"/>
+                <input type=string class="form-control" id="piso" aria-describedby="pisoHelp" name="piso" th:field="*{piso}" placeholder="PISO"/>
             </div>
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="piso" aria-describedby="pisoHelp" name="piso" placeholder="PISO"/>
+                <input type=string class="form-control" id="departamento" aria-describedby="departamentoHelp" name="departamento" th:field="*{departamento}" placeholder="DEPARTAMENTO"/>
             </div>
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="departamento" aria-describedby="departamentoHelp" name="departamento" placeholder="DEPARTAMENTO"/>
+                <input type=string class="form-control" id="otros" aria-describedby="otrosHelp" name="otros" th:field="*{otros}" placeholder="OTROS"/>
             </div>
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="otros" aria-describedby="otrosHelp" name="otros" placeholder="OTROS"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=string class="form-control" id="clave" aria-describedby="claveHelp" name="clave" placeholder="CLAVE"/>
+                <input type=string class="form-control" id="clave" aria-describedby="claveHelp" name="clave" th:field="*{clave}" placeholder="CLAVE"/>
             </div>
             <br/>
             <button type="submit" class="btn btn-primary">Registrarse</button>
