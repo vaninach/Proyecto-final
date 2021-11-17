@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -24,11 +26,12 @@ public class HistoriasClinicas {
     @GenericGenerator(name="uuid",strategy="uuid2")
     private String id;
     private String DNI;
+    @Temporal(TemporalType.DATE)
     private Date fechaVisita;
     private String especialidad;
     private Integer matricula;
     
-    private Integer centromedico;
+    private Integer centroMedico;
     private String informe;
 
     
@@ -53,7 +56,7 @@ public class HistoriasClinicas {
     }
 
     public Integer getCentromedico() {
-        return centromedico;
+        return centroMedico;
     }
 
     public String getInforme() {
@@ -76,8 +79,8 @@ public class HistoriasClinicas {
         this.matricula = matricula;
     }
 
-    public void setCentromedico(Integer centromedico) {
-        this.centromedico = centromedico;
+    public void setCentromedico(Integer centroMedico) {
+        this.centroMedico = centroMedico;
     }
 
     public void setInforme(String informe) {

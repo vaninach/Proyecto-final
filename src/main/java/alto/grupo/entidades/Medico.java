@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -25,6 +27,7 @@ public class Medico {
     private Integer matricula;
     private String nombre;
     private String apellido;
+    @Temporal(TemporalType.DATE)
     private Date fechaNac;
     private Genero genero;
     private String mail;
