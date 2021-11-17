@@ -144,4 +144,31 @@ public class HistClinicaSe {
             throw new Errores("No se encontro ninguna historia clinica correspondiente al DNI solicitado (" + DNI + "), la especialidad (" + especialidad + ") y la fecha (" + fechaVisita + ")");
         }
     }
+    
+    public List<HistoriasClinicas> buscarPorMatricula(String matricula) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarMatricula(matricula);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente a la matricula solicitada (" + matricula + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorMatriculaDNI(String matricula, String DNI) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarMatriculaDNI(matricula, DNI);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente a la matricula solicitada (" + matricula + ") y al DNI solicitado (" + DNI + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorCentroMedico(Integer centroMedico) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarCentroMedico(centroMedico);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
+        }
+    }
 }
