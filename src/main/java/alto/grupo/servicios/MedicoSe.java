@@ -34,18 +34,27 @@ public class MedicoSe {
         if(!medOpt.isPresent()){
             try {
                 // validar(matricula); Integer
+               
                 validar(nombre);
+                
                 validar(apellido);
+                
                 // validar(fechaNac);  Date
                 // validar(genero);  enum
                 validar(mail);
+                
                 // validar(provincia); enum
                 validar(ciudad);  // si usamos la API, esto va a cambiar
+               
                 // validar(otros); Este si puede ser nulo
                 validar(clave);
+               
                 validar(especialidad1);
+                
                 validar(especialidad2);
+                
                 validar(especialidad3);
+                
                 // validar(centrosMedicos); List de integers
                 
                 // == si ninguna validacion da error, crear y persistir ==  
