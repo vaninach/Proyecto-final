@@ -9,6 +9,7 @@ import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.HistClinicaRep;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,5 +102,73 @@ public class HistClinicaSe {
     
     private Boolean buscarCambios(String text) {
         return text == null || text.isEmpty();
+    }
+    
+    // ==================== POSIBLE SOBRECARGA DE METODOS ====================
+    // Proposito: llamar a la "misma" funcion segun lo que el usuario complete
+    // en el front
+    // Referencia: PacienteSe.java y PacienteRep.java de la Vani
+    
+    public List<HistoriasClinicas> buscarPorDNI(String DNI) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarDNI(DNI);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al DNI solicitado (" + DNI + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorDNIEspecialidad(String DNI, String especialidad) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarDNIEspecialidad(DNI, especialidad);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al DNI solicitado (" + DNI + ") y la especialidad (" + especialidad + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorDNIFecha(String DNI, Date fechaVisita) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarDNIFecha(DNI, fechaVisita);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al DNI solicitado (" + DNI + ") y la fecha (" + fechaVisita + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorDNIFechaEspecialidad(String DNI, Date fechaVisita, String especialidad) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarDNIFechaEspecialidad(DNI, fechaVisita, especialidad);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al DNI solicitado (" + DNI + "), la especialidad (" + especialidad + ") y la fecha (" + fechaVisita + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorMatricula(String matricula) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarMatricula(matricula);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente a la matricula solicitada (" + matricula + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorMatriculaDNI(String matricula, String DNI) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarMatriculaDNI(matricula, DNI);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente a la matricula solicitada (" + matricula + ") y al DNI solicitado (" + DNI + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorCentroMedico(Integer centroMedico) throws Errores{
+        List<HistoriasClinicas> histClin = histClinRep.buscarCentroMedico(centroMedico);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
+        }
     }
 }

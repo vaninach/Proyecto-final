@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import alto.grupo.enums.*;
 import java.io.Serializable;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -23,6 +25,7 @@ public class Paciente implements Serializable {
     private String DNI;
     private String nombre;
     private String apellido;
+    @Temporal(TemporalType.DATE)
     private Date fechaNac;
     private Genero genero;
     private String estadoCivil; //enum?
