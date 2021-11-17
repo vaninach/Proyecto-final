@@ -33,13 +33,13 @@ public class CentroMedico {
     private String otros;
     private String clave;
     @OneToMany(targetEntity = Medico.class)
-    private List<Medico> ObraSocial=new ArrayList<>();
+    private List<Medico> ObraSocial = new ArrayList<>();
     
     @OneToMany(targetEntity=Medico.class)   // Verificar
     private List<Medico> especialidades;
 
     @OneToMany(targetEntity = Medico.class)
-    private List<Medico> medicos=new ArrayList<>();;
+    private List<Medico> medicos = new ArrayList<>();;
 
 
     public CentroMedico() {

@@ -21,7 +21,7 @@ public class CentroMedicoSe {
     
     
     @Autowired
-    CentroMedicoRep centrorep;
+    CentroMedicoRep centroRep;
 
     
     //Metodo para Crear Centro de salud.
@@ -30,7 +30,7 @@ public class CentroMedicoSe {
         
   
     
-    Optional<CentroMedico> CentroMedicoOpt = centrorep.findById(codigoRegistro);
+    Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);
     
     if (!CentroMedicoOpt.isPresent()){
         try{
@@ -59,7 +59,7 @@ public class CentroMedicoSe {
         centro.setDepartamento(departamento);
         centro.setOtros(otros);
         centro.setClave(clave);
-        centrorep.save(centro);
+        centroRep.save(centro);
     
     
     } catch (Errores e) {
@@ -75,7 +75,7 @@ public class CentroMedicoSe {
      @Transactional
      public void modificarCentro(Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
          
-      Optional<CentroMedico> CentroMedicoOpt = centrorep.findById(codigoRegistro);   
+      Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);   
       
       
       if (CentroMedicoOpt.isPresent()){
@@ -105,7 +105,7 @@ public class CentroMedicoSe {
           if (buscarCambios(clave)) {
               centro.setNombre(clave);}
           
-          centrorep.save(centro);
+          centroRep.save(centro);
           
       }    else {
           
@@ -117,11 +117,11 @@ public class CentroMedicoSe {
       }
      @Transactional
      public void eliminarCentro (Integer codigoRegistro) throws Errores{
-         Optional<CentroMedico> CentroMedicoOpt = centrorep.findById(codigoRegistro); 
+         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro); 
          
          if (CentroMedicoOpt.isPresent()){
              
-             centrorep.deleteById(codigoRegistro);
+             centroRep.deleteById(codigoRegistro);
          } else {
              throw new Errores("No se encuentra el centro médico solicitado");
          }

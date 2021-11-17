@@ -188,13 +188,13 @@ public class EstudiosSe {
         }
     }
     
-    public List<Estudios> buscarPorCentroMedico(Integer centroMedico) throws Errores{
-        List<Estudios> histClin = estRep.buscarCentroMedico(centroMedico);
-        if (!histClin.isEmpty()) {
-            return histClin;
-        } else {
-            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
-        }
-    }
+//    public List<Estudios> buscarPorCentroMedico(Integer centroMedico) throws Errores{
+//        List<Estudios> histClin = estRep.buscarCentroMedico(centroMedico);
+//        if (!histClin.isEmpty()) {
+//            return histClin;
+//        } else {
+//            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
+//        }
+//    }
     
 }

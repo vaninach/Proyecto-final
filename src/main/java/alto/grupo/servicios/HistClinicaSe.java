@@ -163,12 +163,12 @@ public class HistClinicaSe {
         }
     }
     
-    public List<HistoriasClinicas> buscarPorCentroMedico(Integer centroMedico) throws Errores{
-        List<HistoriasClinicas> histClin = histClinRep.buscarCentroMedico(centroMedico);
-        if (!histClin.isEmpty()) {
-            return histClin;
-        } else {
-            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
-        }
-    }
+//    public List<HistoriasClinicas> buscarPorCentroMedico(Integer centroMedico) throws Errores{
+//        List<HistoriasClinicas> histClin = histClinRep.buscarCentroMedico(centroMedico);
+//        if (!histClin.isEmpty()) {
+//            return histClin;
+//        } else {
+//            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
+//        }
+//    }
 }
