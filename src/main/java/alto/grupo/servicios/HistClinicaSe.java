@@ -26,13 +26,13 @@ public class HistClinicaSe {
     @Autowired HistClinicaRep histClinRep;
     
     @Transactional
-    public void crear(String id, String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
+    public void crear(String id, String DNI, String fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
         Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
         
         if(!histClinOpt.isPresent()){
             try {
                 validar(DNI);
-                // validar(fechaVisita);    Date
+                 validar(fechaVisita);  
                 validar(especialidad);
                 // validar(matricula);      Integer
                 // validar(centromedico);   Integer
@@ -64,14 +64,14 @@ public class HistClinicaSe {
     }
     
     @Transactional
-    public void modificar(String id, String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
+    public void modificar(String id, String DNI, String fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
         Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
         
         if(histClinOpt.isPresent()){
            HistoriasClinicas histC = histClinOpt.get();
            if(buscarCambios(DNI))
                histC.setDNI(DNI);
-           // if(buscarCambios(fechaVisita))  Date
+           if(buscarCambios(fechaVisita)) 
            histC.setFechaVisita(fechaVisita);
            if(buscarCambios(especialidad))
                histC.setEspecialidad(especialidad);

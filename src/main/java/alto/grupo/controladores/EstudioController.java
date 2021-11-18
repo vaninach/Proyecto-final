@@ -36,7 +36,7 @@ public String Estudio(Model modelo,Estudios estudios){
 @PostMapping("/NuevoEstudio")
 public String nuevoEstudio (Model modelo,Estudios estudios) throws Errores{
     System.out.println(estudios.getCentroMedico());
-    estudiose.crear(estudios.getDNI(),null,estudios.getEspecialidad(),estudios.getMatriculaInforme(),estudios.getMatriculaPide(),estudios.getCentroMedico(),estudios.getArchivo(),estudios.getInforme());
+    estudiose.crear(estudios.getDNI(),estudios.getFechaVisita(),estudios.getEspecialidad(),estudios.getMatriculaInforme(),estudios.getMatriculaPide(),estudios.getCentroMedico(),estudios.getArchivo(),estudios.getInforme());
     return "Estudios/NuevoEstudio.html";
 }
    

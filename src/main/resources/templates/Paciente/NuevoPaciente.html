@@ -32,12 +32,12 @@
 
             </div>  
 
-<!--            <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
 
                 <br/>
-                <input type=date class="form-control" id="fechaNac" aria-describedby="fechaNacHelp" name="fechaNac" placeholder="FECHA NACIMIENTO"/>
+                <input type=date class="form-control" id="fechaNac" aria-describedby="fechaNacHelp" name="fechaNac" th:field="*{fechaNac}" placeholder="FECHA NACIMIENTO"/>
 
-            </div> -->
+            </div> 
 
 <!--            <div class="form-group col-md-6">
 
@@ -60,7 +60,7 @@
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="mail" aria-describedby="mailHelp" name="mail" th:field="*{mail}" placeholder="MAIL"/>
+                <input type=email class="form-control" id="mail" aria-describedby="mailHelp" name="mail" th:field="*{mail}" placeholder="MAIL"/>
 
             </div> 
             <div class="form-group col-md-6">
@@ -156,7 +156,7 @@
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=string class="form-control" id="clave" aria-describedby="claveHelp" name="clave" th:field="*{clave}" placeholder="CLAVE"/>
+                <input type=password class="form-control" id="clave" aria-describedby="claveHelp" name="clave" th:field="*{clave}" placeholder="CLAVE"/>
             </div>
             <br/>
             <button type="submit" class="btn btn-primary">Registrarse</button>

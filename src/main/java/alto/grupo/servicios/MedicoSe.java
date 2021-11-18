@@ -28,7 +28,7 @@ public class MedicoSe {
     @Autowired MedicoRep medRep;
     
     @Transactional
-    public void crear(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<CentroMedico> centrosMedicos) throws Errores{
+    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<CentroMedico> centrosMedicos) throws Errores{
         Optional<Medico> medOpt =  medRep.findById(matricula);
         
         if(!medOpt.isPresent()){
@@ -39,7 +39,7 @@ public class MedicoSe {
                 
                 validar(apellido);
                 
-                // validar(fechaNac);  Date
+                validar(fechaNac);
                 // validar(genero);  enum
                 validar(mail);
                 
@@ -92,7 +92,7 @@ public class MedicoSe {
     }
     
     @Transactional
-    public void modificar(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<CentroMedico> centrosMedicos) throws Errores{
+    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<CentroMedico> centrosMedicos) throws Errores{
         Optional<Medico> medOpt = medRep.findById(matricula);
         
         // ==========================================================
@@ -108,7 +108,7 @@ public class MedicoSe {
                 med.setNombre(nombre);
             if(buscarCambios(apellido))
                 med.setApellido(apellido);
-            // if(buscarCambios(fechaNac))   Date
+            if(buscarCambios(fechaNac)) 
             med.setFechaNac(fechaNac);
             // if(buscarCambios(genero))    Enum
                 med.setGenero(genero);

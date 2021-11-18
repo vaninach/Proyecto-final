@@ -10,7 +10,6 @@ import alto.grupo.enums.Genero;
 import alto.grupo.enums.GrupoS;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
-import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 import alto.grupo.repositorios.PacienteRep;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,7 +39,7 @@ public class PacienteSe implements UserDetailsService {
     PacienteRep parep;
 
     @Transactional
-    public void Crearpaciente(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void Crearpaciente(String DNI, String nombre, String apellido, String fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         Optional<Paciente> paci = parep.findById(DNI);
         if (!paci.isPresent()) {
 
@@ -51,7 +48,7 @@ public class PacienteSe implements UserDetailsService {
                 validar(DNI);
                 validar(nombre);
                 validar(apellido);
-//                validar(fechaNac); // esta validacion?? no haria falta porque aparece el calensaario?
+                validar(fechaNac); // esta validacion?? no haria falta porque aparece el calensaario?
                 validar(estadoCivil);
                 validar(telefono);
                 validar(mail);
@@ -115,7 +112,7 @@ public class PacienteSe implements UserDetailsService {
     }
 
     @Transactional
-    public void Modificar(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void Modificar(String DNI, String nombre, String apellido, String fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
 
         Optional<Paciente> paciop = parep.findById(DNI);
         if (paciop.isPresent()) {
@@ -131,7 +128,7 @@ public class PacienteSe implements UserDetailsService {
             if (BuscarCambios(apellido)) {
                 pac.setApellido(apellido);
             }
-            //     if(BuscarCambios(fechaNac))  //ver esta validacion
+            if(BuscarCambios(fechaNac))  //ver esta validacion
             pac.setFechaNac(fechaNac);
             //     if(BuscarCambios(genero))     //ver esta validacion
             pac.setGenero(genero);

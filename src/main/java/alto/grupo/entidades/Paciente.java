@@ -5,13 +5,10 @@
  */
 package alto.grupo.entidades;
 
-import java.util.Date;
 import javax.persistence.Entity;
 import alto.grupo.enums.*;
 import java.io.Serializable;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -25,8 +22,7 @@ public class Paciente implements Serializable {
     private String DNI;
     private String nombre;
     private String apellido;
-    @Temporal(TemporalType.DATE)
-    private Date fechaNac;
+    private String fechaNac;
     private Genero genero;
     private String estadoCivil; //enum?
     private String telefono;
@@ -65,7 +61,7 @@ public class Paciente implements Serializable {
         return apellido;
     }
 
-    public Date getFechaNac() {
+    public String getFechaNac() {
         return fechaNac;
     }
 
@@ -169,7 +165,7 @@ public class Paciente implements Serializable {
         this.apellido = apellido;
     }
 
-    public void setFechaNac(Date fechaNac) {
+    public void setFechaNac(String fechaNac) {
         this.fechaNac = fechaNac;
     }
 
