@@ -27,28 +27,28 @@ public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter {
     @Autowired
     public PacienteSe pase;
     
-//    @Autowired
-//        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-//            auth.userDetailsService(pase).passwordEncoder(new BCryptPasswordEncoder()); 
-//        }
-//        
-//        @Override
-//    protected void configure(HttpSecurity http) throws Exception{
-//        
-//        http.headers().frameOptions().sameOrigin().and().authorizeRequests()
-//                .antMatchers("/css/*","/js/*","/img/*")
-//                .permitAll()
-//                .and().formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/logincheck")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .defaultSuccessUrl("/inicio")
-//                .permitAll()
-//                .and().logout().logoutUrl("/logout")
-//                .logoutSuccessUrl("/login?logout")
-//                .permitAll();
-//                
-//    }
-//  
+    @Autowired
+        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+            auth.userDetailsService(pase).passwordEncoder(new BCryptPasswordEncoder()); 
+        }
+        
+        @Override
+    protected void configure(HttpSecurity http) throws Exception{
+        
+        http.headers().frameOptions().sameOrigin().and().authorizeRequests()
+                .antMatchers("/css/*","/js/*","/img/*")
+                .permitAll()
+                .and().formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/logincheck")
+                .usernameParameter("DNI")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/NuevoPaciente")
+                .permitAll()
+                .and().logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll();
+                
+    }
+  
 }

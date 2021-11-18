@@ -29,6 +29,13 @@ public class PacienteController {
 @Autowired
 private PacienteSe pacientese;
   
+
+  @GetMapping("login")
+    public String login() {
+        return "logIn.html";
+    }
+    
+
 @GetMapping("/NuevoPaciente")
 public String Paciente(Model modelo,Paciente paciente){
     modelo.addAttribute("paciente",paciente);

@@ -17,13 +17,26 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import javax.transaction.Transactional;
 import alto.grupo.repositorios.PacienteRep;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
  * @author vani
  */
 @Service
-public class PacienteSe {
+public class PacienteSe implements UserDetailsService {
 
     @Autowired
     PacienteRep parep;
@@ -58,7 +71,6 @@ public class PacienteSe {
                 validar(departamento);
                 // validar(otros); <-- si puede ser nulo
                 validar(clave);  // no seria otro metodo? que aparte verifique que las dos claves son =?
-                
 
                 Paciente pac = new Paciente();
                 pac.setDNI(DNI);
@@ -86,7 +98,8 @@ public class PacienteSe {
                 pac.setPiso(piso);
                 pac.setDepartamento(departamento);
                 pac.setOtros(otros);
-                pac.setClave(clave);
+                String encriptada = new BCryptPasswordEncoder().encode(clave);
+                pac.setClave(encriptada);
 
                 parep.save(pac);
 
@@ -107,74 +120,92 @@ public class PacienteSe {
         Optional<Paciente> paciop = parep.findById(DNI);
         if (paciop.isPresent()) {
 
-                Paciente pac=paciop.get();
+            Paciente pac = paciop.get();
 
-                if(BuscarCambios(DNI))
-                    pac.setDNI(DNI);
-                if(BuscarCambios(nombre))
-                    pac.setNombre(nombre);
-                if(BuscarCambios(apellido))
-                    pac.setApellido(apellido);
-           //     if(BuscarCambios(fechaNac))  //ver esta validacion
-                pac.setFechaNac(fechaNac);
-           //     if(BuscarCambios(genero))     //ver esta validacion
-                pac.setGenero(genero);
-                if(BuscarCambios(estadoCivil))
-                    pac.setEstadoCivil(estadoCivil);
-                if(BuscarCambios(telefono))
-                    pac.setTelefono(telefono);
-                if(BuscarCambios(mail))
-                    pac.setMail(mail);
-                if(BuscarCambios(nombreContacto))
-                    pac.setNombreContacto(nombreContacto);
-                if(BuscarCambios(telefono))
-                    pac.setTelefono(telefono);
-              //  if(BuscarCambios(grupoS))     //ver esta validacion
-                pac.setGrupoS(grupoS);
-                if(BuscarCambios(obraS1))
-                    pac.setObraS1(obraS1);
-                if(BuscarCambios(nAfiliadoOS1))
-                    pac.setnAfiliadoOS1(nAfiliadoOS1);
-                if(BuscarCambios(obraS2))
-                    pac.setObraS1(obraS2);
-                if(BuscarCambios(nAfiliadoOS2))
-                    pac.setnAfiliadoOS1(nAfiliadoOS2);
-                if(BuscarCambios(obraS3))
-                    pac.setObraS1(obraS3);
-                if(BuscarCambios(nAfiliadoOS3))
-                    pac.setnAfiliadoOS1(nAfiliadoOS3);
-                if(BuscarCambios(nacionalidad))
-                    pac.setNacionalidad(nacionalidad);
-              //  if(BuscarCambios(provincia))  // ver esta validacion
-                pac.setProvincia(provincia);
-                if(BuscarCambios(ciudad))
-                    pac.setCiudad(ciudad);
-                if(BuscarCambios(calle))
-                    pac.setCalle(calle);
-                if(BuscarCambios(numero))
-                    pac.setNumero(numero);
-                if(BuscarCambios(piso))
-                    pac.setPiso(piso);
-                if(BuscarCambios(departamento))
-                    pac.setDepartamento(departamento);
-                if(BuscarCambios(otros))
-                    pac.setOtros(otros);
-                if(BuscarCambios(clave))
-                    pac.setClave(clave);
+            if (BuscarCambios(DNI)) {
+                pac.setDNI(DNI);
+            }
+            if (BuscarCambios(nombre)) {
+                pac.setNombre(nombre);
+            }
+            if (BuscarCambios(apellido)) {
+                pac.setApellido(apellido);
+            }
+            //     if(BuscarCambios(fechaNac))  //ver esta validacion
+            pac.setFechaNac(fechaNac);
+            //     if(BuscarCambios(genero))     //ver esta validacion
+            pac.setGenero(genero);
+            if (BuscarCambios(estadoCivil)) {
+                pac.setEstadoCivil(estadoCivil);
+            }
+            if (BuscarCambios(telefono)) {
+                pac.setTelefono(telefono);
+            }
+            if (BuscarCambios(mail)) {
+                pac.setMail(mail);
+            }
+            if (BuscarCambios(nombreContacto)) {
+                pac.setNombreContacto(nombreContacto);
+            }
+            if (BuscarCambios(telefono)) {
+                pac.setTelefono(telefono);
+            }
+            //  if(BuscarCambios(grupoS))     //ver esta validacion
+            pac.setGrupoS(grupoS);
+            if (BuscarCambios(obraS1)) {
+                pac.setObraS1(obraS1);
+            }
+            if (BuscarCambios(nAfiliadoOS1)) {
+                pac.setnAfiliadoOS1(nAfiliadoOS1);
+            }
+            if (BuscarCambios(obraS2)) {
+                pac.setObraS1(obraS2);
+            }
+            if (BuscarCambios(nAfiliadoOS2)) {
+                pac.setnAfiliadoOS1(nAfiliadoOS2);
+            }
+            if (BuscarCambios(obraS3)) {
+                pac.setObraS1(obraS3);
+            }
+            if (BuscarCambios(nAfiliadoOS3)) {
+                pac.setnAfiliadoOS1(nAfiliadoOS3);
+            }
+            if (BuscarCambios(nacionalidad)) {
+                pac.setNacionalidad(nacionalidad);
+            }
+            //  if(BuscarCambios(provincia))  // ver esta validacion
+            pac.setProvincia(provincia);
+            if (BuscarCambios(ciudad)) {
+                pac.setCiudad(ciudad);
+            }
+            if (BuscarCambios(calle)) {
+                pac.setCalle(calle);
+            }
+            if (BuscarCambios(numero)) {
+                pac.setNumero(numero);
+            }
+            if (BuscarCambios(piso)) {
+                pac.setPiso(piso);
+            }
+            if (BuscarCambios(departamento)) {
+                pac.setDepartamento(departamento);
+            }
+            if (BuscarCambios(otros)) {
+                pac.setOtros(otros);
+            }
+            if (BuscarCambios(clave)) {
+                pac.setClave(clave);
+            }
 
-                parep.save(pac);
+            parep.save(pac);
 
-           
         } else {
             throw new Errores("El paciente no exite en la base de datos");
         }
 
-
-        
-        
     }
 
-     @Transactional
+    @Transactional
     public void Eliminar(String DNI) throws Errores {
         Optional<Paciente> paci = parep.findById(DNI);
         if (paci.isPresent()) {
@@ -184,9 +215,9 @@ public class PacienteSe {
         }
 
     }
-    
-     @Transactional
-    public Paciente BuscarPorDNI(String DNI) throws Errores{
+
+    @Transactional
+    public Paciente BuscarPorDNI(String DNI) throws Errores {
         Optional<Paciente> paci = parep.findById(DNI);
         if (paci.isPresent()) {
             return paci.get();
@@ -194,9 +225,9 @@ public class PacienteSe {
             throw new Errores("No se encontro el paciente solicitado");
         }
     }
-    
-     @Transactional
-    public List<Paciente> BuscarPorNAPC(String nombre,String apellido,Provincia provincia, String ciudad) throws Errores{
+
+    @Transactional
+    public List<Paciente> BuscarPorNAPC(String nombre, String apellido, Provincia provincia, String ciudad) throws Errores {
         List<Paciente> paci = parep.BuscarNombreApellidoProvincia(nombre, apellido, provincia, ciudad);
         if (!paci.isEmpty()) {
             return paci;
@@ -204,9 +235,9 @@ public class PacienteSe {
             throw new Errores("No se encontro ningun paciente");
         }
     }
-    
-     @Transactional
-    public List<Paciente> BuscarPorNAPC(String nombre,String apellido,Provincia provincia) throws Errores{
+
+    @Transactional
+    public List<Paciente> BuscarPorNAPC(String nombre, String apellido, Provincia provincia) throws Errores {
         List<Paciente> paci = parep.BuscarNombreApellidoProvincia(nombre, apellido, provincia);
         if (!paci.isEmpty()) {
             return paci;
@@ -214,9 +245,9 @@ public class PacienteSe {
             throw new Errores("No se encontro ningun paciente");
         }
     }
-    
-     @Transactional
-    public List<Paciente> BuscarPorNAPC(String nombre,String apellido) throws Errores{
+
+    @Transactional
+    public List<Paciente> BuscarPorNAPC(String nombre, String apellido) throws Errores {
         List<Paciente> paci = parep.BuscarNombreApellidoProvincia(nombre, apellido);
         if (!paci.isEmpty()) {
             return paci;
@@ -224,9 +255,6 @@ public class PacienteSe {
             throw new Errores("No se encontro ningun paciente");
         }
     }
-    
-    
-    
 
     private void validar(String nombre) throws Errores {
         if (nombre == null || nombre.isEmpty()) {
@@ -234,36 +262,43 @@ public class PacienteSe {
         }
 
     }
-    
+
     private Boolean BuscarCambios(String nombre) {
         if (nombre == null && nombre.isEmpty()) {
             return false;
+        } else {
+            return true;
         }
-        else return true;
 
     }
 
-//     @Override
-//    public UserDetails loadUserByUsername(String usuario) throws UsernameNotFoundException {
-//        paciente pac = rec.BuscarPorUsuario(usuario);
-//        if (cliente != null) {
-//
-//            List<GrantedAuthority> permisos = new ArrayList<>();
-//
-//            GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_USUARIO_AUTORIZADO");
-//
-//            permisos.add(p1);
-//            
-//            
-//            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//            HttpSession session=attr.getRequest().getSession(true);
-//            session.setAttribute("usuariosesion", cliente);
-//
-//            User user = new User(cliente.getUsuario(), cliente.getClave(), permisos);
-//            return user;
-//        } else {
-//            return null;
-//        }
-//    }
-  
+    @Override
+    public UserDetails loadUserByUsername(String DNI) throws UsernameNotFoundException {
+        try {
+            Paciente pac = BuscarPorDNI(DNI);
+           
+                List<GrantedAuthority> permisos = new ArrayList<>();
+
+                GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_USUARIO_AUTORIZADO");
+
+                permisos.add(p1);
+
+                ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                HttpSession session = attr.getRequest().getSession(true);
+                session.setAttribute("pacientesesion", pac);
+
+                User user = new User(pac.getDNI(), pac.getClave(), permisos);
+                System.out.println(pac.getDNI()+" "+pac.getClave());
+                return user;
+            
+
+        } catch (Errores ex) {
+            System.out.println("paciente no valido");
+            return null;
+        }
+        
+        
+
+    }
+
 }
