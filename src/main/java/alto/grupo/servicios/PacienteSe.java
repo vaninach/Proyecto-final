@@ -304,11 +304,10 @@ public class PacienteSe implements UserDetailsService {
     @Autowired
     private PacienteRep usersRepository;
 
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        
+        System.out.println(userName+"efwl");
         Optional<Paciente> usersList = usersRepository.findById(userName);
         System.out.println(userName+"efwl");
         if (usersList.isPresent()) {

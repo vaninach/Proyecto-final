@@ -10,7 +10,7 @@
     <body>
         <div class="container">
             <h1>Log In</h1>
-            <form action="/login" th:action="@{/login}"  method="post">
+<!--            <form action="/login" th:action="@{/login}"  method="post">
                 <div th:if="${param.error}" class="alert alert-danger">
                     Usuario o contraseña no valido
                 </div>
@@ -29,7 +29,16 @@
                 <div class="d-grid gap-2 mb-3">
                     <input type="submit" value="Submit" class="btn btn-primary btn-lg "/> 
                 </div>
-            </form>
+            </form>-->
+
+<h1>Welcome to Spring Boot Security</h1>
+
+<form method="POST" action="/login">
+	User Name : <input type="text" name="username" value="user"/><br><br>
+	Password  : <input type="password" name="password" value="password"/><br><br>
+	<input type="submit" name="submit"/>
+</form>
+
 
         </div>
 

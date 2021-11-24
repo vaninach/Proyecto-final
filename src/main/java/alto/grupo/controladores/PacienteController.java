@@ -30,12 +30,31 @@ public class PacienteController {
 private PacienteSe pacientese;
   
 
-  @GetMapping("login")
-    public String login() {
-        return "logIn.html";
-    }
+//  @RequestMapping("login")
+//    public String login() {
+//        return "logIn.html";
+//    }
     
-      
+//   @GetMapping("/admin/login")
+//    public String adlogin() {
+//        return "logIn_1.html";
+//    }
+    @RequestMapping("/login")
+	public String login() {
+		return "logIn.html";
+	}
+
+          @RequestMapping("/admin/login")
+	public String adminlogin() {
+		return "logIn_1.html";
+	}
+
+	@RequestMapping("/admin/dashboard")
+	public String admindashboard() {
+		return "dashboard.html";
+	}
+    
+    
 @GetMapping("/NuevoPaciente")
 public String Paciente(Model modelo,Paciente paciente){
     modelo.addAttribute("paciente",paciente);
