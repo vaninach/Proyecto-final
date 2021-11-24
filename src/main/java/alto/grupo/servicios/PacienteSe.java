@@ -128,8 +128,10 @@ public class PacienteSe implements UserDetailsService {
             if (BuscarCambios(apellido)) {
                 pac.setApellido(apellido);
             }
-            if(BuscarCambios(fechaNac))  //ver esta validacion
-            pac.setFechaNac(fechaNac);
+            if (BuscarCambios(fechaNac)) //ver esta validacion
+            {
+                pac.setFechaNac(fechaNac);
+            }
             //     if(BuscarCambios(genero))     //ver esta validacion
             pac.setGenero(genero);
             if (BuscarCambios(estadoCivil)) {
@@ -269,33 +271,67 @@ public class PacienteSe implements UserDetailsService {
 
     }
 
+//    @Override
+//    public UserDetails loadUserByUsername(String DNI) throws UsernameNotFoundException {
+//        try {
+//            
+//            System.out.println(DNI+"flaksalfk");
+//            Paciente pac = BuscarPorDNI(DNI);
+//           
+//                List<GrantedAuthority> permisos = new ArrayList<>();
+//
+//                GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_PACIENTE");
+//
+//                permisos.add(p1);
+//
+//                ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//                HttpSession session = attr.getRequest().getSession(true);
+//                session.setAttribute("pacientesesion", pac);
+//
+//                User user = new User(pac.getDNI(), pac.getClave(), permisos);
+//                System.out.println(pac.getDNI()+" "+pac.getClave());
+//                return user;
+//            
+//
+//        } catch (Errores ex) {
+//            System.out.println("paciente no valido");
+//            return null;
+//        }
+//        
+//        
+//
+//    }
+    @Autowired
+    private PacienteRep usersRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
-    public UserDetails loadUserByUsername(String DNI) throws UsernameNotFoundException {
-        try {
-            Paciente pac = BuscarPorDNI(DNI);
-           
-                List<GrantedAuthority> permisos = new ArrayList<>();
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        Optional<Paciente> usersList = usersRepository.findById(userName);
+        System.out.println(userName+"efwl");
+        if (usersList.isPresent()) {
+            Paciente users = usersList.get();
+            System.out.println(users.getDNI()+" "+users.getClave());
+            List<String> roleList = new ArrayList<String>();
+            //for (Role role : users.getRoles()) {
+                roleList.add("PACIENTE");
+            //}
 
-                GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_PACIENTE");
-
-                permisos.add(p1);
-
-                ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-                HttpSession session = attr.getRequest().getSession(true);
-                session.setAttribute("pacientesesion", pac);
-
-                User user = new User(pac.getDNI(), pac.getClave(), permisos);
-                System.out.println(pac.getDNI()+" "+pac.getClave());
-                return user;
-            
-
-        } catch (Errores ex) {
-            System.out.println("paciente no valido");
-            return null;
+            return User.builder()
+                    .username(users.getDNI())
+                    //change here to store encoded password in db
+                    .password(users.getClave())
+                 //   .disabled(users.isDisabled())
+                  //  .accountExpired(users.isAccountExpired())
+                  //  .accountLocked(users.isAccountLocked())
+                   // .credentialsExpired(users.isCredentialsExpired())
+                    .roles(roleList.toArray(new String[0]))
+                    .build();
+        } else {
+            throw new UsernameNotFoundException("User Name is not Found");
         }
-        
-        
-
     }
 
 }

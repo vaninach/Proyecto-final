@@ -39,7 +39,7 @@ public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter {
     
    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(mese).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(pase).passwordEncoder(new BCryptPasswordEncoder());
         
     }
   
@@ -51,7 +51,7 @@ public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and().formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/logincheck")
+                .loginProcessingUrl("/login")
                 .usernameParameter("DNI")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/NuevoPaciente")

@@ -10,7 +10,7 @@
     <body>
         <div class="container">
             <h1>Log In</h1>
-            <form action="/logincheck" th:action="@{/logincheck}"  method="post">
+            <form action="/login" th:action="@{/login}"  method="post">
                 <div th:if="${param.error}" class="alert alert-danger">
                     Usuario o contraseña no valido
                 </div>
