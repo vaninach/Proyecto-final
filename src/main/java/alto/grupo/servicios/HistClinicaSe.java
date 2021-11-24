@@ -22,8 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class HistClinicaSe {
 
-    @Autowired
-    HistClinicaRep histClinRep;
+    @Autowired private HistClinicaRep histClinRep;
 
     @Transactional
     public void crear(String id, String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores {

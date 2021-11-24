@@ -25,8 +25,7 @@ import alto.grupo.repositorios.PacienteRep;
 @Service
 public class PacienteSe {
 
-    @Autowired
-    PacienteRep parep;
+    @Autowired private PacienteRep parep;
 
     @Transactional
     public void Crearpaciente(String DNI, String nombre, String apellido, Date fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {

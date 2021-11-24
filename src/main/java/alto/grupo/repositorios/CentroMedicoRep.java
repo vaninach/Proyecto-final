@@ -31,25 +31,25 @@ public interface CentroMedicoRep extends JpaRepository<CentroMedico, Integer> {
     @Query("SELECT c FROM CentroMedico c WHERE c.provincia=:provincia AND c.ciudad=:ciudad")
     public List<CentroMedico> buscarProvinciaCiudad(@Param("provincia") Provincia provincia,@Param("ciudad") String ciudad);
     
-//    @Query("SELECT c FROM CentroMedico c WHERE c.medicos.matricula LIKE :matricula")
-//    public List<CentroMedico> buscarMatricula(@Param("matricula") String matricula);
-//    
-//    @Query("SELECT c FROM CentroMedico c WHERE c.matricula LIKE :matricula AND c.provincia=:provincia")
-//    public List<CentroMedico> buscarMatriculaProvincia(@Param("matricula") String matricula, @Param("provincia") Provincia provincia);
-//
-//    @Query("SELECT c FROM CentroMedico c WHERE c.matricula LIKE :matricula AND c.provincia=:provincia AND c.ciudad=:ciudad")
-//    public List<CentroMedico> buscarMatriculaProvinciaCiudad(@Param("matricula") String matricula, @Param("provincia") Provincia provincia,@Param("ciudad") String ciudad);
+    @Query("SELECT c FROM CentroMedico c LEFT JOIN c.medicos e WHERE e LIKE :matricula")
+    public List<CentroMedico> buscarMatricula(@Param("matricula") String matricula);
+    
+    @Query("SELECT c FROM CentroMedico c LEFT JOIN c.medicos e WHERE e LIKE :matricula AND c.provincia=:provincia")
+    public List<CentroMedico> buscarMatriculaProvincia(@Param("matricula") String matricula, @Param("provincia") Provincia provincia);
+
+    @Query("SELECT c FROM CentroMedico c LEFT JOIN c.medicos e WHERE e LIKE :matricula AND c.provincia=:provincia AND c.ciudad=:ciudad")
+    public List<CentroMedico> buscarMatriculaProvinciaCiudad(@Param("matricula") String matricula, @Param("provincia") Provincia provincia,@Param("ciudad") String ciudad);
 
     @Query("SELECT c FROM CentroMedico c WHERE c.nombre LIKE %:nombre%")
     public List<CentroMedico> buscarNombre(@Param("nombre") String nombre);
     
-//    @Query("SELECT c FROM CentroMedico c WHERE c.especialidad LIKE %:especialidad%")
-//    public List<CentroMedico> buscarEspecialidad(@Param("especialidad") String especialidad);
+    @Query("SELECT c FROM CentroMedico c LEFT JOIN c.especialidades e WHERE e LIKE %:especialidad%")
+    public List<CentroMedico> buscarEspecialidad(@Param("especialidad") String especialidad);
     
-//    @Query("SELECT c FROM CentroMedico c WHERE c.especialidad LIKE %:especialidad% AND c.provincia=:provincia")
-//    public List<CentroMedico> buscarEspecialidadProvincia(@Param("especialidad") String especialidad, @Param("provincia") Provincia provincia);
-//
-//    @Query("SELECT c FROM CentroMedico c WHERE c.especialidad LIKE %:especialidad% AND c.provincia=:provincia AND c.ciudad=:ciudad")
-//    public List<CentroMedico> buscarEspecialidadProvinciaCiudad(@Param("especialidad") String especialidad, @Param("provincia") Provincia provincia, @Param("ciudad") String ciudad);
+    @Query("SELECT c FROM CentroMedico c LEFT JOIN c.especialidades e WHERE e LIKE %:especialidad% AND c.provincia=:provincia")
+    public List<CentroMedico> buscarEspecialidadProvincia(@Param("especialidad") String especialidad, @Param("provincia") Provincia provincia);
+
+    @Query("SELECT c FROM CentroMedico c LEFT JOIN c.especialidades e WHERE e LIKE %:especialidad% AND c.provincia=:provincia AND c.ciudad=:ciudad")
+    public List<CentroMedico> buscarEspecialidadProvinciaCiudad(@Param("especialidad") String especialidad, @Param("provincia") Provincia provincia, @Param("ciudad") String ciudad);
 
 }

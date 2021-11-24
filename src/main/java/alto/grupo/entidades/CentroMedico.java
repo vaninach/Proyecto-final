@@ -8,18 +8,22 @@ package alto.grupo.entidades;
 import alto.grupo.enums.Provincia;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author vani
  */
 @Entity
+@Table(name = "centro_medico")
 public class CentroMedico {
     
     @Id
@@ -40,14 +44,17 @@ public class CentroMedico {
     // ======== Para persistir listas de Strings e Integers: ========
     @ElementCollection
     @CollectionTable(name = "centroMedico_obrasSociales", joinColumns = @JoinColumn(name = "codigoRegistro"))
+    @Column(name = "obraSocial")
     private List<String> obrasSociales;
     
     @ElementCollection
-    @CollectionTable(name = "centroMedico_especialidades", joinColumns = @JoinColumn(name = "codigoRegistro"))
+    @CollectionTable(name = "centro_medico_especialidades", joinColumns = @JoinColumn(name = "codigo_registro"))
+    @Column(name = "especialidad")
     private List<String> especialidades;
     
     @ElementCollection
-    @CollectionTable(name = "centroMedico_medicos", joinColumns = @JoinColumn(name = "codigoRegistro"))
+    @CollectionTable(name = "centro_medico_medicos", joinColumns = @JoinColumn(name = "centro_codigo_registro"))
+    @Column(name = "matricula")
     private List<Integer> medicos;
     
     
