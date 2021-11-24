@@ -35,7 +35,7 @@ private PacienteSe pacientese;
         return "logIn.html";
     }
     
-
+      
 @GetMapping("/NuevoPaciente")
 public String Paciente(Model modelo,Paciente paciente){
     modelo.addAttribute("paciente",paciente);

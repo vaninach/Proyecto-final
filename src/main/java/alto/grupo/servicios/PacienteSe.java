@@ -276,7 +276,7 @@ public class PacienteSe implements UserDetailsService {
            
                 List<GrantedAuthority> permisos = new ArrayList<>();
 
-                GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_USUARIO_AUTORIZADO");
+                GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_PACIENTE");
 
                 permisos.add(p1);
 
