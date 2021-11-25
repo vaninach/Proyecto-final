@@ -6,7 +6,6 @@
 package alto.grupo.repositorios;
 
 import alto.grupo.entidades.Medico;
-import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Provincia;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,4 +38,7 @@ public interface MedicoRep extends JpaRepository<Medico, Integer> {
     @Query("SELECT c FROM Medico c WHERE (c.especialidad1 LIKE %:esp1% ) AND c.provincia=:prov")
     public List<Medico> BuscarNombreApellidoProvinciaEsp(@Param("esp1") String esp1, @Param("prov") Provincia prov);
 
+    // ATENCION! Espera el codigo de registro (unico) en vez del nombre del centro (puede existir otro centro con mismo nombre)
+    @Query("SELECT c FROM Medico c LEFT JOIN c.centrosMedicos m WHERE m=:codigo_registro")
+    public List<Medico> BuscarCentroMedico(@Param("codigo_registro") Integer codigo_registro);
 }

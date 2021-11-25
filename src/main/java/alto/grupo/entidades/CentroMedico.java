@@ -8,15 +8,22 @@ package alto.grupo.entidades;
 import alto.grupo.enums.Provincia;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author vani
  */
 @Entity
+@Table(name = "centro_medico")
 public class CentroMedico {
     
     @Id
@@ -32,20 +39,28 @@ public class CentroMedico {
     private String departamento;
     private String otros;
     private String clave;
-    @OneToMany(targetEntity = Medico.class)
-    private List<Medico> ObraSocial = new ArrayList<>();
+   
     
-    @OneToMany(targetEntity=Medico.class)   // Verificar
-    private List<Medico> especialidades;
-
-    @OneToMany(targetEntity = Medico.class)
-    private List<Medico> medicos = new ArrayList<>();;
-
-
+    // ======== Para persistir listas de Strings e Integers: ========
+    @ElementCollection
+    @CollectionTable(name = "centroMedico_obrasSociales", joinColumns = @JoinColumn(name = "centro_codigo_registro"))
+    @Column(name = "obra_social")
+    private List<String> obrasSociales;
+    
+    @ElementCollection
+    @CollectionTable(name = "centro_medico_especialidades", joinColumns = @JoinColumn(name = "centro_codigo_registro"))
+    @Column(name = "especialidad")
+    private List<String> especialidades;
+    
+    @ElementCollection
+    @CollectionTable(name = "centro_medico_medicos", joinColumns = @JoinColumn(name = "centro_codigo_registro"))
+    @Column(name = "matricula")
+    private List<Integer> medicos;
+    
+    
     public CentroMedico() {
     }
     
-
     public void setCodigoRegistro(Integer codigoRegistro) {
         this.codigoRegistro = codigoRegistro;
     }
@@ -94,15 +109,15 @@ public class CentroMedico {
         this.clave = clave;
     }
 
-    public void setObraSocial(List<Medico> ObraSocial) {
-        this.ObraSocial = ObraSocial;
+    public void setObrasSociales(List<String> obrasSociales) {
+        this.obrasSociales = obrasSociales;
     }
 
-    public void setEspecialidades(List<Medico> especialidades) {
+    public void setEspecialidades(List<String> especialidades) {
         this.especialidades = especialidades;
     }
 
-    public void setMedicos(List<Medico> medicos) {
+    public void setMedicos(List<Integer> medicos) {
         this.medicos = medicos;
     }
 
@@ -157,15 +172,15 @@ public class CentroMedico {
         return clave;
     }
 
-    public List<Medico> getObraSocial() {
-        return ObraSocial;
+    public List<String> getObrasSociales() {
+        return obrasSociales;
     }
 
-    public List<Medico> getEspecialidades() {
+    public List<String> getEspecialidades() {
         return especialidades;
     }
 
-    public List<Medico> getMedicos() {
+    public List<Integer> getMedicos() {
         return medicos;
     }
     

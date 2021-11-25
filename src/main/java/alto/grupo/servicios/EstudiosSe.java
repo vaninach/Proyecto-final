@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EstudiosSe {
     
-    @Autowired EstudioRep estRep;
+    @Autowired private EstudioRep estRep;
     
     @Transactional
     public void crear(String DNI, String fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores {
