@@ -295,6 +295,10 @@ public class MedicoSe implements UserDetailsService {
                 roleList.add("MEDICO");
             //}
 
+             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                HttpSession session = attr.getRequest().getSession(true);
+                session.setAttribute("medicosesion", users);
+            
             return User.builder()
                     .username(users.getMatricula().toString())
                     //change here to store encoded password in db

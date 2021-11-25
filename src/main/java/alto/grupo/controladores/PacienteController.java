@@ -44,15 +44,7 @@ private PacienteSe pacientese;
 		return "logIn.html";
 	}
 
-          @RequestMapping("/admin/login")
-	public String adminlogin() {
-		return "logIn_1.html";
-	}
-
-	@RequestMapping("/admin/dashboard")
-	public String admindashboard() {
-		return "dashboard.html";
-	}
+    
     
     
 @GetMapping("/NuevoPaciente")
@@ -63,7 +55,7 @@ public String Paciente(Model modelo,Paciente paciente){
 
 @PostMapping("/NuevoPaciente")
 public String nuevoPaciente (Model modelo,Paciente paciente) throws Errores{
-    System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
+    //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
     pacientese.Crearpaciente(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), null, paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(),paciente.getOtros(), paciente.getClave());
     return "Paciente/NuevoPaciente.html";
 }

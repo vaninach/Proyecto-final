@@ -317,6 +317,10 @@ public class PacienteSe implements UserDetailsService {
             //for (Role role : users.getRoles()) {
                 roleList.add("PACIENTE");
             //}
+            
+             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                HttpSession session = attr.getRequest().getSession(true);
+                session.setAttribute("pacientesesion", users);
 
             return User.builder()
                     .username(users.getDNI())

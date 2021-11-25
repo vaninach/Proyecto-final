@@ -5,6 +5,8 @@
  */
 package alto.grupo;
 
+import alto.grupo.entidades.CentroMedico;
+import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
 import javax.activation.DataSource;
@@ -57,13 +59,15 @@ public class SeguridadConfiguracionMedico extends WebSecurityConfigurerAdapter {
 //                .and().logout().logoutUrl("/logout")
 //                .logoutSuccessUrl("/login?logout")
 //                .permitAll();
+
+System.out.println("hola2");
 			http.antMatcher("/admin/**")
 			.authorizeRequests().anyRequest().permitAll()//.authenticated()
 			.and().formLogin().loginPage("/admin/login")
 				.defaultSuccessUrl("/NuevoMedico", true)
 				.failureUrl("/admin/accessdenied")
 			.permitAll()
-			.and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login")
+			.and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?logout")
 			.and().exceptionHandling().accessDeniedPage("/admin/accessdenied");
 		http.csrf().disable();
 	}	
