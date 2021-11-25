@@ -5,13 +5,10 @@
  */
 package alto.grupo.servicios;
 
-import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.Medico;
-import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -38,6 +35,40 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class MedicoSe implements UserDetailsService {
     
     @Autowired private MedicoRep medRep;
+    
+    // ======================== CRUD ======================
+    @Transactional
+    public void crear(Medico medico) throws Errores {
+        Optional<Medico> medOpt =  medRep.findById(medico.getMatricula());
+        
+        if(!medOpt.isPresent()){
+            try {
+                // validar(matricula); Integer
+                validar(medico.getNombre());
+                validar(medico.getApellido());
+                validar(medico.getFechaNac());
+                // validar(genero);  enum
+                validar(medico.getMail());
+                // validar(provincia); enum
+                validar(medico.getCiudad());  // si usamos la API, esto va a cambiar
+                // validar(otros); Este si puede ser nulo
+                validar(medico.getClave());
+                validar(medico.getEspecialidad1());
+                validar(medico.getEspecialidad2());
+                validar(medico.getEspecialidad3());
+                // validar(centrosMedicos); List de integers
+                
+                // == si ninguna validacion da error,  persistir ==  
+                medRep.save(medico);
+
+            } catch (Errores e) {
+                System.out.println(e);
+            }
+            
+        }else{
+            throw new Errores("Ya existe un médico con la matricula ingresada.");
+        }
+    }
     
     @Transactional
     public void crear(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
@@ -96,12 +127,6 @@ public class MedicoSe implements UserDetailsService {
             
         }else{
             throw new Errores("Ya existe un médico con la matricula ingresada.");
-        }
-    }
-    
-    public void validar(String texto) throws Errores {
-        if (texto == null || texto.isEmpty()) {
-            throw new Errores("Los datos no pueden ser nulos.");
         }
     }
     
@@ -167,8 +192,10 @@ public class MedicoSe implements UserDetailsService {
         return text == null || text.isEmpty();
     }
     
+    // ======================== END CRUD ======================
     
     
+    // ======================== SERVICE FOR QUERIES ======================   
     @Transactional
     public Medico BuscarPorMatricula(Integer matricula) throws Errores{
         Optional<Medico> med = medRep.findById(matricula);
@@ -239,9 +266,16 @@ public class MedicoSe implements UserDetailsService {
             throw new Errores("No se encontro ningun paciente");
         }
     }
+    // ======================== END SERVICE FOR QUERIES ======================
     
     
     
+    
+    public void validar(String texto) throws Errores {
+        if (texto == null || texto.isEmpty()) {
+            throw new Errores("Los datos no pueden ser nulos.");
+        }
+    }
     
     //Hacer la busqueda de centros medicos, para eso necesito tener hecho el repositorio de centro medico
     

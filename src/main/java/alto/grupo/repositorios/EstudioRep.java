@@ -50,6 +50,6 @@ public interface EstudioRep extends JpaRepository<Estudios, String>{
     @Query("SELECT c FROM Estudios c WHERE c.matriculaPide LIKE :matriculaPide AND c.DNI LIKE :DNI")
     public List<Estudios> buscarMatriculaPideDNI(@Param("matriculaPide") String matriculaPide, @Param("DNI") String DNI);
     
-//    @Query("SELECT c FROM Estudios c WHERE c.centroMedico LIKE :%centroMedico%")
-//    public List<Estudios> buscarCentroMedico(@Param("centroMedico") Integer centroMedico);
+    @Query("SELECT c FROM Estudios c WHERE c.centroMedico LIKE %:centroMedico%")
+    public List<Estudios> buscarCentroMedico(@Param("centroMedico") Integer centroMedico);
 }

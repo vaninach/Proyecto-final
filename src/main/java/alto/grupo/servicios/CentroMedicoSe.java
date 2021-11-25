@@ -49,6 +49,33 @@ public class CentroMedicoSe {
     
     // ======================== CRUD ======================
     @Transactional
+    public void crear(CentroMedico centroMedico) throws Errores {  // para recibir un objeto directamente del front
+        Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(centroMedico.getCodigoRegistro());
+
+        if (!CentroMedicoOpt.isPresent()){
+            try{
+                validar(centroMedico.getNombre());
+                validar(centroMedico.getTelefono());
+                validar(centroMedico.getMail());
+                // validar provincia?  -- puede que finalmente sea un String
+                validar(centroMedico.getCiudad());
+                validar(centroMedico.getCalle());
+                validar(centroMedico.getNumero());
+                validar(centroMedico.getPiso());
+                validar(centroMedico.getDepartamento());
+                validar(centroMedico.getOtros());
+                validar(centroMedico.getClave());
+                // Si no hay error, persistir Centro de Salud
+                centroRep.save(centroMedico);
+            } catch (Errores e) {
+                System.out.println(e);
+            }
+        }else{
+              throw new Errores("Ya existe un Centro de salud con el registro ingresado.");
+        }
+    }
+    
+    @Transactional
     public void crear (Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         
         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);
@@ -141,7 +168,7 @@ public class CentroMedicoSe {
     // ======================== END CRUD ======================
     
     
-    // ======================== END SERVICE FOR QUERIES ======================
+    // ======================== SERVICE FOR QUERIES ======================
     public List<CentroMedico> buscarPorProvincia(Provincia provincia) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarProvincia(provincia);
         if (!centrosMedicos.isEmpty()) {

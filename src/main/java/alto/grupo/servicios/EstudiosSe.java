@@ -24,11 +24,30 @@ public class EstudiosSe {
     
     @Autowired private EstudioRep estRep;
     
+    // ======================== CRUD ======================
+    @Transactional
+    public void crear(Estudios estudio) throws Errores { // para recibir un objeto directamente del front
+        try {
+            validar(estudio.getDNI());
+            validar(estudio.getFechaVisita());
+            validar(estudio.getEspecialidad());
+            // validar(matriculaInforme);      Integer
+            // validar(matriculaPide);      Integer
+            // validar(centromedico);   Integer
+            validar(estudio.getArchivo());  // Posible PDF?
+            validar(estudio.getInforme());
+
+            // == si ninguna validacion da error, persistir ==     
+            estRep.save(estudio);
+
+        } catch (Errores e) {
+            System.out.println(e);
+        }
+    }
+    
     @Transactional
     public void crear(String DNI, String fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores {
-       
-        
-       
+
             try {
                 validar(DNI);
                 // validar(fechaVisita);    Date
@@ -103,11 +122,11 @@ public class EstudiosSe {
         } else {
             throw new Errores("No se encontró el estudio solicitado");
         }
-    }
+    }   
+    // ======================== END CRUD ======================
     
-    private Boolean buscarCambios(String text) {
-        return text == null || text.isEmpty();
-    }    
+    
+    // ======================== SERVICE FOR QUERIES ======================
     
     // ==================== POSIBLE SOBRECARGA DE METODOS ====================
     // Proposito: llamar a la "misma" funcion segun lo que el usuario complete
@@ -186,13 +205,17 @@ public class EstudiosSe {
         }
     }
     
-//    public List<Estudios> buscarPorCentroMedico(Integer centroMedico) throws Errores{
-//        List<Estudios> histClin = estRep.buscarCentroMedico(centroMedico);
-//        if (!histClin.isEmpty()) {
-//            return histClin;
-//        } else {
-//            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
-//        }
-//    }
+    public List<Estudios> buscarPorCentroMedico(Integer centroMedico) throws Errores{
+        List<Estudios> histClin = estRep.buscarCentroMedico(centroMedico);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
+        }
+    }
+    // ======================== END SERVICE FOR QUERIES ======================
     
+    private Boolean buscarCambios(String text) {
+        return text == null || text.isEmpty();
+    } 
 }

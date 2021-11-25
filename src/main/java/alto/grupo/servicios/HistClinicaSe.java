@@ -24,6 +24,30 @@ public class HistClinicaSe {
 
     @Autowired private HistClinicaRep histClinRep;
 
+    // ======================== CRUD ======================
+    @Transactional
+    public void crear(HistoriasClinicas histClinica) throws Errores {
+        Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(histClinica.getId());
+        
+        if(!histClinOpt.isPresent()){
+            try {
+                validar(histClinica.getDNI());
+                validar(histClinica.getFechaVisita());  
+                validar(histClinica.getEspecialidad());
+                // validar(matricula);      Integer
+                // validar(centromedico);   Integer
+                validar(histClinica.getInforme());
+                
+                // == si ninguna validacion da error, persistir ==     
+                histClinRep.save(histClinica);
+            } catch (Errores e) {
+                System.out.println(e);
+            }
+        } else {
+            throw new Errores("Error en la creacion de la historia clinica.");
+        }
+    }
+    
     @Transactional
     public void crear(String id, String DNI, String fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
         Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
@@ -71,7 +95,7 @@ public class HistClinicaSe {
            if(buscarCambios(DNI))
                histC.setDNI(DNI);
            if(buscarCambios(fechaVisita)) 
-           histC.setFechaVisita(fechaVisita);
+               histC.setFechaVisita(fechaVisita);
            if(buscarCambios(especialidad))
                histC.setEspecialidad(especialidad);
            // if(buscarCambios(matricula))  Integer
@@ -98,11 +122,11 @@ public class HistClinicaSe {
             throw new Errores("No se encontró la historia clinica solicitada");
         }
     }
-
-    private Boolean buscarCambios(String text) {
-        return text == null || text.isEmpty();
-    }
-
+    // ======================== END CRUD ======================
+    
+    
+    // ======================== SERVICE FOR QUERIES ======================
+    
     // ==================== POSIBLE SOBRECARGA DE METODOS ====================
     // Proposito: llamar a la "misma" funcion segun lo que el usuario complete
     // en el front
@@ -159,6 +183,12 @@ public class HistClinicaSe {
         } else {
             throw new Errores("No se encontro ninguna historia clinica correspondiente a la matricula solicitada (" + matricula + ") y al DNI solicitado (" + DNI + ")");
         }
+    }
+    // ======================== END SERVICE FOR QUERIES ======================
+    
+    
+    private Boolean buscarCambios(String text) {
+        return text == null || text.isEmpty();
     }
 
 //    public List<HistoriasClinicas> buscarPorCentroMedico(Integer centroMedico) throws Errores{

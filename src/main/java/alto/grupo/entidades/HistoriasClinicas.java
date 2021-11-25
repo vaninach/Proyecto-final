@@ -38,6 +38,10 @@ public class HistoriasClinicas {
     public HistoriasClinicas() {
     }
     
+    public String getId() {
+        return id;
+    }
+    
     public String getDNI() {
         return DNI;
     }
