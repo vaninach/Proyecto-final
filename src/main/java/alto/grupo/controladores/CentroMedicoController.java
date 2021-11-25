@@ -51,7 +51,7 @@ public String CentroMedico(Model modelo,CentroMedico cmedico){
 @PostMapping("/NuevoCentroMedico")
 public String nuevoCentroMedico (Model modelo,CentroMedico cmedico) throws Errores{
     //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
-    centroMedicose.crearCentro(cmedico.getCodigoRegistro(), cmedico.getNombre(), cmedico.getTelefono(), cmedico.getMail(), null, cmedico.getCiudad(), cmedico.getCalle(), cmedico.getNumero(), cmedico.getPiso(), cmedico.getDepartamento(), cmedico.getOtros(), cmedico.getClave());
+    centroMedicose.crear(cmedico.getCodigoRegistro(), cmedico.getNombre(), cmedico.getTelefono(), cmedico.getMail(), null, cmedico.getCiudad(), cmedico.getCalle(), cmedico.getNumero(), cmedico.getPiso(), cmedico.getDepartamento(), cmedico.getOtros(), cmedico.getClave());
     modelo.addAttribute("cmedico",cmedico);
     return "CentroMedico/NuevoCentroMedico.html";
 }
