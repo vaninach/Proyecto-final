@@ -25,29 +25,34 @@ public class HistClinicaSe {
     @Autowired private HistClinicaRep histClinRep;
 
     @Transactional
-    public void crear(String id, String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores {
-
-        try {
-            validar(DNI);
-            // validar(fechaVisita);    Date
-            validar(especialidad);
-            // validar(matricula);      Integer
-            // validar(centromedico);   Integer
-            validar(informe);
-
-            // == si ninguna validacion da error, crear y persistir ==  
-            HistoriasClinicas histC = new HistoriasClinicas();
-            histC.setDNI(DNI);
-            histC.setFechaVisita(fechaVisita);
-            histC.setEspecialidad(especialidad);
-            histC.setMatricula(matricula);
-            histC.setCentromedico(centroMedico);
-            histC.setInforme(informe);
-
-            histClinRep.save(histC);
-
-        } catch (Errores e) {
-            System.out.println(e);
+    public void crear(String id, String DNI, String fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
+        Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
+        
+        if(!histClinOpt.isPresent()){
+            try {
+                validar(DNI);
+                 validar(fechaVisita);  
+                validar(especialidad);
+                // validar(matricula);      Integer
+                // validar(centromedico);   Integer
+                validar(informe);
+                
+                // == si ninguna validacion da error, crear y persistir ==  
+                HistoriasClinicas histC = new HistoriasClinicas();
+                histC.setDNI(DNI);
+                histC.setFechaVisita(fechaVisita);
+                histC.setEspecialidad(especialidad);
+                histC.setMatricula(matricula);
+                histC.setCentromedico(centroMedico);
+                histC.setInforme(informe);    
+                
+                histClinRep.save(histC);
+                
+            } catch (Errores e) {
+                System.out.println(e);
+            }
+        } else {
+            throw new Errores("Error en la creacion de la historia clinica.");
         }
     }
 
@@ -58,28 +63,25 @@ public class HistClinicaSe {
     }
 
     @Transactional
-    public void modificar(String id, String DNI, Date fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores {
+    public void modificar(String id, String DNI, String fechaVisita, String especialidad, Integer matricula, Integer centroMedico, String informe) throws Errores{
         Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(id);
-
-        if (histClinOpt.isPresent()) {
-            HistoriasClinicas histC = histClinOpt.get();
-            if (buscarCambios(DNI)) {
-                histC.setDNI(DNI);
-            }
-            // if(buscarCambios(fechaVisita))  Date
-            histC.setFechaVisita(fechaVisita);
-            if (buscarCambios(especialidad)) {
-                histC.setEspecialidad(especialidad);
-            }
-            // if(buscarCambios(matricula))  Integer
-            histC.setMatricula(matricula);
-            // if(buscarCambios(centroMedico))  Integer
-            histC.setCentromedico(centroMedico);
-            if (buscarCambios(informe)) {
-                histC.setInforme(informe);
-            }
-
-            histClinRep.save(histC);
+        
+        if(histClinOpt.isPresent()){
+           HistoriasClinicas histC = histClinOpt.get();
+           if(buscarCambios(DNI))
+               histC.setDNI(DNI);
+           if(buscarCambios(fechaVisita)) 
+           histC.setFechaVisita(fechaVisita);
+           if(buscarCambios(especialidad))
+               histC.setEspecialidad(especialidad);
+           // if(buscarCambios(matricula))  Integer
+           histC.setMatricula(matricula);
+           // if(buscarCambios(centroMedico))  Integer
+           histC.setCentromedico(centroMedico);
+           if(buscarCambios(informe))
+               histC.setInforme(informe);
+           
+           histClinRep.save(histC);
 
         } else {
             throw new Errores("No se encuentra la historia clinica eque busca modificar en la base de datos.");

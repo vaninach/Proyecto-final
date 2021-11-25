@@ -31,8 +31,7 @@ public class Medico {
     private Integer matricula;
     private String nombre;
     private String apellido;
-    @Temporal(TemporalType.DATE)
-    private Date fechaNac;
+    private String fechaNac;
     private Genero genero;
     private String mail;
     private Provincia provincia;
@@ -67,7 +66,7 @@ public class Medico {
         return apellido;
     }
 
-    public Date getFechaNac() {
+    public String getFechaNac() {
         return fechaNac;
     }
 
@@ -123,7 +122,7 @@ public class Medico {
         this.apellido = apellido;
     }
 
-    public void setFechaNac(Date fechaNac) {
+    public void setFechaNac(String fechaNac) {
         this.fechaNac = fechaNac;
     }
 

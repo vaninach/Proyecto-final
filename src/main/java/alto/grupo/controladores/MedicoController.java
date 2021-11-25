@@ -38,9 +38,9 @@ public String Medico(){
 }
 
 @PostMapping("/NuevoMedico")
-public String nuevoMedico (Integer matricula, String nombre, String apellido, String mail, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores{
+public String nuevoMedico (Integer matricula, String nombre, String apellido,String fechaNac, String mail, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores{
     
-    medicose.crear(matricula, nombre, apellido, null, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
+    medicose.crear(matricula, nombre, apellido, fechaNac, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
     return "Medico/NuevoMedico.html";
 }
     

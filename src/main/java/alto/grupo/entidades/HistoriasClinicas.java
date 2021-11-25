@@ -26,8 +26,7 @@ public class HistoriasClinicas {
     @GenericGenerator(name="uuid",strategy="uuid2")
     private String id;
     private String DNI;
-    @Temporal(TemporalType.DATE)
-    private Date fechaVisita;
+    private String fechaVisita;
     private String especialidad;
     private Integer matricula;
     
@@ -43,7 +42,7 @@ public class HistoriasClinicas {
         return DNI;
     }
 
-    public Date getFechaVisita() {
+    public String getFechaVisita() {
         return fechaVisita;
     }
 
@@ -67,7 +66,7 @@ public class HistoriasClinicas {
         this.DNI = DNI;
     }
 
-    public void setFechaVisita(Date fechaVisita) {
+    public void setFechaVisita(String fechaVisita) {
         this.fechaVisita = fechaVisita;
     }
 

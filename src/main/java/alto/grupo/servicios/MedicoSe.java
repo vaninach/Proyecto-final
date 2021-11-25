@@ -7,6 +7,7 @@ package alto.grupo.servicios;
 
 import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.Medico;
+import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
@@ -17,18 +18,30 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import alto.grupo.repositorios.MedicoRep;
+import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
  * @author miact
  */
 @Service
-public class MedicoSe {
+public class MedicoSe implements UserDetailsService {
     
     @Autowired private MedicoRep medRep;
     
     @Transactional
     public void crear(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+
         Optional<Medico> medOpt =  medRep.findById(matricula);
         
         if(!medOpt.isPresent()){
@@ -39,7 +52,7 @@ public class MedicoSe {
                 
                 validar(apellido);
                 
-                // validar(fechaNac);  Date
+                validar(fechaNac);
                 // validar(genero);  enum
                 validar(mail);
                 
@@ -68,7 +81,8 @@ public class MedicoSe {
                 med.setProvincia(provincia);
                 med.setCiudad(ciudad);
                 med.setOtros(otros);
-                med.setClave(clave);
+                String encriptada = new BCryptPasswordEncoder().encode(clave);
+                med.setClave(encriptada);
                 med.setEspecialidad1(especialidad1);
                 med.setEspecialidad2(especialidad2);
                 med.setEspecialidad3(especialidad3);
@@ -93,6 +107,7 @@ public class MedicoSe {
     
     @Transactional
     public void modificar(Integer matricula, String nombre, String apellido, Date fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+
         Optional<Medico> medOpt = medRep.findById(matricula);
         
         // ==========================================================
@@ -108,7 +123,7 @@ public class MedicoSe {
                 med.setNombre(nombre);
             if(buscarCambios(apellido))
                 med.setApellido(apellido);
-            // if(buscarCambios(fechaNac))   Date
+            if(buscarCambios(fechaNac)) 
             med.setFechaNac(fechaNac);
             // if(buscarCambios(genero))    Enum
                 med.setGenero(genero);
@@ -155,7 +170,7 @@ public class MedicoSe {
     
     
     @Transactional
-    public Medico BuscarPorDNI(Integer matricula) throws Errores{
+    public Medico BuscarPorMatricula(Integer matricula) throws Errores{
         Optional<Medico> med = medRep.findById(matricula);
         if (med.isPresent()) {
             return med.get();
@@ -230,7 +245,38 @@ public class MedicoSe {
     
     //Hacer la busqueda de centros medicos, para eso necesito tener hecho el repositorio de centro medico
     
-    
+    @Autowired
+    PacienteSe pase;
+  
+    @Override
+    public UserDetails loadUserByUsername(String matricula) throws UsernameNotFoundException {
+        try {
+            Medico med = BuscarPorMatricula(Integer.parseInt(matricula));
+           
+                List<GrantedAuthority> permisos = new ArrayList<>();
+
+                GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_MEDICO_AUTORIZADO");
+
+                permisos.add(p1);
+
+                ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                HttpSession session = attr.getRequest().getSession(true);
+                session.setAttribute("medicosesion", med);
+
+                User user = new User(med.getMatricula().toString(), med.getClave(), permisos);
+                System.out.println("fedew"+med.getMatricula()+" "+med.getClave());
+                return user;
+            
+
+        } catch (Errores ex) {
+            System.out.println("medico no valido");
+            
+            
+        }
+        
+        return null;
+
+    }
 
     
     

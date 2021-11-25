@@ -25,7 +25,7 @@ public class EstudiosSe {
     @Autowired private EstudioRep estRep;
     
     @Transactional
-    public void crear(String DNI, Date fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores {
+    public void crear(String DNI, String fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores {
        
         
        
@@ -65,7 +65,7 @@ public class EstudiosSe {
     }
     
     @Transactional
-    public void modificar(String id, String DNI, Date fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores{
+    public void modificar(String id, String DNI, String fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores{
         Optional<Estudios> estOpt = estRep.findById(id);
         
         if(estOpt.isPresent()){

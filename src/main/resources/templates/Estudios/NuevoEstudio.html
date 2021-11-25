@@ -11,24 +11,24 @@
     </head>
     <body>
         <h1>Registro de Pacientes </h1>
-        <form class="need-validation" th:action="@{/NuevoEstudio}" th:object="${estudio}" method="POST">
+        <form class="need-validation" th:action="@{/NuevoEstudio}" th:object="${estudios}" method="POST">
             <div class="form-group col-md-6 " >
 
                 <br/>
                 <input type=text class="form-control" id="DNI" aria-describedby="DNIHelp" name="DNI" th:field="*{DNI}" placeholder="DNI"/>
 
             </div>
-<!--            <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
 
                 <br/>
-                <input type=date class="form-control" id="fechaVisita" aria-describedby="fechaVisitaHelp" name="fechaVisita" placeholder="FECHA VISITA"/>
+                <input type=date class="form-control" id="fechaVisita" aria-describedby="fechaVisitaHelp" name="fechaVisita" th:field="*{fechaVisita}" placeholder="FECHA VISITA"/>
 
-            </div>  -->
+            </div>  
 
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=date class="form-control" id="especialidad" aria-describedby="especialidadHelp" name="especialidad" th:field="*{especialidad}" placeholder="ESPECIALIDAD"/>
+                <input type=text class="form-control" id="especialidad" aria-describedby="especialidadHelp" name="especialidad" th:field="*{especialidad}" placeholder="ESPECIALIDAD"/>
 
             </div> 
 
@@ -47,7 +47,7 @@
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=integer class="form-control" id="centroMedico" aria-describedby="centroMedicoHelp" name="centromedico" th:field="*{centroMedico}" placeholder="CENTRO MEDICO"/>
+                <input type=integer class="form-control" id="centroMedico" aria-describedby="centroMedicoHelp" name="centroMedico" th:field="*{centroMedico}" placeholder="CENTRO MEDICO"/>
 
             </div> 
             <div class="form-group col-md-6">
