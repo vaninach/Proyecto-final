@@ -244,42 +244,80 @@ public class MedicoSe implements UserDetailsService {
     
     
     //Hacer la busqueda de centros medicos, para eso necesito tener hecho el repositorio de centro medico
-    
+//    
+//            @Autowired
+//            PacienteSe pase;
+// @Override
+//    public UserDetails loadUserByUsername(String matricula) throws UsernameNotFoundException {
+//        try {
+//            Medico med = BuscarPorMatricula(Integer.parseInt(matricula));
+//           
+//                List<GrantedAuthority> permisos = new ArrayList<>();
+//
+//                GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_MEDICO_AUTORIZADO");
+//
+//                permisos.add(p1);
+//
+//                ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//                HttpSession session = attr.getRequest().getSession(true);
+//                session.setAttribute("medicosesion", med);
+//
+//                User user = new User(med.getMatricula().toString(), med.getClave(), permisos);
+//                System.out.println("fedew"+med.getMatricula()+" "+med.getClave());
+//                return user;
+//            
+//
+//        } catch (Errores ex) {
+//            System.out.println("medico no valido");
+//            
+//            
+//        }
+//        
+//        return null;
+//
+//    }
+
+
+     @Autowired
+    private MedicoRep usersRepository;
+
     @Autowired
-    PacienteSe pase;
-  
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
-    public UserDetails loadUserByUsername(String matricula) throws UsernameNotFoundException {
-        try {
-            Medico med = BuscarPorMatricula(Integer.parseInt(matricula));
-           
-                List<GrantedAuthority> permisos = new ArrayList<>();
-
-                GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_MEDICO_AUTORIZADO");
-
-                permisos.add(p1);
-
-                ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-                HttpSession session = attr.getRequest().getSession(true);
-                session.setAttribute("medicosesion", med);
-
-                User user = new User(med.getMatricula().toString(), med.getClave(), permisos);
-                System.out.println("fedew"+med.getMatricula()+" "+med.getClave());
-                return user;
-            
-
-        } catch (Errores ex) {
-            System.out.println("medico no valido");
-            
-            
-        }
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         
-        return null;
+        System.out.println("holasldkfjadsfjadñs");
+        Optional<Medico> usersList = usersRepository.findById(Integer.parseInt(userName));
+        System.out.println(userName+"efwl");
+        if (usersList.isPresent()) {
+            Medico users = usersList.get();
+            System.out.println(users.getMatricula()+" "+users.getClave());
+            List<String> roleList = new ArrayList<String>();
+            //for (Role role : users.getRoles()) {
+                roleList.add("MEDICO");
+            //}
 
+             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                HttpSession session = attr.getRequest().getSession(true);
+                session.setAttribute("medicosesion", users);
+            
+            return User.builder()
+                    .username(users.getMatricula().toString())
+                    //change here to store encoded password in db
+                    .password(users.getClave())
+                 //   .disabled(users.isDisabled())
+                  //  .accountExpired(users.isAccountExpired())
+                  //  .accountLocked(users.isAccountLocked())
+                   // .credentialsExpired(users.isCredentialsExpired())
+                    .roles(roleList.toArray(new String[0]))
+                    .build();
+        } else {
+            throw new UsernameNotFoundException("User Name is not Found");
+        }
     }
 
-    
-    
+  
     
     
     

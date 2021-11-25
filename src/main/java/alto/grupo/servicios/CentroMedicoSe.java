@@ -12,13 +12,21 @@ import alto.grupo.repositorios.CentroMedicoRep;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 @Service
-public class CentroMedicoSe {
+public class CentroMedicoSe implements UserDetailsService{
     
     @Autowired private CentroMedicoRep centroRep;
 
@@ -26,24 +34,38 @@ public class CentroMedicoSe {
     @Transactional
     public void crear() {
         List<String> especialidades = new ArrayList<>();
-        especialidades.add("aaaa");
-        especialidades.add("bbbb");
-        especialidades.add("cccc");
-        especialidades.add("dddd");
+//         especialidades.add("aaaa");
+//         especialidades.add("bbbb");
+//         especialidades.add("cccc");
+//         especialidades.add("dddd");
         
         CentroMedico centro = new CentroMedico();
-        centro.setCodigoRegistro(11111);
-        centro.setNombre("centrito");
-        centro.setTelefono("155234567");
-        centro.setMail("mail@mail");
-        centro.setCiudad("Mza");
-        centro.setCalle("calle");
-        centro.setNumero("123");
-        centro.setPiso("0");
-        centro.setDepartamento("depto");
-        centro.setOtros("");
-        centro.setClave("abc123");
-        centro.setEspecialidades(especialidades);
+
+        centro.setCodigoRegistro(codigoRegistro);
+        centro.setNombre(nombre);
+        centro.setTelefono(telefono);
+        centro.setMail(mail);
+        centro.setCiudad(ciudad);
+        centro.setCalle(calle);
+        centro.setNumero(numero);
+        centro.setPiso(piso);
+        centro.setDepartamento(departamento);
+        centro.setOtros(otros);
+        String encriptada = new BCryptPasswordEncoder().encode(clave);
+        centro.setClave(encriptada);
+
+//         centro.setCodigoRegistro(11111);
+//         centro.setNombre("centrito");
+//         centro.setTelefono("155234567");
+//         centro.setMail("mail@mail");
+//         centro.setCiudad("Mza");
+//         centro.setCalle("calle");
+//         centro.setNumero("123");
+//         centro.setPiso("0");
+//         centro.setDepartamento("depto");
+//         centro.setOtros("");
+//         centro.setClave("abc123");
+
         centroRep.save(centro);
     }
     
@@ -233,6 +255,53 @@ public class CentroMedicoSe {
             throw new Errores("El dato " + texto + "no es valido");
         }
     }
+
+ @Autowired
+    private CentroMedicoRep usersRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+
+ @Override
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        
+        System.out.println("holasldkfjadsfjadñs");
+        Optional<CentroMedico> usersList = usersRepository.findById(Integer.parseInt(userName));
+        System.out.println(userName+"efwl");
+        if (usersList.isPresent()) {
+            CentroMedico users = usersList.get();
+            System.out.println(users.getCodigoRegistro()+" "+users.getClave());
+            List<String> roleList = new ArrayList<String>();
+            //for (Role role : users.getRoles()) {
+                roleList.add("CENTRO_MEDICO");
+            //}
+
+             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                HttpSession session = attr.getRequest().getSession(true);
+                session.setAttribute("sentromedicosesion", users);
+            
+            return User.builder()
+                    .username(users.getCodigoRegistro().toString())
+                    //change here to store encoded password in db
+                    .password(users.getClave())
+                 //   .disabled(users.isDisabled())
+                  //  .accountExpired(users.isAccountExpired())
+                  //  .accountLocked(users.isAccountLocked())
+                   // .credentialsExpired(users.isCredentialsExpired())
+                    .roles(roleList.toArray(new String[0]))
+                    .build();
+        } else {
+            throw new UsernameNotFoundException("User Name is not Found");
+        }
+    }
+
+
+
+
+
+
 
 }    
     

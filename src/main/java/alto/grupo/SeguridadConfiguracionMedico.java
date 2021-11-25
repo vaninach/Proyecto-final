@@ -5,6 +5,8 @@
  */
 package alto.grupo;
 
+import alto.grupo.entidades.CentroMedico;
+import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
 import javax.activation.DataSource;
@@ -27,49 +29,48 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author vani
  */
 @Configuration
-@Order(3)
-public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter {
+@Order(1)
+public class SeguridadConfiguracionMedico extends WebSecurityConfigurerAdapter {
 
 
-    @Autowired
+   @Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
-	PacienteSe userDetailsServiceImpl;
+	MedicoSe userDetailsServiceImpl;
 	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder);
 	}
 
-  
-        @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        
-//       http
-//			.antMatcher("/**")
-//			.authorizeRequests().anyRequest().permitAll()//.authenticated()
-//			.and().formLogin().loginPage("/login")
-//				.defaultSuccessUrl("/dashboard", true)
-//				.failureUrl("/accessdenied2")
-//			.permitAll()
-//			.and().logout().logoutSuccessUrl("/login");
-//		
-//		http.csrf().disable();
-                
-                
-                
-                http.antMatcher("/**")
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+//		http.headers().frameOptions().sameOrigin().and().authorizeRequests()
+//                .antMatchers("/css/*","/js/*","/img/*")
+//                .permitAll()
+//                .and().formLogin()
+//                .loginPage("/admin/login")
+//                .loginProcessingUrl("/admin/login")
+//               // .usernameParameter("DNI")
+//               // .passwordParameter("password")
+//                .defaultSuccessUrl("/NuevoMedico")
+//                .permitAll()
+//                .and().logout().logoutUrl("/logout")
+//                .logoutSuccessUrl("/login?logout")
+//                .permitAll();
+
+System.out.println("hola2");
+			http.antMatcher("/admin/**")
 			.authorizeRequests().anyRequest().permitAll()//.authenticated()
-			.and().formLogin().loginPage("/login")
-				.defaultSuccessUrl("/NuevoPaciente", true)
-				.failureUrl("/accessdenied")
+			.and().formLogin().loginPage("/admin/login")
+				.defaultSuccessUrl("/NuevoMedico", true)
+				.failureUrl("/admin/accessdenied")
 			.permitAll()
-			.and().logout().logoutUrl("/logout").logoutSuccessUrl("/login")
-			.and().exceptionHandling().accessDeniedPage("/accessdenied");
+			.and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?logout")
+			.and().exceptionHandling().accessDeniedPage("/admin/accessdenied");
 		http.csrf().disable();
-                
-    }
+	}	
     
     
   
