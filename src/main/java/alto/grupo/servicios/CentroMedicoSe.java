@@ -10,19 +10,15 @@ import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.CentroMedicoRep;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-// Verificar List
 @Service
 public class CentroMedicoSe {
-    
     
     @Autowired private CentroMedicoRep centroRep;
 
@@ -53,41 +49,41 @@ public class CentroMedicoSe {
     
     // ======================== CRUD ======================
     @Transactional
-    public void crearCentro (Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void crear (Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         
         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);
 
         if (!CentroMedicoOpt.isPresent()){
             try{
-            validar(nombre);
-            validar(telefono);
-            validar(mail);
-            // validar provincia?
-            validar(ciudad);
-            validar(calle);
-            validar(numero);
-            validar(piso);
-            validar(departamento);
-            validar(otros);
-            validar(clave);
-            // Si no hay error, crear Centro de Salud
+                validar(nombre);
+                validar(telefono);
+                validar(mail);
+                // validar provincia?
+                validar(ciudad);
+                validar(calle);
+                validar(numero);
+                validar(piso);
+                validar(departamento);
+                validar(otros);
+                validar(clave);
+                // Si no hay error, crear Centro de Salud
 
-            CentroMedico centro = new CentroMedico();
-            centro.setCodigoRegistro(codigoRegistro);
-            centro.setNombre(nombre);
-            centro.setTelefono(telefono);
-            centro.setMail(mail);
-            centro.setCiudad(ciudad);
-            centro.setCalle(calle);
-            centro.setNumero(numero);
-            centro.setPiso(piso);
-            centro.setDepartamento(departamento);
-            centro.setOtros(otros);
-            centro.setClave(clave);
-            centroRep.save(centro);
+                CentroMedico centro = new CentroMedico();
+                centro.setCodigoRegistro(codigoRegistro);
+                centro.setNombre(nombre);
+                centro.setTelefono(telefono);
+                centro.setMail(mail);
+                centro.setCiudad(ciudad);
+                centro.setCalle(calle);
+                centro.setNumero(numero);
+                centro.setPiso(piso);
+                centro.setDepartamento(departamento);
+                centro.setOtros(otros);
+                centro.setClave(clave);
+                centroRep.save(centro);
 
             } catch (Errores e) {
-                    System.out.println(e);
+                System.out.println(e);
             }
         }else{
               throw new Errores("Ya existe un Centro de salud con el registro ingresado.");

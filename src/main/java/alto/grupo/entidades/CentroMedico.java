@@ -43,12 +43,12 @@ public class CentroMedico {
     
     // ======== Para persistir listas de Strings e Integers: ========
     @ElementCollection
-    @CollectionTable(name = "centroMedico_obrasSociales", joinColumns = @JoinColumn(name = "codigoRegistro"))
-    @Column(name = "obraSocial")
+    @CollectionTable(name = "centroMedico_obrasSociales", joinColumns = @JoinColumn(name = "centro_codigo_registro"))
+    @Column(name = "obra_social")
     private List<String> obrasSociales;
     
     @ElementCollection
-    @CollectionTable(name = "centro_medico_especialidades", joinColumns = @JoinColumn(name = "codigo_registro"))
+    @CollectionTable(name = "centro_medico_especialidades", joinColumns = @JoinColumn(name = "centro_codigo_registro"))
     @Column(name = "especialidad")
     private List<String> especialidades;
     
