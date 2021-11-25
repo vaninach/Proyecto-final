@@ -25,39 +25,22 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 
-// Verificar List
 @Service
 public class CentroMedicoSe implements UserDetailsService{
     
-    
-    @Autowired
-    CentroMedicoRep centroRep;
+    @Autowired private CentroMedicoRep centroRep;
 
-    
-    //Metodo para Crear Centro de salud.
+    // testMia
     @Transactional
-    public void crearCentro (Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
-        
-  
-    
-    Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);
-    
-    if (!CentroMedicoOpt.isPresent()){
-        try{
-        validar(nombre);
-        validar(telefono);
-        validar(mail);
-        // validar provincia?
-        validar(ciudad);
-        validar(calle);
-        validar(numero);
-        validar(piso);
-        validar(departamento);
-        validar(otros);
-        validar(clave);
-        // Si no hay error, crear Centro de Salud
+    public void crear() {
+        List<String> especialidades = new ArrayList<>();
+//         especialidades.add("aaaa");
+//         especialidades.add("bbbb");
+//         especialidades.add("cccc");
+//         especialidades.add("dddd");
         
         CentroMedico centro = new CentroMedico();
+
         centro.setCodigoRegistro(codigoRegistro);
         centro.setNombre(nombre);
         centro.setTelefono(telefono);
@@ -70,85 +53,208 @@ public class CentroMedicoSe implements UserDetailsService{
         centro.setOtros(otros);
         String encriptada = new BCryptPasswordEncoder().encode(clave);
         centro.setClave(encriptada);
-        centroRep.save(centro);
-    
-    
-    } catch (Errores e) {
-            System.out.println(e);
-    }
-      }else{
-            throw new Errores("Ya existe un Centro de salud con el registro ingresado.");
-            }
-    }
-    
-    
-     
-     @Transactional
-     public void modificarCentro(Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
-         
-      Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);   
-      
-      
-      if (CentroMedicoOpt.isPresent()){
-      CentroMedico centro =CentroMedicoOpt.get();
-      
-             //if(buscarCambios(DNI))
-               //histC.setDNI(DNI);
-    
-          if (buscarCambios(nombre)) {
-              centro.setNombre(nombre);}
-          if (buscarCambios(telefono)) {
-              centro.setTelefono(telefono);}
-          if (buscarCambios(mail)) {
-              centro.setMail(mail);}
-          if (buscarCambios(ciudad)) {
-              centro.setCiudad(ciudad);}
-          if (buscarCambios(calle)) {
-              centro.setNombre(calle);}
-          if (buscarCambios(numero)) {
-              centro.setNombre(numero);}    
-          if (buscarCambios(piso)) {
-              centro.setNombre(piso);}
-          if (buscarCambios(departamento)) {
-              centro.setNombre(departamento);}    
-          if (buscarCambios(otros)) {
-              centro.setNombre(otros);}
-          if (buscarCambios(clave)) {
-              centro.setNombre(clave);}
-          
-          centroRep.save(centro);
-          
-      }    else {
-          
-          throw new Errores("No encontramos un centro médico con ese código de registro");
-      }
-              
-              
-              
-      }
-     @Transactional
-     public void eliminarCentro (Integer codigoRegistro) throws Errores{
-         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro); 
-         
-         if (CentroMedicoOpt.isPresent()){
-             
-             centroRep.deleteById(codigoRegistro);
-         } else {
-             throw new Errores("No se encuentra el centro médico solicitado");
-         }
-     }
-     
-     private Boolean buscarCambios(String text) {
-        return text == null || text.isEmpty();
-    }
-     
-     
 
-public void validar(String texto) throws Errores {
+//         centro.setCodigoRegistro(11111);
+//         centro.setNombre("centrito");
+//         centro.setTelefono("155234567");
+//         centro.setMail("mail@mail");
+//         centro.setCiudad("Mza");
+//         centro.setCalle("calle");
+//         centro.setNumero("123");
+//         centro.setPiso("0");
+//         centro.setDepartamento("depto");
+//         centro.setOtros("");
+//         centro.setClave("abc123");
+
+        centroRep.save(centro);
+    }
+    
+    // ======================== CRUD ======================
+    @Transactional
+    public void crear (Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+        
+        Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);
+
+        if (!CentroMedicoOpt.isPresent()){
+            try{
+                validar(nombre);
+                validar(telefono);
+                validar(mail);
+                // validar provincia?
+                validar(ciudad);
+                validar(calle);
+                validar(numero);
+                validar(piso);
+                validar(departamento);
+                validar(otros);
+                validar(clave);
+                // Si no hay error, crear Centro de Salud
+
+                CentroMedico centro = new CentroMedico();
+                centro.setCodigoRegistro(codigoRegistro);
+                centro.setNombre(nombre);
+                centro.setTelefono(telefono);
+                centro.setMail(mail);
+                centro.setCiudad(ciudad);
+                centro.setCalle(calle);
+                centro.setNumero(numero);
+                centro.setPiso(piso);
+                centro.setDepartamento(departamento);
+                centro.setOtros(otros);
+                centro.setClave(clave);
+                centroRep.save(centro);
+
+            } catch (Errores e) {
+                System.out.println(e);
+            }
+        }else{
+              throw new Errores("Ya existe un Centro de salud con el registro ingresado.");
+        }
+    }
+    
+     
+    @Transactional
+    public void modificarCentro(Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+
+        Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);   
+
+        if (CentroMedicoOpt.isPresent()){
+        CentroMedico centro =CentroMedicoOpt.get();
+
+            if (buscarCambios(nombre)) {
+                centro.setNombre(nombre);}
+            if (buscarCambios(telefono)) {
+                centro.setTelefono(telefono);}
+            if (buscarCambios(mail)) {
+                centro.setMail(mail);}
+            if (buscarCambios(ciudad)) {
+                centro.setCiudad(ciudad);}
+            if (buscarCambios(calle)) {
+                centro.setNombre(calle);}
+            if (buscarCambios(numero)) {
+                centro.setNombre(numero);}    
+            if (buscarCambios(piso)) {
+                centro.setNombre(piso);}
+            if (buscarCambios(departamento)) {
+                centro.setNombre(departamento);}    
+            if (buscarCambios(otros)) {
+                centro.setNombre(otros);}
+            if (buscarCambios(clave)) {
+                centro.setNombre(clave);}
+
+            centroRep.save(centro);
+
+        } else {
+            throw new Errores("No encontramos un centro médico con ese código de registro");
+        }
+    }
+    
+    @Transactional
+    public void eliminarCentro (Integer codigoRegistro) throws Errores{
+        Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro); 
+
+        if (CentroMedicoOpt.isPresent()){
+
+            centroRep.deleteById(codigoRegistro);
+        } else {
+            throw new Errores("No se encuentra el centro médico solicitado");
+        }
+    }
+    // ======================== END CRUD ======================
+    
+    
+    // ======================== END SERVICE FOR QUERIES ======================
+    public List<CentroMedico> buscarPorProvincia(Provincia provincia) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarProvincia(provincia);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente a la provincia (" + provincia + ") solicitada.");
+        }
+    }
+     
+    public List<CentroMedico> buscarPorProvinciaCiudad(Provincia provincia, String ciudad) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarProvinciaCiudad(provincia,ciudad);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente a la provincia (" + provincia + ") y ciudad (" + ciudad + ")solicitadas.");
+        }
+    }
+     
+    public List<CentroMedico> buscarPorMatricula(String matricula) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarMatricula(matricula);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente para el médico solicitado (matricula: " + matricula + ").");
+        }
+    }
+     
+    public List<CentroMedico> buscarPorMatriculaProvincia(String matricula, Provincia provincia) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarMatriculaProvincia(matricula, provincia);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente para el médico solicitado (matricula: " + matricula + ") en " + provincia + ".");
+        }
+    }
+     
+    public List<CentroMedico> buscarPorMatriculaProvinciaCiudad(String matricula, Provincia provincia, String ciudad) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarMatriculaProvinciaCiudad(matricula, provincia, ciudad);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente para el médico solicitado (matricula: " + matricula + ") en " + provincia + ", " + ciudad + ".");
+        }
+    }
+     
+    public List<CentroMedico> buscarPorNombre(String nombre) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarNombre(nombre);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico cde nombre: " + nombre + ".");
+        }
+    }
+    
+    public List<CentroMedico> buscarPorEspecialidad(String especialidad) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarEspecialidad(especialidad);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente a la especialidad (" + especialidad + ") solicitada.");
+        }
+    }
+    
+    public List<CentroMedico> buscarPorEspecialidadProvincia(String especialidad, Provincia provincia) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarEspecialidadProvincia(especialidad, provincia);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente a la especialidad (" + especialidad + ") en " + provincia + ".");
+        }
+    }
+    
+    public List<CentroMedico> buscarPorEspecialidadProvinciaCiudad(String especialidad, Provincia provincia, String ciudad) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarEspecialidadProvinciaCiudad(especialidad, provincia, ciudad);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente a la especialidad (" + especialidad + ") en " + provincia + ", " + ciudad + ".");
+        }
+    }
+    // ======================== END SERVICE FOR QUERIES ====================== 
+     
+    private Boolean buscarCambios(String text) {
+       return text == null || text.isEmpty();
+    }
+
+    public void validar(String texto) throws Errores {
         if (texto == null || texto.isEmpty()) {
             throw new Errores("El dato " + texto + "no es valido");
         }
-     }
+    }
 
  @Autowired
     private CentroMedicoRep usersRepository;

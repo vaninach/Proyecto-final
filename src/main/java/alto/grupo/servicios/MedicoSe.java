@@ -37,10 +37,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Service
 public class MedicoSe implements UserDetailsService {
     
-    @Autowired MedicoRep medRep;
+    @Autowired private MedicoRep medRep;
     
     @Transactional
-    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<CentroMedico> centrosMedicos) throws Errores{
+    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+
         Optional<Medico> medOpt =  medRep.findById(matricula);
         
         if(!medOpt.isPresent()){
@@ -105,7 +106,8 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<CentroMedico> centrosMedicos) throws Errores{
+    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+
         Optional<Medico> medOpt = medRep.findById(matricula);
         
         // ==========================================================
@@ -274,6 +276,7 @@ public class MedicoSe implements UserDetailsService {
 //        return null;
 //
 //    }
+
 
      @Autowired
     private MedicoRep usersRepository;

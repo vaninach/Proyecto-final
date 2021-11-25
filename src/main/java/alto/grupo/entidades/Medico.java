@@ -9,8 +9,12 @@ import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -39,8 +43,11 @@ public class Medico {
     private String especialidad2;
     private String especialidad3;
     
-    @OneToMany(targetEntity=CentroMedico.class)   // Verificar
-    private List<CentroMedico> centrosMedicos;
+    // ======== Para persistir listas de Integers: ========
+    @ElementCollection
+    @CollectionTable(name = "medico_centros_medicos", joinColumns = @JoinColumn(name = "medico_matricula"))
+    @Column(name = "centro_medico")
+    private List<Integer> centrosMedicos;  //
 
     public Medico() {
     }
@@ -99,7 +106,7 @@ public class Medico {
         return especialidad3;
     }
 
-    public List<CentroMedico> getCentrosMedicos() {
+    public List<Integer> getCentrosMedicos() {
         return centrosMedicos;
     }
 
@@ -155,7 +162,7 @@ public class Medico {
         this.especialidad3 = especialidad3;
     }
 
-    public void setCentrosMedicos(List<CentroMedico> centrosMedicos) {
+    public void setCentrosMedicos(List<Integer> centrosMedicos) {
         this.centrosMedicos = centrosMedicos;
     }
     
