@@ -65,6 +65,8 @@ public class PacienteSe implements UserDetailsService {
                 validar(paciente.getDepartamento());
                 // validar(paciente.getOtros()); <-- si puede ser nulo
                 validar(paciente.getClave());  // no seria otro metodo? que aparte verifique que las dos claves son =?
+                String encriptada = new BCryptPasswordEncoder().encode(paciente.getClave());
+                paciente.setClave(encriptada);
 
                 parep.save(paciente);
 

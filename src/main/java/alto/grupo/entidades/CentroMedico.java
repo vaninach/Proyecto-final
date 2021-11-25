@@ -8,14 +8,12 @@ package alto.grupo.entidades;
 import alto.grupo.enums.Provincia;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,7 +25,7 @@ import javax.persistence.Table;
 public class CentroMedico {
     
     @Id
-    private Integer codigoRegistro;
+    private Long codigoRegistro;  // Long porque los codigos de registro son de 14 digitos
     private String nombre;
     private String telefono;
     private String mail;
@@ -61,7 +59,7 @@ public class CentroMedico {
     public CentroMedico() {
     }
     
-    public void setCodigoRegistro(Integer codigoRegistro) {
+    public void setCodigoRegistro(Long codigoRegistro) {
         this.codigoRegistro = codigoRegistro;
     }
 
@@ -124,7 +122,7 @@ public class CentroMedico {
     
     
     
-    public Integer getCodigoRegistro() {
+    public Long getCodigoRegistro() {
         return codigoRegistro;
     }
 

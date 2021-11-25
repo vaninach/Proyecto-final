@@ -48,6 +48,8 @@ public class CentroMedicoSe implements UserDetailsService{
                 validar(centroMedico.getDepartamento());
                 validar(centroMedico.getOtros());
                 validar(centroMedico.getClave());
+                String encriptada = new BCryptPasswordEncoder().encode(centroMedico.getClave());
+                centroMedico.setClave(encriptada);
                 // Si no hay error, persistir Centro de Salud
                 centroRep.save(centroMedico);
             } catch (Errores e) {
@@ -59,7 +61,7 @@ public class CentroMedicoSe implements UserDetailsService{
     }
     
     @Transactional
-    public void crear (Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void crear (Long codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         
         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);
 
@@ -89,7 +91,8 @@ public class CentroMedicoSe implements UserDetailsService{
                 centro.setPiso(piso);
                 centro.setDepartamento(departamento);
                 centro.setOtros(otros);
-                centro.setClave(clave);
+                String encriptada = new BCryptPasswordEncoder().encode(clave);
+                centro.setClave(encriptada);
                 centroRep.save(centro);
 
             } catch (Errores e) {
@@ -102,7 +105,7 @@ public class CentroMedicoSe implements UserDetailsService{
     
      
     @Transactional
-    public void modificarCentro(Integer codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void modificarCentro(Long codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
 
         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);   
 
@@ -138,7 +141,7 @@ public class CentroMedicoSe implements UserDetailsService{
     }
     
     @Transactional
-    public void eliminarCentro (Integer codigoRegistro) throws Errores{
+    public void eliminarCentro (Long codigoRegistro) throws Errores{
         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro); 
 
         if (CentroMedicoOpt.isPresent()){
@@ -243,6 +246,12 @@ public class CentroMedicoSe implements UserDetailsService{
             throw new Errores("El dato " + texto + "no es valido");
         }
     }
+    
+    public void validar(Integer nb) throws Errores {
+        
+    }
+    
+    
 
  @Autowired
     private CentroMedicoRep usersRepository;
@@ -256,7 +265,7 @@ public class CentroMedicoSe implements UserDetailsService{
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         
         System.out.println("holasldkfjadsfjadñs");
-        Optional<CentroMedico> usersList = usersRepository.findById(Integer.parseInt(userName));
+        Optional<CentroMedico> usersList = usersRepository.findById(Long.parseLong(userName));
         System.out.println(userName+"efwl");
         if (usersList.isPresent()) {
             CentroMedico users = usersList.get();

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  * @author Mariano
  */
 @Repository
-public interface CentroMedicoRep extends JpaRepository<CentroMedico, Integer> {
+public interface CentroMedicoRep extends JpaRepository<CentroMedico, Long> {
     // ==================== POSIBLE SOBRECARGA DE METODOS ====================
     // Proposito: llamar a la "misma" funcion segun lo que el usuario complete
     // en el front
