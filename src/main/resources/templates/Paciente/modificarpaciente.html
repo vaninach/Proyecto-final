@@ -22,31 +22,31 @@
         
         
         <h1>Registro de Pacientes </h1>
-        <form class="need-validation" th:action="@{/NuevoPaciente}" th:object="${paciente}" method="POST">
+        <form class="need-validation" th:action="@{/modificar2}" th:object="${paciente}" method="POST">
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=text class="form-control" id="DNI" aria-describedby="dniHelp" name="DNI" th:field="*{DNI}" placeholder="DNI"/>
+                <input type=text class="form-control" id="DNI" aria-describedby="dniHelp"  th:field="*{DNI}" placeholder="DNI"/>
 
             </div> 
 
             <div class="form-group col-md-6 " >
 
                 <br/>
-                <input type=text class="form-control" id="nombre" aria-describedby="nombreHelp" name="nombre" th:field="*{nombre}" placeholder="NOMBRE"/>
+                <input type=text class="form-control" id="nombre" aria-describedby="nombreHelp"  th:field="*{nombre}" placeholder="NOMBRE"/>
 
             </div>
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=text class="form-control" id="apellido" aria-describedby="apellidoHelp" name="apellido" th:field="*{apellido}" placeholder="APELLIDO"/>
+                <input type=text class="form-control" id="apellido" aria-describedby="apellidoHelp"  th:field="*{apellido}" placeholder="APELLIDO"/>
 
             </div>  
 
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=date class="form-control" id="fechaNac" aria-describedby="fechaNacHelp" name="fechaNac" th:field="*{fechaNac}" placeholder="FECHA NACIMIENTO"/>
+                <input type=date class="form-control" id="fechaNac" aria-describedby="fechaNacHelp"  th:field="*{fechaNac}" placeholder="FECHA NACIMIENTO"/>
 
             </div> 
 

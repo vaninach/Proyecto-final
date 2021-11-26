@@ -127,8 +127,9 @@ public class CentroMedicoSe implements UserDetailsService{
                 centro.setNombre(departamento);}    
             if (buscarCambios(otros)) {
                 centro.setNombre(otros);}
+            String encriptada = new BCryptPasswordEncoder().encode(clave);
             if (buscarCambios(clave)) {
-                centro.setNombre(clave);}
+                centro.setNombre(encriptada);}
 
             centroRep.save(centro);
 
