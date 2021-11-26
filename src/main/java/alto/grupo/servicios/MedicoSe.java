@@ -53,6 +53,8 @@ public class MedicoSe implements UserDetailsService {
                 validar(medico.getCiudad());  // si usamos la API, esto va a cambiar
                 // validar(otros); Este si puede ser nulo
                 validar(medico.getClave());
+                String encriptada = new BCryptPasswordEncoder().encode(medico.getClave());
+                medico.setClave(encriptada);
                 validar(medico.getEspecialidad1());
                 validar(medico.getEspecialidad2());
                 validar(medico.getEspecialidad3());
