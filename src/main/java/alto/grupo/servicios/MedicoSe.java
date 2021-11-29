@@ -47,9 +47,9 @@ public class MedicoSe implements UserDetailsService {
                 validar(medico.getNombre());
                 validar(medico.getApellido());
                 validar(medico.getFechaNac());
-                // validar(genero);  enum
+                validar(medico.getGenero());  
                 validar(medico.getMail());
-                // validar(provincia); enum
+                // validar(provincia); enum -> posible String
                 validar(medico.getCiudad());  // si usamos la API, esto va a cambiar
                 // validar(otros); Este si puede ser nulo
                 validar(medico.getClave());
@@ -58,7 +58,8 @@ public class MedicoSe implements UserDetailsService {
                 validar(medico.getEspecialidad1());
                 validar(medico.getEspecialidad2());
                 validar(medico.getEspecialidad3());
-                // validar(centrosMedicos); List de integers
+                // validar(centrosMedicos); // No lo vamos a validar en la creacion, 
+                                            // las listas pueden llenarse luego
                 
                 // == si ninguna validacion da error,  persistir ==  
                 medRep.save(medico);
@@ -80,28 +81,20 @@ public class MedicoSe implements UserDetailsService {
         if(!medOpt.isPresent()){
             try {
                 // validar(matricula); Integer
-               
                 validar(nombre);
-                
                 validar(apellido);
-                
                 validar(fechaNac);
-                // validar(genero);  enum
+                validar(genero);  //enum
                 validar(mail);
-                
                 // validar(provincia); enum
                 validar(ciudad);  // si usamos la API, esto va a cambiar
-               
                 // validar(otros); Este si puede ser nulo
                 validar(clave);
-               
                 validar(especialidad1);
-                
                 validar(especialidad2);
-                
                 validar(especialidad3);
-                
-                // validar(centrosMedicos); List de integers
+                // validar(centrosMedicos); // No lo vamos a validar en la creacion, 
+                                            // las listas pueden llenarse luego
                 
                 // == si ninguna validacion da error, crear y persistir ==  
                 Medico med = new Medico();
@@ -198,7 +191,6 @@ public class MedicoSe implements UserDetailsService {
     
     
     // ======================== SERVICE FOR QUERIES ======================   
-    @Transactional
     public Medico BuscarPorMatricula(Integer matricula) throws Errores{
         Optional<Medico> med = medRep.findById(matricula);
         if (med.isPresent()) {
@@ -207,8 +199,7 @@ public class MedicoSe implements UserDetailsService {
             throw new Errores("No se encontro el medico solicitado");
         }
     }
-    
-     @Transactional
+
     public List<Medico> BuscarPorNAPC(String nombre,String apellido,Provincia provincia, String ciudad) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia, ciudad);
         if (!med.isEmpty()) {
@@ -218,7 +209,6 @@ public class MedicoSe implements UserDetailsService {
         }
     }
     
-     @Transactional
     public List<Medico> BuscarPorNAPC(String nombre,String apellido,Provincia provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia);
         if (!med.isEmpty()) {
@@ -228,7 +218,6 @@ public class MedicoSe implements UserDetailsService {
         }
     }
     
-     @Transactional
     public List<Medico> BuscarPorNAPC(String nombre,String apellido) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido);
         if (!med.isEmpty()) {
@@ -238,8 +227,6 @@ public class MedicoSe implements UserDetailsService {
         }
     }
     
-    
-     @Transactional
     public List<Medico> BuscarPorNAPCE(String esp1,String esp2,String esp3,Provincia provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, esp2, esp3, provincia);
         if (!med.isEmpty()) {
@@ -248,7 +235,7 @@ public class MedicoSe implements UserDetailsService {
             throw new Errores("No se encontro ningun paciente");
         }
     }
-     @Transactional
+
     public List<Medico> BuscarPorNAPCE(String esp1,String esp2,Provincia provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, esp2, provincia);
         if (!med.isEmpty()) {
@@ -258,8 +245,6 @@ public class MedicoSe implements UserDetailsService {
         }
     }
     
-    
-     @Transactional
     public List<Medico> BuscarPorNAPCE(String esp1,Provincia provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, provincia);
         if (!med.isEmpty()) {
@@ -273,9 +258,23 @@ public class MedicoSe implements UserDetailsService {
     
     
     
-    public void validar(String texto) throws Errores {
+    private void validar(String texto) throws Errores {
         if (texto == null || texto.isEmpty()) {
             throw new Errores("Los datos no pueden ser nulos.");
+        }
+    }
+    
+    private void validar(Integer nb) throws Errores {
+        
+    }
+    
+    private void validar(Long l) throws Errores {
+        
+    }
+    
+    private void validar(Genero genero) throws Errores {
+        if(genero==null){
+            throw new Errores("El genero no puede ser nulo.");
         }
     }
     

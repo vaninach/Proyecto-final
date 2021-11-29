@@ -8,6 +8,8 @@ package alto.grupo.entidades;
 import javax.persistence.Entity;
 import alto.grupo.enums.*;
 import java.io.Serializable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 /**
@@ -23,12 +25,14 @@ public class Paciente implements Serializable {
     private String nombre;
     private String apellido;
     private String fechaNac;
+    @Enumerated(EnumType.STRING)  // en la bdd guarda strings (FEM.., MASC..) en lugar de numeros (0,1)
     private Genero genero;
     private String estadoCivil; //enum?
     private String telefono;
     private String mail;
     private String nombreContacto;
     private String telefonoContacto;
+    @Enumerated(EnumType.STRING) 
     private GrupoS grupoS;
     private String obraS1;
     private String nAfiliadoOS1;

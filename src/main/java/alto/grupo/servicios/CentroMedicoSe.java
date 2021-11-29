@@ -241,13 +241,13 @@ public class CentroMedicoSe implements UserDetailsService{
        return text == null || text.isEmpty();
     }
 
-    public void validar(String texto) throws Errores {
+    private void validar(String texto) throws Errores {
         if (texto == null || texto.isEmpty()) {
             throw new Errores("El dato " + texto + "no es valido");
         }
     }
     
-    public void validar(Integer nb) throws Errores {
+    private void validar(Integer nb) throws Errores {
         
     }
     
