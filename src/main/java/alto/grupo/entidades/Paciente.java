@@ -260,6 +260,13 @@ public class Paciente implements Serializable {
     public void setClave(String clave) {
         this.clave = clave;
     }
+
+    @Override
+    public String toString() {
+        return "Paciente{" + "DNI=" + DNI + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNac=" + fechaNac + ", genero=" + genero + ", estadoCivil=" + estadoCivil + ", telefono=" + telefono + ", mail=" + mail + ", nombreContacto=" + nombreContacto + ", telefonoContacto=" + telefonoContacto + ", grupoS=" + grupoS + ", obraS1=" + obraS1 + ", nAfiliadoOS1=" + nAfiliadoOS1 + ", obraS2=" + obraS2 + ", nAfiliadoOS2=" + nAfiliadoOS2 + ", obraS3=" + obraS3 + ", nAfiliadoOS3=" + nAfiliadoOS3 + ", nacionalidad=" + nacionalidad + ", provincia=" + provincia + ", ciudad=" + ciudad + ", calle=" + calle + ", numero=" + numero + ", piso=" + piso + ", departamento=" + departamento + ", otros=" + otros + ", clave=" + clave + '}';
+    }
+    
+    
     
     
     

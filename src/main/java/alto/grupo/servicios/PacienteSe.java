@@ -206,8 +206,9 @@ public class PacienteSe implements UserDetailsService {
                 pac.setDepartamento(departamento);
             if (BuscarCambios(otros))
                 pac.setOtros(otros);
+            String encriptada = new BCryptPasswordEncoder().encode(clave);
             if (BuscarCambios(clave))
-                pac.setClave(clave);
+                pac.setClave(encriptada);
 
             parep.save(pac);
 

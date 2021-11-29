@@ -155,8 +155,9 @@ public class MedicoSe implements UserDetailsService {
                 med.setCiudad(ciudad);
             if(buscarCambios(otros))
                 med.setOtros(otros);
+            String encriptada = new BCryptPasswordEncoder().encode(clave);
             if(buscarCambios(clave))
-                med.setClave(clave);
+                med.setClave(encriptada);
             if(buscarCambios(especialidad1))
                 med.setEspecialidad1(especialidad1);
             if(buscarCambios(especialidad2))
