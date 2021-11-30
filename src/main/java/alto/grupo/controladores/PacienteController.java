@@ -66,7 +66,6 @@ public String nuevoPaciente (Model modelo,Paciente paciente) throws Errores{
         try {
             Paciente pac2=pacientese.BuscarPorDNI(DNI);
             modelo.addAttribute("paciente",pac);
-            System.out.println(pac);
         } catch (Errores ex) {
             Logger.getLogger(PacienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,7 +77,6 @@ public String nuevoPaciente (Model modelo,Paciente paciente) throws Errores{
      @PostMapping("modificar2")
     public String modificarPaciente2(final Paciente paciente,HttpSession session, Model model) {
         try {
-            System.out.println(paciente);
             pacientese.Modificar(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), null, paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(),paciente.getOtros(), paciente.getClave());
             session.setAttribute("pacientesesion", paciente);
         } catch (Errores ex) {

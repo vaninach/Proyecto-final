@@ -278,7 +278,7 @@ public class CentroMedicoSe implements UserDetailsService{
 
              ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
                 HttpSession session = attr.getRequest().getSession(true);
-                session.setAttribute("sentromedicosesion", users);
+                session.setAttribute("centromedicosesion", users);
             
             return User.builder()
                     .username(users.getCodigoRegistro().toString())
