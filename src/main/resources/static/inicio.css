@@ -1,0 +1,51 @@
+
+
+.inicio:hover{
+    border-bottom: 2px solid #D1F0E8;
+
+}
+.paciente:hover{
+    border-bottom: 2px solid #D1F0E8;
+
+}
+.doctor:hover{
+    border-bottom:2px solid #D1F0E8;
+
+}
+.clinica:hover{
+    border-bottom:2px solid #D1F0E8;
+}
+.faq:hover{
+    border-bottom:2px solid #D1F0E8;
+}
+/* 
+body{
+    background-color: #D1F0E8;
+} */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+.containerImg{
+    width: 20%;
+}
+
+
+
+
+img{
+    width: 100%;
+}
+.centrado{
+    width: 95%;
+    height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 0 auto;
+    align-items: center;
+}
+
