@@ -63,7 +63,7 @@
         </nav>
         </div>
         <h1>Registro Centro Medico </h1>
-        <form class="need-validation "  action="/NuevoCentroMedico" th:action="@{/NuevoCentroMedico}" th:object="${cmedico}" method="POST">
+        <form class="need-validation "  action="/modificarCentroMedicos" th:action="@{/modificarCentroMedicos}" th:object="${cmedico}" method="POST">
             <div class="form-group col-md-6 " >
                 <label for="exampleInputNombre"></label>
                 <br>
@@ -137,7 +137,7 @@
         <div class="form-group col-md-6">
             <label for="exampleInputPassword1"></label>
             <br>
-            <input type="password" class="form-control" id="matricula" name="clave" th:field="*{clave}" placeholder="Ingrese su contraseña">
+            <input type="password" class="form-control" id="matricula" name="clave" th:name="clave" placeholder="Ingrese su contraseña">
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Registrarse</button>

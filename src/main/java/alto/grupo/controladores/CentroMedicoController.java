@@ -6,15 +6,11 @@
 package alto.grupo.controladores;
 
 import alto.grupo.entidades.CentroMedico;
-import alto.grupo.entidades.Estudios;
-import alto.grupo.entidades.Paciente;
-import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.CentroMedicoRep;
 import alto.grupo.servicios.CentroMedicoSe;
-import alto.grupo.servicios.EstudiosSe;
-import alto.grupo.servicios.PacienteSe;
-import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,13 +61,13 @@ public String nuevoCentroMedico (Model modelo,CentroMedico cmedico) throws Error
    
 
  @GetMapping("editar-perfil-CM")
-    public String modificarMedico(Model modelo,HttpSession session,@RequestParam Long codigo,final CentroMedico centromedico) {
+    public String modificarMedico(Model modelo,HttpSession session,@RequestParam Long codigo,final CentroMedico cmedico) {
         
         CentroMedico cmed= (CentroMedico)session.getAttribute("centromedicosesion");
-        
+        modelo.addAttribute("cmedico",cmed);
         
         if(cmed.getCodigoRegistro().intValue()!=codigo){
-            return "redirect:/NuevocentroMedico";
+            return "redirect:/NuevoCentroMedico";
         }
         
         //Optional<CentroMedico> cmed2=centroMedicorep.findById(codigo);
@@ -81,16 +77,17 @@ public String nuevoCentroMedico (Model modelo,CentroMedico cmedico) throws Error
     }
 
     
-//     @PostMapping("modificarCentroMedicos")
-//    public String modificarMedico2(final Medico med,HttpSession session, Model model) {
-//        try {
-//            medicose.modificar(med.getMatricula(), med.getNombre(), med.getApellido(), med.getFechaNac(), null, med.getMail(), null, med.getCiudad(), med.getOtros(), med.getClave(), med.getEspecialidad1(), med.getEspecialidad2(), med.getEspecialidad3(), null);
-//            session.setAttribute("medicosesion", med);
-//        } catch (Errores ex) {
-//            Logger.getLogger(MedicoController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return "Medico/modificarMedico";
-//    }
+     @PostMapping("modificarCentroMedicos")
+    public String modificarCentroMedico2(final CentroMedico cmed,HttpSession session, Model model) {
+        try {
+            centroMedicose.modificarCentro(cmed.getCodigoRegistro(), cmed.getNombre(), cmed.getTelefono(), cmed.getMail(), null, cmed.getCiudad(), cmed.getCalle(), cmed.getNumero(), cmed.getPiso(), cmed.getDepartamento(), cmed.getOtros(), cmed.getClave());
+            session.setAttribute("centromedicosesion", cmed);
+            model.addAttribute("cmedico",cmed);
+        } catch (Errores ex) {
+            Logger.getLogger(CentroMedicoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "CentroMedico/modificarCentroMedico";
+    }
 
 
 
