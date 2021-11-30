@@ -112,27 +112,26 @@ public class CentroMedicoSe implements UserDetailsService{
         if (CentroMedicoOpt.isPresent()){
         CentroMedico centro =CentroMedicoOpt.get();
 
-            if (buscarCambios(nombre)) {
-                centro.setNombre(nombre);}
-            if (buscarCambios(telefono)) {
-                centro.setTelefono(telefono);}
-            if (buscarCambios(mail)) {
-                centro.setMail(mail);}
-            if (buscarCambios(ciudad)) {
-                centro.setCiudad(ciudad);}
-            if (buscarCambios(calle)) {
-                centro.setNombre(calle);}
-            if (buscarCambios(numero)) {
-                centro.setNombre(numero);}    
-            if (buscarCambios(piso)) {
-                centro.setNombre(piso);}
-            if (buscarCambios(departamento)) {
-                centro.setNombre(departamento);}    
-            if (buscarCambios(otros)) {
-                centro.setNombre(otros);}
+            validar(nombre);
+                centro.setNombre(nombre);
+            validar(telefono);
+                centro.setTelefono(telefono);
+            validar(mail);
+                centro.setMail(mail);
+            validar(ciudad);
+                centro.setCiudad(ciudad);
+            validar(calle);
+                centro.setNombre(calle);
+            validar(numero);
+                centro.setNombre(numero);    
+            validar(piso);
+                centro.setNombre(piso);
+            validar(departamento);
+                centro.setNombre(departamento);    
+            centro.setNombre(otros); //  puede ser vacio
             String encriptada = new BCryptPasswordEncoder().encode(clave);
-            if (buscarCambios(clave)) {
-                centro.setNombre(encriptada);}
+            if (buscarCambiosClave(clave))
+                centro.setNombre(encriptada);
 
             centroRep.save(centro);
 
@@ -238,13 +237,13 @@ public class CentroMedicoSe implements UserDetailsService{
     }
     // ======================== END SERVICE FOR QUERIES ====================== 
      
-    private Boolean buscarCambios(String text) {
-       return text == null || text.isEmpty();
+    private Boolean buscarCambiosClave(String text) {
+       return !(text == null || text.isEmpty());
     }
 
     private void validar(String texto) throws Errores {
         if (texto == null || texto.isEmpty()) {
-            throw new Errores("El dato " + texto + "no es valido");
+            throw new Errores("Los datos no pueden ser nulos");
         }
     }
     

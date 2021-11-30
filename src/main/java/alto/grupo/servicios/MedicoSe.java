@@ -91,8 +91,8 @@ public class MedicoSe implements UserDetailsService {
                 // validar(otros); Este si puede ser nulo
                 validar(clave);
                 validar(especialidad1);
-                validar(especialidad2);
-                validar(especialidad3);
+                //validar(especialidad2);  // estas especialidades si pueden ser nulas
+                //validar(especialidad3);  // estas especialidades si pueden ser nulas
                 // validar(centrosMedicos); // No lo vamos a validar en la creacion, 
                                             // las listas pueden llenarse luego
                 
@@ -137,34 +137,28 @@ public class MedicoSe implements UserDetailsService {
         
         if(medOpt.isPresent()){
             Medico med = medOpt.get();
-            //validar(matricula)
-            if(buscarCambios(matricula))
-                med.setMatricula(matricula);
-            if(buscarCambios(nombre))
-                med.setNombre(nombre);
-            if(buscarCambios(apellido))
-                med.setApellido(apellido);
-            if(buscarCambios(fechaNac)) 
-                med.setFechaNac(fechaNac);
-            if(buscarCambios(genero))
-                med.setGenero(genero);
-            if(buscarCambios(mail))
-                med.setMail(mail);
+            validar(nombre);
+            med.setNombre(nombre);
+            validar(apellido);
+            med.setApellido(apellido);
+            validar(fechaNac); 
+            med.setFechaNac(fechaNac);
+            //validar(genero);  falta en el front
+            //med.setGenero(genero);
+            validar(mail);
+            med.setMail(mail);
             // if(buscarCambios(provincia)) Enum--> posible String
             med.setProvincia(provincia);
-            if(buscarCambios(ciudad))
-                med.setCiudad(ciudad);
-            if(buscarCambios(otros))
-                med.setOtros(otros);
+            validar(ciudad);
+            med.setCiudad(ciudad);
+            med.setOtros(otros);  // si puede ser vacio
             String encriptada = new BCryptPasswordEncoder().encode(clave);
             if(buscarCambiosClave(clave))
                 med.setClave(encriptada);
-            if(buscarCambios(especialidad1))
-                med.setEspecialidad1(especialidad1);
-            if(buscarCambios(especialidad2))
-                med.setEspecialidad1(especialidad2);
-            if(buscarCambios(especialidad3))
-                med.setEspecialidad1(especialidad3);
+            validar(especialidad1);
+            med.setEspecialidad1(especialidad1);
+            med.setEspecialidad1(especialidad2);  // si puede ser vacio
+            med.setEspecialidad1(especialidad3);  // si puede ser vacio
             // if(buscarCambios(centrosMedicos))    List<int>
             med.setCentrosMedicos(centrosMedicos);
            
@@ -256,26 +250,8 @@ public class MedicoSe implements UserDetailsService {
     // Actualmente, busqueda de cambios y validaciones son basicamente iguales
     // Plan futuro para busqueda de cambios es comparar con la bdd
     // Entonces necesitara validar sus argumentos y luego compararlos con bdd
-    private Boolean buscarCambios(String text) {
-        return text == null || text.isEmpty();
-    }
-    
     private Boolean buscarCambiosClave(String text) {
         return !(text == null || text.isEmpty());
-    }
-    
-    private Boolean buscarCambios(Integer nb) {
-        return nb == null;
-    }
-    
-    // Posible metodo util para la lista de Long (centros medicos)
-    private Boolean buscarCambios(Long l) {
-        return l == null;
-    }
-    
-    // enum
-    private Boolean buscarCambios(Genero genero) {
-        return genero == null;
     }    
     
     private void validar(String texto) throws Errores {
@@ -297,7 +273,8 @@ public class MedicoSe implements UserDetailsService {
     
     private void validar(Genero genero) throws Errores {
         if(genero==null){
-            throw new Errores("El genero no puede ser nulo.");
+            //throw new Errores("El genero no puede ser nulo.");  //falta en el front
+            
         }
     }
     // ============== END VALIDACIONES Y BUSQUEDA DE CAMBIOS =================
