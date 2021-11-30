@@ -5,13 +5,9 @@
  */
 package alto.grupo.entidades;
 
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -30,7 +26,7 @@ public class HistoriasClinicas {
     private String especialidad;
     private Integer matricula;
     
-    private Integer centroMedico;
+    private Long centroMedico;
     private String informe;
 
     
@@ -58,7 +54,7 @@ public class HistoriasClinicas {
         return matricula;
     }
 
-    public Integer getCentromedico() {
+    public Long getCentromedico() {
         return centroMedico;
     }
 
@@ -82,7 +78,7 @@ public class HistoriasClinicas {
         this.matricula = matricula;
     }
 
-    public void setCentromedico(Integer centroMedico) {
+    public void setCentromedico(Long centroMedico) {
         this.centroMedico = centroMedico;
     }
 

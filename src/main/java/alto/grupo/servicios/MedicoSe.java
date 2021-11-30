@@ -43,14 +43,14 @@ public class MedicoSe implements UserDetailsService {
         
         if(!medOpt.isPresent()){
             try {
-                // validar(matricula); Integer
+                validar(medico.getMatricula());
                 validar(medico.getNombre());
                 validar(medico.getApellido());
                 validar(medico.getFechaNac());
                 validar(medico.getGenero());  
                 validar(medico.getMail());
                 // validar(provincia); enum -> posible String
-                validar(medico.getCiudad());  // si usamos la API, esto va a cambiar
+                validar(medico.getCiudad());  // si usamos la API, esto va a cambiar -> posible String
                 // validar(otros); Este si puede ser nulo
                 validar(medico.getClave());
                 String encriptada = new BCryptPasswordEncoder().encode(medico.getClave());
@@ -80,14 +80,14 @@ public class MedicoSe implements UserDetailsService {
         
         if(!medOpt.isPresent()){
             try {
-                // validar(matricula); Integer
+                validar(matricula);
                 validar(nombre);
                 validar(apellido);
                 validar(fechaNac);
                 validar(genero);  //enum
                 validar(mail);
-                // validar(provincia); enum
-                validar(ciudad);  // si usamos la API, esto va a cambiar
+                // validar(provincia); enum --> posible String
+                validar(ciudad);  // si usamos la API, esto va a cambiar --> posible String
                 // validar(otros); Este si puede ser nulo
                 validar(clave);
                 validar(especialidad1);
@@ -137,26 +137,27 @@ public class MedicoSe implements UserDetailsService {
         
         if(medOpt.isPresent()){
             Medico med = medOpt.get();
-            // if(buscarCambios(matricula))  Integer
+            //validar(matricula)
+            if(buscarCambios(matricula))
                 med.setMatricula(matricula);
             if(buscarCambios(nombre))
                 med.setNombre(nombre);
             if(buscarCambios(apellido))
                 med.setApellido(apellido);
             if(buscarCambios(fechaNac)) 
-            med.setFechaNac(fechaNac);
-            // if(buscarCambios(genero))    Enum
+                med.setFechaNac(fechaNac);
+            if(buscarCambios(genero))
                 med.setGenero(genero);
             if(buscarCambios(mail))
                 med.setMail(mail);
-            // if(buscarCambios(provincia)) Enum
+            // if(buscarCambios(provincia)) Enum--> posible String
             med.setProvincia(provincia);
             if(buscarCambios(ciudad))
                 med.setCiudad(ciudad);
             if(buscarCambios(otros))
                 med.setOtros(otros);
             String encriptada = new BCryptPasswordEncoder().encode(clave);
-            if(buscarCambios(clave))
+            if(buscarCambiosClave(clave))
                 med.setClave(encriptada);
             if(buscarCambios(especialidad1))
                 med.setEspecialidad1(especialidad1);
@@ -182,12 +183,7 @@ public class MedicoSe implements UserDetailsService {
             throw new Errores("No se encuentra el médico de matricula " + matricula + " en la base de datos");
         }
 
-    }
-    
-    private Boolean buscarCambios(String text) {
-        return text == null || text.isEmpty();
-    }
-    
+    }    
     // ======================== END CRUD ======================
     
     
@@ -255,9 +251,32 @@ public class MedicoSe implements UserDetailsService {
         }
     }
     // ======================== END SERVICE FOR QUERIES ======================
+
+    // ================= VALIDACIONES Y BUSQUEDA DE CAMBIOS ==================
+    // Actualmente, busqueda de cambios y validaciones son basicamente iguales
+    // Plan futuro para busqueda de cambios es comparar con la bdd
+    // Entonces necesitara validar sus argumentos y luego compararlos con bdd
+    private Boolean buscarCambios(String text) {
+        return text == null || text.isEmpty();
+    }
     
+    private Boolean buscarCambiosClave(String text) {
+        return !(text == null || text.isEmpty());
+    }
     
+    private Boolean buscarCambios(Integer nb) {
+        return nb == null;
+    }
     
+    // Posible metodo util para la lista de Long (centros medicos)
+    private Boolean buscarCambios(Long l) {
+        return l == null;
+    }
+    
+    // enum
+    private Boolean buscarCambios(Genero genero) {
+        return genero == null;
+    }    
     
     private void validar(String texto) throws Errores {
         if (texto == null || texto.isEmpty()) {
@@ -266,9 +285,12 @@ public class MedicoSe implements UserDetailsService {
     }
     
     private void validar(Integer nb) throws Errores {
-        
+        if (nb == null){
+            throw new Errores("Los datos no pueden ser nulos");
+        }
     }
     
+    // Posible metodo util para la lista de Long (centros medicos)
     private void validar(Long l) throws Errores {
         
     }
@@ -278,6 +300,7 @@ public class MedicoSe implements UserDetailsService {
             throw new Errores("El genero no puede ser nulo.");
         }
     }
+    // ============== END VALIDACIONES Y BUSQUEDA DE CAMBIOS =================
     
     //Hacer la busqueda de centros medicos, para eso necesito tener hecho el repositorio de centro medico
 //    
@@ -314,7 +337,7 @@ public class MedicoSe implements UserDetailsService {
 //    }
 
 
-     @Autowired
+    @Autowired
     private MedicoRep usersRepository;
 
     @Autowired

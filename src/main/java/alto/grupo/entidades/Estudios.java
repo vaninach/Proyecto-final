@@ -26,7 +26,7 @@ public class Estudios {
     private String especialidad;
     private Integer matriculaInforme;
     private Integer matriculaPide;
-    private Integer centroMedico;
+    private Long centroMedico;
     private String archivo; // investigar como van los pdf
     private String informe;
 
@@ -57,7 +57,7 @@ public class Estudios {
         return matriculaPide;
     }
 
-    public Integer getCentroMedico() {
+    public Long getCentroMedico() {
         return centroMedico;
     }
 
@@ -89,7 +89,7 @@ public class Estudios {
         this.matriculaPide = matriculaPide;
     }
 
-    public void setCentroMedico(Integer centroMedico) {
+    public void setCentroMedico(Long centroMedico) {
         this.centroMedico = centroMedico;
     }
 

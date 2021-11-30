@@ -7,18 +7,15 @@ package alto.grupo.entidades;
 
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -32,6 +29,7 @@ public class Medico {
     private String nombre;
     private String apellido;
     private String fechaNac;
+    @Enumerated(EnumType.STRING)  // en la bdd guarda strings (FEM.., MASC..) en lugar de numeros (0,1)
     private Genero genero;
     private String mail;
     private Provincia provincia;

@@ -29,8 +29,8 @@ public class CentroMedico {
     private String nombre;
     private String telefono;
     private String mail;
-    private Provincia provincia;
-    private String ciudad; // revisar como lo hacemos, query? bajar base de datos?
+    private Provincia provincia;  // va a hacer un String (posiblemente)
+    private String ciudad; // revisar como lo hacemos, query? bajar base de datos? => llegan Strings del front
     private String calle;
     private String numero;
     private String piso;

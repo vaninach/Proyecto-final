@@ -7,7 +7,6 @@ package alto.grupo.repositorios;
 
 import alto.grupo.entidades.HistoriasClinicas;
 import java.util.List;
-import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,19 +31,19 @@ public interface HistClinicaRep extends JpaRepository<HistoriasClinicas, String>
     
     // Funciona asi para los tipo Date??
     @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.fechaVisita LIKE :fechaVisita")
-    public List<HistoriasClinicas> buscarDNIFecha(@Param("DNI") String DNI, @Param("fechaVisita") Date fechaVisita);
+    public List<HistoriasClinicas> buscarDNIFecha(@Param("DNI") String DNI, @Param("fechaVisita") String fechaVisita);
     
     // Funciona asi para los tipo Date??
     @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.fechaVisita LIKE :fechaVisita AND c.especialidad LIKE %:especialidad%")
-    public List<HistoriasClinicas> buscarDNIFechaEspecialidad(@Param("DNI") String DNI, @Param("fechaVisita") Date fechaVisita, @Param("especialidad") String especialidad);
+    public List<HistoriasClinicas> buscarDNIFechaEspecialidad(@Param("DNI") String DNI, @Param("fechaVisita") String fechaVisita, @Param("especialidad") String especialidad);
 
     @Query("SELECT c FROM HistoriasClinicas c WHERE c.matricula LIKE :matricula")
     public List<HistoriasClinicas> buscarMatricula(@Param("matricula") String matricula);
 
     @Query("SELECT c FROM HistoriasClinicas c WHERE c.matricula LIKE :matricula AND c.DNI LIKE :DNI")
     public List<HistoriasClinicas> buscarMatriculaDNI(@Param("matricula") String matricula, @Param("DNI") String DNI);
-    
-//    @Query("SELECT c FROM HistoriasClinicas c WHERE c.centroMedico LIKE :%centroMedico%")
-//    public List<HistoriasClinicas> buscarCentroMedico(@Param("centroMedico") Integer centroMedico);
+   
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.centroMedico LIKE %:centroMedico%")
+    public List<HistoriasClinicas> buscarCentroMedico(@Param("centroMedico") Long centroMedico);
     
 }

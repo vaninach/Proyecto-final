@@ -46,11 +46,13 @@ public class PacienteSe implements UserDetailsService {
                 validar(paciente.getNombre());
                 validar(paciente.getApellido());
                 validar(paciente.getFechaNac()); // esta validacion?? no haria falta porque aparece el calensaario?
+                validar(paciente.getGenero());
                 validar(paciente.getEstadoCivil());
                 validar(paciente.getTelefono());
                 validar(paciente.getMail());
                 validar(paciente.getNombreContacto());
                 validar(paciente.getTelefonoContacto());
+                validar(paciente.getGrupoS());
                 validar(paciente.getObraS1());
                 validar(paciente.getnAfiliadoOS1());
                 validar(paciente.getObraS2());
@@ -58,6 +60,8 @@ public class PacienteSe implements UserDetailsService {
                 validar(paciente.getObraS3());
                 validar(paciente.getnAfiliadoOS3());
                 validar(paciente.getNacionalidad());
+                Provincia p=paciente.getProvincia();
+                //validar(paciente.getProvincia()); --> posible String
                 validar(paciente.getCiudad());
                 validar(paciente.getCalle());
                 validar(paciente.getNumero());
@@ -84,23 +88,24 @@ public class PacienteSe implements UserDetailsService {
         if (!paci.isPresent()) {
 
             try {
-
-                validar(DNI);
                 validar(nombre);
                 validar(apellido);
-                validar(fechaNac); // esta validacion?? no haria falta porque aparece el calensaario?
+                validar(fechaNac);
+                validar(genero);
                 validar(estadoCivil);
                 validar(telefono);
                 validar(mail);
                 validar(nombreContacto);
                 validar(telefonoContacto);
-                validar(obraS1);
-                validar(nAfiliadoOS1);
-                validar(obraS2);
-                validar(nAfiliadoOS2);
-                validar(obraS3);
-                validar(nAfiliadoOS3);
+                validar(grupoS);
+                //validar(obraS1);  // No lo vamos a validar en la creacion
+                //validar(nAfiliadoOS1);    // se pueden agregar luego
+                //validar(obraS2);
+                //validar(nAfiliadoOS2);
+                //validar(obraS3);
+                //validar(nAfiliadoOS3);
                 validar(nacionalidad);
+                //validar(provincia); --> posible String
                 validar(ciudad);
                 validar(calle);
                 validar(numero);
@@ -156,58 +161,58 @@ public class PacienteSe implements UserDetailsService {
 
             Paciente pac = paciop.get();
 
-            if (BuscarCambios(DNI))
+            if (buscarCambios(DNI))
                 pac.setDNI(DNI);
-            if (BuscarCambios(nombre))
+            if (buscarCambios(nombre))
                 pac.setNombre(nombre);
-            if (BuscarCambios(apellido))
+            if (buscarCambios(apellido))
                 pac.setApellido(apellido);
-            if(BuscarCambios(fechaNac))  //ver esta validacion
+            if(buscarCambios(fechaNac))  
                 pac.setFechaNac(fechaNac);
-            //     if(BuscarCambios(genero))     //ver esta validacion
-            pac.setGenero(genero);
-            if (BuscarCambios(estadoCivil))
+            if(buscarCambios(genero))
+                pac.setGenero(genero);
+            if (buscarCambios(estadoCivil))
                 pac.setEstadoCivil(estadoCivil);
-            if (BuscarCambios(telefono))
+            if (buscarCambios(telefono))
                 pac.setTelefono(telefono);
-            if (BuscarCambios(mail))
+            if (buscarCambios(mail))
                 pac.setMail(mail);
-            if (BuscarCambios(nombreContacto))
+            if (buscarCambios(nombreContacto))
                 pac.setNombreContacto(nombreContacto);
-            if (BuscarCambios(telefono))
+            if (buscarCambios(telefono))
                 pac.setTelefono(telefono);
-            //  if(BuscarCambios(grupoS))     //ver esta validacion
-            pac.setGrupoS(grupoS);
-            if (BuscarCambios(obraS1))
+            if(buscarCambios(grupoS))
+                pac.setGrupoS(grupoS);
+            if (buscarCambios(obraS1))
                 pac.setObraS1(obraS1);
-            if (BuscarCambios(nAfiliadoOS1))
+            if (buscarCambios(nAfiliadoOS1))
                 pac.setnAfiliadoOS1(nAfiliadoOS1);
-            if (BuscarCambios(obraS2))
+            if (buscarCambios(obraS2))
                 pac.setObraS1(obraS2);
-            if (BuscarCambios(nAfiliadoOS2))
+            if (buscarCambios(nAfiliadoOS2))
                 pac.setnAfiliadoOS1(nAfiliadoOS2);
-            if (BuscarCambios(obraS3))
+            if (buscarCambios(obraS3))
                 pac.setObraS1(obraS3);
-            if (BuscarCambios(nAfiliadoOS3))
+            if (buscarCambios(nAfiliadoOS3))
                 pac.setnAfiliadoOS1(nAfiliadoOS3);
-            if (BuscarCambios(nacionalidad))
+            if (buscarCambios(nacionalidad))
                 pac.setNacionalidad(nacionalidad);
-            //  if(BuscarCambios(provincia))  // ver esta validacion
+            //  if(buscarCambios(provincia))  // ver esta validacion --> posible String
             pac.setProvincia(provincia);
-            if (BuscarCambios(ciudad))
+            if (buscarCambios(ciudad))
                 pac.setCiudad(ciudad);
-            if (BuscarCambios(calle))
+            if (buscarCambios(calle))
                 pac.setCalle(calle);
-            if (BuscarCambios(numero))
+            if (buscarCambios(numero))
                 pac.setNumero(numero);
-            if (BuscarCambios(piso))
+            if (buscarCambios(piso))
                 pac.setPiso(piso);
-            if (BuscarCambios(departamento))
+            if (buscarCambios(departamento))
                 pac.setDepartamento(departamento);
-            if (BuscarCambios(otros))
+            if (buscarCambios(otros))
                 pac.setOtros(otros);
             String encriptada = new BCryptPasswordEncoder().encode(clave);
-            if (BuscarCambios(clave))
+            if (buscarCambios(clave))
                 pac.setClave(encriptada);
 
             parep.save(pac);
@@ -274,22 +279,64 @@ public class PacienteSe implements UserDetailsService {
     // ======================== END SERVICE FOR QUERIES ======================
     
     
-
-    private void validar(String nombre) throws Errores {
-        if (nombre == null || nombre.isEmpty()) {
-            throw new Errores("El dato " + nombre + "no es valido");
-        }
-
+    // ================= VALIDACIONES Y BUSQUEDA DE CAMBIOS ==================
+    // Actualmente, busqueda de cambios y validaciones son basicamente iguales
+    // Plan futuro para busqueda de cambios es comparar con la bdd
+    // Entonces necesitara validar sus argumentos y luego compararlos con bdd
+    private Boolean buscarCambios(String text) {
+        return text == null || text.isEmpty();
     }
-
-    private Boolean BuscarCambios(String nombre) {
-        if (nombre == null && nombre.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
-
+    
+    private Boolean buscarCambios(Integer nb) {
+        return nb == null;
     }
+    
+    // Posible metodo util para la lista de Long (centros medicos)
+    private Boolean buscarCambios(Long l) {
+        return l == null;
+    }
+    
+    // enum
+    private Boolean buscarCambios(Genero genero) {
+        return genero == null;
+    }
+    
+    // enum
+    private Boolean buscarCambios(GrupoS grupoS) {
+        return grupoS == null;
+    }     
+    
+    private void validar(String texto) throws Errores {
+        if (texto == null || texto.isEmpty()) {
+            throw new Errores("Los datos no pueden ser nulos.");
+        }
+    }
+    
+    private void validar(Integer nb) throws Errores {
+        if (nb == null){
+            throw new Errores("Los datos no pueden ser nulos");
+        }
+    }
+    
+    // Posible metodo util para la lista de Long (centros medicos)
+    private void validar(Long l) throws Errores {
+        
+    }
+    
+    //enum
+    private void validar(Genero genero) throws Errores {
+        if(genero==null){
+            throw new Errores("El genero no puede ser nulo.");
+        }
+    }
+    
+    //enum
+    private void validar(GrupoS grupoS) throws Errores {
+        if(grupoS==null){
+            throw new Errores("El grupo sanguineo no puede ser nulo.");
+        }
+    }
+    // ============== END VALIDACIONES Y BUSQUEDA DE CAMBIOS =================
 
 //    @Override
 //    public UserDetails loadUserByUsername(String DNI) throws UsernameNotFoundException {

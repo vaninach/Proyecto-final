@@ -8,7 +8,6 @@ package alto.grupo.servicios;
 import alto.grupo.entidades.Estudios;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.EstudioRep;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -33,7 +32,7 @@ public class EstudiosSe {
             validar(estudio.getEspecialidad());
             // validar(matriculaInforme);      Integer
             // validar(matriculaPide);      Integer
-            // validar(centromedico);   Integer
+            // validar(centromedico);   Long
             validar(estudio.getArchivo());  // Posible PDF?
             validar(estudio.getInforme());
 
@@ -46,15 +45,15 @@ public class EstudiosSe {
     }
     
     @Transactional
-    public void crear(String DNI, String fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores {
+    public void crear(String DNI, String fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Long centroMedico, String archivo, String informe) throws Errores {
 
             try {
                 validar(DNI);
-                // validar(fechaVisita);    Date
+                validar(fechaVisita);
                 validar(especialidad);
                 // validar(matriculaInforme);      Integer
                 // validar(matriculaPide);      Integer
-                // validar(centromedico);   Integer
+                // validar(centromedico);   Long
                 validar(archivo);  // Posible PDF?
                 validar(informe);
                 
@@ -84,22 +83,22 @@ public class EstudiosSe {
     }
     
     @Transactional
-    public void modificar(String id, String DNI, String fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Integer centroMedico, String archivo, String informe) throws Errores{
+    public void modificar(String id, String DNI, String fechaVisita, String especialidad, Integer matriculaInforme, Integer matriculaPide, Long centroMedico, String archivo, String informe) throws Errores{
         Optional<Estudios> estOpt = estRep.findById(id);
         
         if(estOpt.isPresent()){
            Estudios estud = estOpt.get();
            if(buscarCambios(DNI))
                estud.setDNI(DNI);
-           // if(buscarCambios(fechaVisita))  Date
-           estud.setFechaVisita(fechaVisita);
+           if(buscarCambios(fechaVisita))
+               estud.setFechaVisita(fechaVisita);
            if(buscarCambios(especialidad))
                estud.setEspecialidad(especialidad);
            // if(buscarCambios(matriculaInforme))  Integer
            estud.setMatriculaInforme(matriculaInforme);
            // if(buscarCambios(matriculaPide))  Integer
            estud.setMatriculaPide(matriculaPide);
-           // if(buscarCambios(centroMedico))  Integer
+           // if(buscarCambios(centroMedico))  Long
            estud.setCentroMedico(centroMedico);
            if(buscarCambios(archivo))   // PDF?
                estud.setInforme(archivo);
@@ -151,7 +150,7 @@ public class EstudiosSe {
         }
     }
     
-    public List<Estudios> buscarPorDNIFecha(String DNI, Date fechaVisita) throws Errores{
+    public List<Estudios> buscarPorDNIFecha(String DNI, String fechaVisita) throws Errores{
         List<Estudios> histClin = estRep.buscarDNIFecha(DNI, fechaVisita);
         if (!histClin.isEmpty()) {
             return histClin;
@@ -160,7 +159,7 @@ public class EstudiosSe {
         }
     }
     
-    public List<Estudios> buscarPorDNIFechaEspecialidad(String DNI, Date fechaVisita, String especialidad) throws Errores{
+    public List<Estudios> buscarPorDNIFechaEspecialidad(String DNI, String fechaVisita, String especialidad) throws Errores{
         List<Estudios> histClin = estRep.buscarDNIFechaEspecialidad(DNI, fechaVisita, especialidad);
         if (!histClin.isEmpty()) {
             return histClin;
@@ -205,7 +204,7 @@ public class EstudiosSe {
         }
     }
     
-    public List<Estudios> buscarPorCentroMedico(Integer centroMedico) throws Errores{
+    public List<Estudios> buscarPorCentroMedico(Long centroMedico) throws Errores{
         List<Estudios> histClin = estRep.buscarCentroMedico(centroMedico);
         if (!histClin.isEmpty()) {
             return histClin;

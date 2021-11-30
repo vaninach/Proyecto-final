@@ -30,13 +30,11 @@ public interface EstudioRep extends JpaRepository<Estudios, String>{
     @Query("SELECT c FROM Estudios c WHERE c.DNI LIKE :DNI AND c.especialidad LIKE %:especialidad%")
     public List<Estudios> buscarDNIEspecialidad(@Param("DNI") String DNI, @Param("especialidad") String especialidad);
     
-    // Funciona asi para los tipo Date??
     @Query("SELECT c FROM Estudios c WHERE c.DNI LIKE :DNI AND c.fechaVisita LIKE :fechaVisita")
-    public List<Estudios> buscarDNIFecha(@Param("DNI") String DNI, @Param("fechaVisita") Date fechaVisita);
+    public List<Estudios> buscarDNIFecha(@Param("DNI") String DNI, @Param("fechaVisita") String fechaVisita);
     
-    // Funciona asi para los tipo Date??
     @Query("SELECT c FROM Estudios c WHERE c.DNI LIKE :DNI AND c.fechaVisita LIKE :fechaVisita AND c.especialidad LIKE %:especialidad%")
-    public List<Estudios> buscarDNIFechaEspecialidad(@Param("DNI") String DNI, @Param("fechaVisita") Date fechaVisita, @Param("especialidad") String especialidad);
+    public List<Estudios> buscarDNIFechaEspecialidad(@Param("DNI") String DNI, @Param("fechaVisita") String fechaVisita, @Param("especialidad") String especialidad);
 
     @Query("SELECT c FROM Estudios c WHERE c.matriculaInforme LIKE :matriculaInforme")
     public List<Estudios> buscarMatriculaInforme(@Param("matriculaInforme") String matriculaInforme);
@@ -51,5 +49,5 @@ public interface EstudioRep extends JpaRepository<Estudios, String>{
     public List<Estudios> buscarMatriculaPideDNI(@Param("matriculaPide") String matriculaPide, @Param("DNI") String DNI);
     
     @Query("SELECT c FROM Estudios c WHERE c.centroMedico LIKE %:centroMedico%")
-    public List<Estudios> buscarCentroMedico(@Param("centroMedico") Integer centroMedico);
+    public List<Estudios> buscarCentroMedico(@Param("centroMedico") Long centroMedico);
 }

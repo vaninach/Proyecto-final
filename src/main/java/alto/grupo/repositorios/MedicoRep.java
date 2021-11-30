@@ -40,5 +40,5 @@ public interface MedicoRep extends JpaRepository<Medico, Integer> {
 
     // ATENCION! Espera el codigo de registro (unico) en vez del nombre del centro (puede existir otro centro con mismo nombre)
     @Query("SELECT c FROM Medico c LEFT JOIN c.centrosMedicos m WHERE m=:codigo_registro")
-    public List<Medico> BuscarCentroMedico(@Param("codigo_registro") Integer codigo_registro);
+    public List<Medico> BuscarCentroMedico(@Param("codigo_registro") Long codigo_registro);
 }
