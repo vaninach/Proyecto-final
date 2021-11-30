@@ -13,12 +13,16 @@ import alto.grupo.errores.Errores;
 import alto.grupo.servicios.MedicoSe;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -67,5 +71,41 @@ public class MedicoController {
         //medicose.crear(matricula, nombre, apellido, null, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
         return "Medico/NuevoMedico_1.html";
     }
+    
+    
+     @GetMapping("editar-perfil-M")
+    public String modificarMedico(Model modelo,HttpSession session,@RequestParam Integer matricula,final Medico medico) {
+        
+        Medico med= (Medico)session.getAttribute("medicosesion");
+        
+        
+        if(med.getMatricula().intValue()!=matricula){
+            return "redirect:/NuevoMedico2";
+        }
+        
+        try {
+            
+            Medico med2=medicose.BuscarPorMatricula(matricula);
+            modelo.addAttribute("medico",med);
+        } catch (Errores ex) {
+            Logger.getLogger(MedicoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "Medico/modificarMedico";
+    }
+
+    
+     @PostMapping("modificarMedicos")
+    public String modificarMedico2(final Medico med,HttpSession session, Model model) {
+        try {
+            medicose.modificar(med.getMatricula(), med.getNombre(), med.getApellido(), med.getFechaNac(), null, med.getMail(), null, med.getCiudad(), med.getOtros(), med.getClave(), med.getEspecialidad1(), med.getEspecialidad2(), med.getEspecialidad3(), null);
+            session.setAttribute("medicosesion", med);
+        } catch (Errores ex) {
+            Logger.getLogger(MedicoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Medico/modificarMedico";
+    }
+
+    
 
 }

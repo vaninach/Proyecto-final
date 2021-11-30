@@ -10,15 +10,19 @@ import alto.grupo.entidades.Estudios;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
+import alto.grupo.repositorios.CentroMedicoRep;
 import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.EstudiosSe;
 import alto.grupo.servicios.PacienteSe;
+import java.util.Optional;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -31,6 +35,9 @@ public class CentroMedicoController {
     
 @Autowired
 private CentroMedicoSe centroMedicose;
+
+@Autowired
+private CentroMedicoRep centroMedicorep;
   
 
 
@@ -56,5 +63,37 @@ public String nuevoCentroMedico (Model modelo,CentroMedico cmedico) throws Error
     return "CentroMedico/NuevoCentroMedico.html";
 }
    
+
+ @GetMapping("editar-perfil-CM")
+    public String modificarMedico(Model modelo,HttpSession session,@RequestParam Long codigo,final CentroMedico centromedico) {
+        
+        CentroMedico cmed= (CentroMedico)session.getAttribute("centromedicosesion");
+        
+        
+        if(cmed.getCodigoRegistro().intValue()!=codigo){
+            return "redirect:/NuevocentroMedico";
+        }
+        
+        //Optional<CentroMedico> cmed2=centroMedicorep.findById(codigo);
+        modelo.addAttribute("centromedico",cmed);
+        
+        return "CentroMedico/modificarCentroMedico";
+    }
+
+    
+//     @PostMapping("modificarCentroMedicos")
+//    public String modificarMedico2(final Medico med,HttpSession session, Model model) {
+//        try {
+//            medicose.modificar(med.getMatricula(), med.getNombre(), med.getApellido(), med.getFechaNac(), null, med.getMail(), null, med.getCiudad(), med.getOtros(), med.getClave(), med.getEspecialidad1(), med.getEspecialidad2(), med.getEspecialidad3(), null);
+//            session.setAttribute("medicosesion", med);
+//        } catch (Errores ex) {
+//            Logger.getLogger(MedicoController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return "Medico/modificarMedico";
+//    }
+
+
+
+
     
 }
