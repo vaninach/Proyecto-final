@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+   
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HISTOMED - Login Doctor</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+ 
+      
+        <a class="navbar-brand navbar-center" href="#"> <img src= Logo.png> </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">Paciente</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Doctor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Centro Medico</a>
+              </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Ayuda
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Contatenos</a>
+                <a class="dropdown-item" href="#">Preguntas frecuentes</a>
+
+               <!-- <div class="dropdown-divider"></div>-->
+                <a class="dropdown-item" href="#">Sobre nosotros</a>
+              </div>
+            </li>
+           
+          </ul>
+         
+        </div>
+      </nav>
+      <br>
+      <br>
+      <br>
+     <!-- <div class="container">    
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Bienvenido</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">¿Olvidaste tu contraseña?</a></div>
+                    </div>     
+
+                    <div style="padding-top:30px" class="panel-body" >
+
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                            
+                        <form id="loginform" class="form-horizontal" role="form" th:action="@{/usuario/guardar}" method="POST">
+                                    
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="Ingrese su matricula">                                        
+                                    </div>
+                                
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="Ingrese su contraseña">
+                                    </div>
+                                    
+
+                                
+                            <div class="input-group">
+                                      <div class="checkbox">
+                                        <label>
+                                          <input id="login-remember" type="checkbox" name="remember" value="1"> Recuerdame
+                                        </label>
+                                      </div>
+                                    </div>
+
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <!-- Button 
+
+                                    <div class="col-sm-12 controls">
+                                      <a id="btn-login" href="#" class="btn btn-success">Ingresar</a>
+                                      
+
+                                    </div>
+                                </div>
+
+
+                   
+                                    
+                                    
+                                </div>    
+                            </form>     
+
+
+
+                        </div>                     
+                    </div>  
+        </div>-->
+        <section class="vh-100" style="background-color: #ffffff;">
+          <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                  <div class="row g-0">
+                    <div class="col-md-6 col-lg-5 d-none d-md-block">
+                      <img
+                        src="data:image/jpeg;base64,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"
+                        alt=""
+                        class="card-img-top" style="border-radius: 1rem 0 0 1rem;"
+                      />
+                    </div>
+                    <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                      <div class="card-body p-4 p-lg-5 text-black">
+        
+                        <form>
+        
+                          <div class="d-flex align-items-center mb-3 pb-1">
+                           
+                            <img src= Logo.png>
+                            
+                          </div>
+        
+                          <h5 class="glyphicon glyphicon-user" style="letter-spacing: 1px;" >Ingreso - Medico</h5>
+        
+                          <form id="loginform" class="form-horizontal" role="form" th:action="@{/usuario/guardar}" method="POST">
+                                    
+                            <div style="margin-bottom: 30px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="Ingrese su matricula">                                        
+                                    </div>
+                                
+                            <div style="margin-bottom: 30px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="Ingrese su contraseña">
+                                    </div>
+
+                                
+                            <div class="input-group">
+                                      <div class="checkbox">
+                                        <label>
+                                          <input id="login-remember" type="checkbox" name="remember" value="1"> Recuerdame
+                                        </label>
+                                      </div>
+                                    </div>
+        
+                          <div class="pt-1 mb-4">
+                            <button class="btn btn-dark btn-block" type="button" style="margin-bottom: 25px">Ingresar</button>
+                          </div>
+        
+                          <a class="small text-muted" href="#!">Olvidaste tu contraseña?</a>
+                          
+
+                        </form>
+        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+
+                    
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+                    
+     </body>
+</html> 
