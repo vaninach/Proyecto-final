@@ -155,6 +155,16 @@ public class CentroMedicoSe implements UserDetailsService{
     
     
     // ======================== SERVICE FOR QUERIES ======================
+    public CentroMedico buscarPorCodigo(Long matricula) throws Errores{
+        Optional<CentroMedico> centroMed = centroRep.findById(matricula);
+        if (centroMed.isPresent()) {
+            return centroMed.get();
+        } else {
+            throw new Errores("No se encontro el centro médico solicitado");
+        }
+    }
+    
+    
     public List<CentroMedico> buscarPorProvincia(Provincia provincia) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarProvincia(provincia);
         if (!centrosMedicos.isEmpty()) {
