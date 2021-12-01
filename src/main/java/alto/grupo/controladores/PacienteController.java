@@ -35,7 +35,7 @@ private PacienteSe pacientese;
   
     @RequestMapping("/login")
 	public String login() {
-		return "logIn.html";
+		return "Paciente/loginPaciente.html";
 	}
 
     

@@ -29,7 +29,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author vani
  */
 @Configuration
-@Order(2)
+@Order(1)
 public class SeguridadConfiguracionCentroMedico extends WebSecurityConfigurerAdapter {
 
     @Autowired
