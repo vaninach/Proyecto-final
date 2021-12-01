@@ -38,9 +38,13 @@
             <div class="inicio">
               <li class="nav-item ">
                 <a class="nav-link active fas fa-home " aria-current="page" href="inicio.html"></a>
-                <form method="POST" th:action="@{inicio}" class="nav-link active fas fa-home ">
+<!--                <form method="POST" th:action="@{../inicio}" class="nav-link active fas fa-home ">
                     <button type="submit"> hola </button>
-                </form>
+                </form>-->
+                
+               <a href="${request.getContextPath()}/inicio" class="nav-link active fas fa-home ">
+                    hola
+               </a>
               </li>
             </div>
             <div class="paciente">
