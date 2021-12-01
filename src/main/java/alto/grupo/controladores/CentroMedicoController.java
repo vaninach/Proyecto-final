@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 
 @Controller
-@RequestMapping("/")
+//@RequestMapping("/")
 public class CentroMedicoController {
     
 @Autowired
@@ -39,7 +39,7 @@ private CentroMedicoRep centroMedicorep;
 
     @RequestMapping("/CentroMedico/login")
 	public String login() {
-		return "logIn_1_1.html";
+		return "CentroMedico/loginCentro.html";
 	}
 
     

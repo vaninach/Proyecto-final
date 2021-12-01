@@ -37,7 +37,7 @@ public class MedicoController {
 
     @RequestMapping("/admin/login")
     public String adminlogin() {
-        return "logIn_1.html";
+        return "Medico/loginDoctor.html";
     }
 
     @RequestMapping("/admin/dashboard")
