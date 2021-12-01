@@ -46,13 +46,13 @@ public class PacienteSe implements UserDetailsService {
                 validar(paciente.getNombre());
                 validar(paciente.getApellido());
                 validar(paciente.getFechaNac()); // esta validacion?? no haria falta porque aparece el calensaario?
-                validar(paciente.getGenero());
+               // validar(paciente.getGenero()); //esto todavia no lo resolvemos
                 validar(paciente.getEstadoCivil());
                 validar(paciente.getTelefono());
                 validar(paciente.getMail());
                 validar(paciente.getNombreContacto());
                 validar(paciente.getTelefonoContacto());
-                validar(paciente.getGrupoS());
+               // validar(paciente.getGrupoS());
                 validar(paciente.getObraS1());
                 validar(paciente.getnAfiliadoOS1());
                 validar(paciente.getObraS2());
@@ -91,13 +91,13 @@ public class PacienteSe implements UserDetailsService {
                 validar(nombre);
                 validar(apellido);
                 validar(fechaNac);
-                validar(genero);
+               // validar(genero);  //esto todavia no lo resolvemos
                 validar(estadoCivil);
                 validar(telefono);
                 validar(mail);
                 validar(nombreContacto);
                 validar(telefonoContacto);
-                validar(grupoS);
+               // validar(grupoS);
                 //validar(obraS1);  // No lo vamos a validar en la creacion
                 //validar(nAfiliadoOS1);    // se pueden agregar luego
                 //validar(obraS2);
