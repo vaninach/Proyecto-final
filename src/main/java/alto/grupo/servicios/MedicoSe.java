@@ -56,8 +56,8 @@ public class MedicoSe implements UserDetailsService {
                 String encriptada = new BCryptPasswordEncoder().encode(medico.getClave());
                 medico.setClave(encriptada);
                 validar(medico.getEspecialidad1());
-                validar(medico.getEspecialidad2());
-                validar(medico.getEspecialidad3());
+                // validar(medico.getEspecialidad2());  Si puede ser nulo
+                // validar(medico.getEspecialidad3());  Si puede ser nulo
                 // validar(centrosMedicos); // No lo vamos a validar en la creacion, 
                                             // las listas pueden llenarse luego
                 
@@ -157,8 +157,8 @@ public class MedicoSe implements UserDetailsService {
                 med.setClave(encriptada);
             validar(especialidad1);
             med.setEspecialidad1(especialidad1);
-            med.setEspecialidad1(especialidad2);  // si puede ser vacio
-            med.setEspecialidad1(especialidad3);  // si puede ser vacio
+            med.setEspecialidad2(especialidad2);  // si puede ser vacio
+            med.setEspecialidad3(especialidad3);  // si puede ser vacio
             // if(buscarCambios(centrosMedicos))    List<int>
             med.setCentrosMedicos(centrosMedicos);
            

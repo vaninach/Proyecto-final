@@ -78,7 +78,6 @@ public class MedicoController {
         
         Medico med= (Medico)session.getAttribute("medicosesion");
         
-        
         if(med.getMatricula().intValue()!=matricula){
             return "redirect:/NuevoMedico2";
         }
