@@ -27,9 +27,9 @@ public class HistClinicaSe {
     // ======================== CRUD ======================
     @Transactional
     public void crear(HistoriasClinicas histClinica) throws Errores {
-        Optional<HistoriasClinicas> histClinOpt = histClinRep.findById(histClinica.getId());
         
-        if(!histClinOpt.isPresent()){
+        
+        
             try {
                 validar(histClinica.getDNI());
                 validar(histClinica.getFechaVisita());  
@@ -43,9 +43,7 @@ public class HistClinicaSe {
             } catch (Errores e) {
                 System.out.println(e);
             }
-        } else {
-            throw new Errores("Error en la creacion de la historia clinica.");
-        }
+       
     }
     
     @Transactional

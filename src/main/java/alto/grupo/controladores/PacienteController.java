@@ -5,11 +5,13 @@
  */
 package alto.grupo.controladores;
 
-import alto.grupo.entidades.Estudios;
+import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.errores.Errores;
-import alto.grupo.servicios.EstudiosSe;
+import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.PacienteSe;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -32,6 +34,10 @@ public class PacienteController {
     
 @Autowired
 private PacienteSe pacientese;
+
+
+@Autowired
+private HistClinicaSe histclinicase;
   
     @RequestMapping("/login")
 	public String login() {
@@ -86,4 +92,52 @@ public String nuevoPaciente (Model modelo,Paciente paciente) throws Errores{
     }
 
     
+    @GetMapping("BuscarHistoriasClinicas")
+    
+    public String BuscarHC(HttpSession session,Model model,String fecha,String especialidad){
+        
+        
+        return "Paciente/BuscarHistoriasClinicas";
+    }
+    
+    
+     @PostMapping("BuscarHistoriasClinicas")
+    
+    public String BuscarHC2(HttpSession session,Model model,@RequestParam String fecha,@RequestParam String especialidad) throws Errores{
+        List<HistoriasClinicas> lista=new ArrayList<>();
+        
+        model.addAttribute("fecha",fecha);
+        model.addAttribute("especialidad",especialidad);
+        
+        Paciente pac= (Paciente)session.getAttribute("pacientesesion");
+        
+        if(pac==null){
+            throw new Error("Debe registrarse!");
+        }
+         System.out.println(fecha+" "+ especialidad);
+        if( (fecha==null || fecha.isEmpty()) && (especialidad==null || especialidad.isEmpty())){
+            lista=histclinicase.buscarPorDNI(pac.getDNI());
+            System.out.println("entramos al 1");
+        }
+        
+        else if( (fecha==null || fecha.isEmpty()) ){
+            lista=histclinicase.buscarPorDNIEspecialidad(pac.getDNI(),especialidad);
+            System.out.println("entramos al 2");
+        }
+        
+        else if((especialidad==null || especialidad.isEmpty())){
+            lista=histclinicase.buscarPorDNIFecha(pac.getDNI(), fecha);
+            System.out.println("entramos al 3");
+        }
+        
+        else{
+            lista=histclinicase.buscarPorDNIFechaEspecialidad(pac.getDNI(), fecha, especialidad);
+            System.out.println("entramos al 4");
+        }
+        
+        model.addAttribute("lista",lista);
+        
+        
+        return "Paciente/BuscarHistoriasClinicas";
+    }
 }
