@@ -14,7 +14,7 @@
     <body>
         <div th:replace="nav-bar.html :: nav-bar"></div>
        
-        <h1>Registro de Doctores </h1>
+        <h1>Datos Personales </h1>
         <form class="need-validation " th:action="@{/modificarMedicos}" th:object="${medico}" method="POST">
             <div class="col-md-offset">
                 <div class="form-group col-md-6 " >
@@ -102,7 +102,7 @@
                 
                                     </div> -->
                 <br/>
-                <button type="submit" class="btn btn-primary">Registrarse</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
             </div>
         </form>
 
