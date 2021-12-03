@@ -43,7 +43,10 @@ private CentroMedicoRep centroMedicorep;
 	}
 
     
-    
+     @RequestMapping("/CentroMedico/inicioCentroMedico")
+	public String incioCentroMedico() {
+		return "CentroMedico/sidebarCentroMedico.html";
+	}
     
 @GetMapping("/NuevoCentroMedico")
 public String CentroMedico(Model modelo,CentroMedico cmedico){

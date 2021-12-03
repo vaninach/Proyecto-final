@@ -60,7 +60,7 @@ System.out.println("hola");
         http.antMatcher("/CentroMedico/**")
                 .authorizeRequests().anyRequest().permitAll()//.authenticated()
                 .and().formLogin().loginPage("/CentroMedico/login")
-                .defaultSuccessUrl("/NuevoCentroMedico", true)
+                .defaultSuccessUrl("/CentroMedico/inicioCentroMedico", true)
                 .failureUrl("/accessdenied")
                 .permitAll()
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login")
