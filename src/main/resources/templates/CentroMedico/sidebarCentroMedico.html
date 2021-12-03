@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <!-- CSS -->
@@ -19,7 +19,7 @@
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
   <!-- llamado al propio css del archivo -->
-  <link rel="stylesheet" href="../static/css/sidebar.css"  th:href="@{../static/css/sidebar.css}">
+  <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
   <title>HISTOMED - CENTRO MEDICO</title>
 </head>
 
@@ -49,7 +49,9 @@
   </div>
   
 
-  <script src="sidebar.js"></script>
+  <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
+ 
 </body>
+
 
 </html>

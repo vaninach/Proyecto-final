@@ -12,8 +12,6 @@
     --z-fixed: 100
 }
 
-
-
 *,
 ::before,
 ::after {
@@ -21,8 +19,6 @@
 }
 
 body {
-    
-    
     position: relative;
     margin: var(--header-height) 0 0 0;
     padding: 0 1rem;
@@ -36,6 +32,7 @@ a {
 }
 
 .header {
+    
     width: 100%;
     height: var(--header-height);
     position: fixed;
