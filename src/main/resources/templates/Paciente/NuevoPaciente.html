@@ -24,7 +24,9 @@
         <h1>Registro de Pacientes </h1>
         <form class="need-validation" th:action="@{/NuevoPaciente}" th:object="${paciente}" method="POST">
             <div class="form-group col-md-6">
-
+                <div th:if="${mensaje != null}">
+                    <p th:text="${mensaje}" class="alert alert-danger"></p>
+                </div>
                 <br/>
                 <input type=text class="form-control" id="DNI" aria-describedby="dniHelp" name="DNI" th:field="*{DNI}" placeholder="DNI"/>
 

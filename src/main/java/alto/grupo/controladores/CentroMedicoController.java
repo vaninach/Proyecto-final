@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,8 @@ private CentroMedicoSe centroMedicose;
 @Autowired
 private CentroMedicoRep centroMedicorep;
   
+@Autowired
+    private JavaMailSender javaMailSender;
 
 
     @RequestMapping("/CentroMedico/login")
@@ -57,9 +61,19 @@ public String CentroMedico(Model modelo,CentroMedico cmedico){
 @PostMapping("/NuevoCentroMedico")
 public String nuevoCentroMedico (Model modelo,CentroMedico cmedico) throws Errores{
     //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
+    
+    try{
     centroMedicose.crear(cmedico.getCodigoRegistro(), cmedico.getNombre(), cmedico.getTelefono(), cmedico.getMail(), null, cmedico.getCiudad(), cmedico.getCalle(), cmedico.getNumero(), cmedico.getPiso(), cmedico.getDepartamento(), cmedico.getOtros(), cmedico.getClave());
+        sendEmail(cmedico.getMail());
+    }
+    catch(Errores ex){
+        String mensaje=ex.getMessage();
+        modelo.addAttribute("mensaje",mensaje);
+        return "CentroMedico/NuevoCentroMedico.html";
+    }
+    
     modelo.addAttribute("cmedico",cmedico);
-    return "CentroMedico/NuevoCentroMedico.html";
+    return "redirect:/NuevoCentroMedico";
 }
    
 
@@ -92,7 +106,17 @@ public String nuevoCentroMedico (Model modelo,CentroMedico cmedico) throws Error
         return "CentroMedico/modificarCentroMedico";
     }
 
+void sendEmail(String email) {
 
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(email);
+
+        msg.setSubject("Log In correcto");
+        msg.setText("El usuario ha sido registrado con exito");
+
+        javaMailSender.send(msg);
+
+    }
 
 
     

@@ -66,7 +66,7 @@ and open the template in the editor.
             </div>-->
         </div>
 
-        <div th:unless="${!#lists.isEmpty(lista)}">
+        <div th:if=${mensaje!=null}>
             <p th:text="${mensaje}" class="alert alert-danger"></p>
         </div>
 
