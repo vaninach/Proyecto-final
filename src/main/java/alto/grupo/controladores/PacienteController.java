@@ -45,7 +45,10 @@ private HistClinicaSe histclinicase;
 	}
 
     
-    
+    @RequestMapping("/accessdenied")
+	public String accesodenegado() {
+		return "loginInvalidoPaciente.html";
+	}
     
 @GetMapping("/NuevoPaciente")
 public String Paciente(Model modelo,Paciente paciente){
