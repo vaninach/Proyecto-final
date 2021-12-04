@@ -57,13 +57,13 @@ public class PacienteController {
         return "Paciente/loginPaciente.html";
     }
 
-    @GetMapping("/NuevoPaciente")
+    @GetMapping("CentroMedico/NuevoPaciente")
     public String Paciente(Model modelo, Paciente paciente) {
         modelo.addAttribute("paciente", paciente);
         return "Paciente/NuevoPaciente.html";
     }
 
-    @PostMapping("/NuevoPaciente")
+    @PostMapping("CentroMedico/NuevoPaciente")
     public String nuevoPaciente(Model modelo, Paciente paciente) throws Errores {
         //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
         
@@ -79,7 +79,7 @@ public class PacienteController {
             return "Paciente/NuevoPaciente.html";
             
         }
-        return "Paciente/NuevoPaciente.html";
+        return "redirect:/CentroMedico/NuevoPaciente";
     }
 
     @GetMapping("editar-perfil")
