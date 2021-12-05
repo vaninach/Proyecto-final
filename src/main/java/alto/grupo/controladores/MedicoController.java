@@ -56,12 +56,19 @@ public class MedicoController {
         medicose.crear(matricula, nombre, apellido, fechaNac, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
         return "Medico/NuevoMedico.html";
     }
+    //agregado por nacho //
+    @RequestMapping("/Medico/inicioMedico")
+	public String incioCentroMedico() {
+		return "Medico/sidebarMedico.html";
+	}
+//////////////////////
 
     @GetMapping("/NuevoMedico2")
     public String Medico2(Model modelo, Medico medico) {
         modelo.addAttribute("medico", medico);
         return "Medico/NuevoMedico_1.html";
     }
+    
 
     @PostMapping("/NuevoMedico2")
     public String nuevoMedico2(Model modelo, Medico medico) throws Errores {

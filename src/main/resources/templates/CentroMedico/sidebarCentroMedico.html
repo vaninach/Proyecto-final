@@ -49,8 +49,10 @@
   </div>
   
 
-  <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
- 
+
+<!-- Fragment Footer-->
+        <div th:replace="footer.html :: footer"></div>
+          <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
 </body>
 
 
