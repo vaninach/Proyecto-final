@@ -50,8 +50,8 @@ public class SeguridadConfiguracionMedico extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/css/*","/js/*","/img/*")
 //                .permitAll()
 //                .and().formLogin()
-//                .loginPage("/admin/login")
-//                .loginProcessingUrl("/admin/login")
+//                .loginPage("/Medico/login")
+//                .loginProcessingUrl("/Medico/login")
 //               // .usernameParameter("DNI")
 //               // .passwordParameter("password")
 //                .defaultSuccessUrl("/NuevoMedico")
@@ -60,15 +60,15 @@ public class SeguridadConfiguracionMedico extends WebSecurityConfigurerAdapter {
 //                .logoutSuccessUrl("/login?logout")
 //                .permitAll();
 
-System.out.println("hola2");
-			http.antMatcher("/admin/**")
+
+			http.antMatcher("/Medico/**")
 			.authorizeRequests().anyRequest().permitAll()//.authenticated()
-			.and().formLogin().loginPage("/admin/login")
+			.and().formLogin().loginPage("/Medico/login")
 				.defaultSuccessUrl("/NuevoMedico", true)
-				.failureUrl("/admin/accessdenied")
+				.failureUrl("/Medico/accessdenied")
 			.permitAll()
-			.and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?logout")
-			.and().exceptionHandling().accessDeniedPage("/admin/accessdenied");
+			.and().logout().logoutUrl("/Medico/logout").logoutSuccessUrl("/Medico/login?logout")
+			.and().exceptionHandling().accessDeniedPage("/Medico/accessdenied");
 		http.csrf().disable();
 	}	
     

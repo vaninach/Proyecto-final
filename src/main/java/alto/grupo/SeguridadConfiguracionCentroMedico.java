@@ -63,7 +63,7 @@ System.out.println("hola");
                 .defaultSuccessUrl("/CentroMedico/inicioCentroMedico", true)
                 .failureUrl("/accessdenied")
                 .permitAll()
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login")
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/inicio")
                 .and().exceptionHandling().accessDeniedPage("/accessdenied");
         http.csrf().disable();
 

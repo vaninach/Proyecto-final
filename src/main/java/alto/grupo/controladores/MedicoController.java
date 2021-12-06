@@ -35,13 +35,13 @@ public class MedicoController {
     @Autowired
     private MedicoSe medicose;
 
-    @RequestMapping("/admin/login")
-    public String adminlogin() {
+    @RequestMapping("/Medico/login")
+    public String Medicologin() {
         return "Medico/loginDoctor.html";
     }
 
-    @RequestMapping("/admin/dashboard")
-    public String admindashboard() {
+    @RequestMapping("/Medico/dashboard")
+    public String Medicodashboard() {
         return "dashboard.html";
     }
 

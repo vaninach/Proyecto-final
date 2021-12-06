@@ -64,6 +64,10 @@
         </div>
         <h1>Registro Centro Medico </h1>
         <form class="need-validation "  action="/NuevoCentroMedico" th:action="@{/NuevoCentroMedico}" th:object="${cmedico}" method="POST">
+            <div th:if="${mensaje != null}">
+                    <p th:text="${mensaje}" class="alert alert-danger"></p>
+                </div>
+            
             <div class="form-group col-md-6 " >
                 <label for="exampleInputNombre"></label>
                 <br>
