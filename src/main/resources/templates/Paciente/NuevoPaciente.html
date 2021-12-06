@@ -12,19 +12,21 @@
     <body>
         
         <div th:fragment="nav-var">
-        <nav class="nav justify-content-end">
+<!--        <nav class="nav justify-content-end">
             <a class="nav-item" th:href="@{editar-perfil(DNI=__${session.pacientesesion.DNI}__)}" th:if='${session.pacientesesion != null}' th:text='${"Hola " + session.pacientesesion.nombre +"!"}' >hola</a>
             <form  th:action="@{/logout}" method="post" class="nav-item" >
                 <input class="boton" type="submit" value="salir" >
             </form>
-        </nav>
+        </nav>-->
         </div>
         
         
         <h1>Registro de Pacientes </h1>
-        <form class="need-validation" th:action="@{/NuevoPaciente}" th:object="${paciente}" method="POST">
+        <form class="need-validation" th:action="@{/CentroMedico/NuevoPaciente}" th:object="${paciente}" method="POST">
             <div class="form-group col-md-6">
-
+                <div th:if="${mensaje != null}">
+                    <p th:text="${mensaje}" class="alert alert-danger"></p>
+                </div>
                 <br/>
                 <input type=text class="form-control" id="DNI" aria-describedby="dniHelp" name="DNI" th:field="*{DNI}" placeholder="DNI"/>
 
