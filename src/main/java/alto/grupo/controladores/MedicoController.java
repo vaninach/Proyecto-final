@@ -149,9 +149,9 @@ public class MedicoController {
             lista.add(pac);
             System.out.println("Busqueda por DNI");
         }
-        else if(!(ciudad==null || ciudad.isEmpty() )){
-            lista = pacienteSe.BuscarPorNAPC(nombre, apellido, null, ciudad);
-        }
+        //else if(!(ciudad==null || ciudad.isEmpty() )){
+        //    lista = pacienteSe.BuscarPorNAPC(nombre, apellido, null, ciudad);
+        //}
 
         else{   // tengo nombre y apellido
             lista = pacienteSe.BuscarPorNAPC(nombre,apellido);
