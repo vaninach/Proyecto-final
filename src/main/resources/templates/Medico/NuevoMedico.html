@@ -9,51 +9,14 @@
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Probando NavBar</title>
+        <title>Registro de medico</title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <img src="/histomed.png"alt="" width="35" height="29">
-                    <a class="navbar-brand" href="#">HistoMed</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active fas fa-home" aria-current="page" href="#">Inicio</a>
-                            </li>
-                            <li class="nav-item">
-
-                                <a class="nav-link fas fa-procedures" href="#">Paciente</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fas fa-user-md" href="#">Doctor</a>
-                            </li>
-                            <li class="nav-item">
-
-
-
-                                <a class="nav-link fas fa-clinic-medical " href="#">Clinica</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle fas fa-question-circle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-question-circle"></i>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-
-                        </ul>
-
-                    </div>
-            </div>
-        </nav>
+          <!--Barra Navegadora-->
+    <div th:replace="nav-bar.html :: nav-bar"></div>
+    <br>
+    <br>
+    <br>
         <h1>Registro de Doctores </h1>
         <form class="need-validation " th:action="@{/NuevoMedico}" method="POST">
             <div class="col-md-offset">

@@ -32,6 +32,7 @@ public class Medico {
     @Enumerated(EnumType.STRING)  // en la bdd guarda strings (FEM.., MASC..) en lugar de numeros (0,1)
     private Genero genero;
     private String mail;
+    @Enumerated(EnumType.STRING)  // en la bdd guarda strings en lugar de numeros
     private Provincia provincia;
     private String ciudad; // revisar como lo hacemos, query? bajar base de datos?
     private String otros;
