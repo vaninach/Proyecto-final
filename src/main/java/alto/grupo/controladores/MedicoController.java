@@ -7,10 +7,13 @@ package alto.grupo.controladores;
 
 import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.Medico;
+import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import alto.grupo.servicios.MedicoSe;
+import alto.grupo.servicios.PacienteSe;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,6 +37,9 @@ public class MedicoController {
 
     @Autowired
     private MedicoSe medicose;
+    
+    @Autowired
+    private PacienteSe pacienteSe;
 
     @RequestMapping("/admin/login")
     public String adminlogin() {
@@ -73,7 +79,7 @@ public class MedicoController {
     }
     
     
-     @GetMapping("editar-perfil-M")
+    @GetMapping("editar-perfil-M")
     public String modificarMedico(Model modelo,HttpSession session,@RequestParam Integer matricula,final Medico medico) {
         
         Medico med= (Medico)session.getAttribute("medicosesion");
@@ -94,7 +100,7 @@ public class MedicoController {
     }
 
     
-     @PostMapping("modificarMedicos")
+    @PostMapping("modificarMedicos")
     public String modificarMedico2(final Medico med,HttpSession session, Model model) {
         try {
             medicose.modificar(med.getMatricula(), med.getNombre(), med.getApellido(), med.getFechaNac(), null, med.getMail(), null, med.getCiudad(), med.getOtros(), med.getClave(), med.getEspecialidad1(), med.getEspecialidad2(), med.getEspecialidad3(), null);
@@ -105,6 +111,48 @@ public class MedicoController {
         return "Medico/modificarMedico";
     }
 
-    
+    @GetMapping("Medico/BuscarPaciente")
+    public String BuscarHC(HttpSession session, Model model){
+        Medico med = (Medico)session.getAttribute("medicosesion");
 
+        if(!(med == null)){
+            model.addAttribute("miciudad", med.getCiudad());
+        }else{
+            System.out.println("MEDICO NULL");
+        }
+        return "Medico/BuscarPaciente";
+    }
+
+    @PostMapping("/Medico/BuscarPaciente")
+    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam String nombre,@RequestParam String apellido, @RequestParam String DNI, @RequestParam String ciudad) throws Errores{
+        List<Paciente> lista = new ArrayList<>();
+
+        model.addAttribute("nombre",nombre);
+        model.addAttribute("apellido",apellido);
+
+        Medico med = (Medico)session.getAttribute("medicosesion");
+
+        if(med == null){
+            throw new Error("Debe registrarse!");
+        }
+        
+        // si tengo DNI
+        if( !(DNI==null || DNI.isEmpty()) ){
+            Paciente pac = pacienteSe.BuscarPorDNI(DNI);
+            lista.add(pac);
+            System.out.println("Busqueda por DNI");
+        }
+        else if(!(ciudad==null || ciudad.isEmpty() )){
+            lista = pacienteSe.BuscarPorNAPC(nombre, apellido, null, ciudad);
+        }
+
+        else{   // tengo nombre y apellido
+            lista = pacienteSe.BuscarPorNAPC(nombre,apellido);
+            System.out.println("Busqueda por nombre y apellido");
+        }
+
+        model.addAttribute("lista",lista);
+        
+        return "Medico/BuscarPaciente";
+    }
 }
