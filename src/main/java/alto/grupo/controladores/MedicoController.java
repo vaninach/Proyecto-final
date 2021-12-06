@@ -47,14 +47,14 @@ public class MedicoController {
 
     @GetMapping("/NuevoMedico")
     public String Medico() {
-        return "Medico/NuevoMedico.html";
+        return "Medico/doctor.html";
     }
 
     @PostMapping("/NuevoMedico")
     public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac, String mail, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
 
         medicose.crear(matricula, nombre, apellido, fechaNac, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
-        return "Medico/NuevoMedico.html";
+        return "Medico/doctor.html";
     }
     //agregado por nacho //
     @RequestMapping("/Medico/inicioMedico")
