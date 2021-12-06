@@ -85,7 +85,7 @@ public class PacienteController {
     
 
 //agregado por nacho //
-    @RequestMapping("/Paciente/inicioPaciente")
+    @RequestMapping("/inicioPaciente")
 	public String incioCentroMedico() {
 		return "Paciente/Sidebarpaciente.html";
 	}

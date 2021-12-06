@@ -61,7 +61,7 @@ System.out.println("hola");
                 .authorizeRequests().anyRequest().permitAll()//.authenticated()
                 .and().formLogin().loginPage("/CentroMedico/login")
                 .defaultSuccessUrl("/CentroMedico/inicioCentroMedico", true)
-                .failureUrl("/accessdenied")
+                .failureUrl("/CentroMedico/login?error")
                 .permitAll()
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/inicio")
                 .and().exceptionHandling().accessDeniedPage("/accessdenied");
