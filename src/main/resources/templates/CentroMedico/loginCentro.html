@@ -48,6 +48,14 @@
 
                       <form id="loginform" class="form-horizontal" role="form" th:action="@{/CentroMedico/login}" action="CentroMedico/login" method="POST">
 
+                          <div th:if="${param.error}" class="alert alert-danger">
+                                                Usuario o contraseña no valido
+                                            </div>
+                                            <div th:if="${param.logout}" class="alert alert-success">
+                                                Ha cerrado la sesión
+                                            </div>
+
+                          
                         <div style="margin-bottom: 30px" class="input-group">
                           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                           <input id="login-username" type="text" class="form-control" name="username" value=""

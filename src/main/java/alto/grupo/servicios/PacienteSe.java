@@ -146,7 +146,7 @@ public class PacienteSe implements UserDetailsService {
                 parep.save(pac);
 
             } catch (Errores e) {
-                System.out.println(e);
+                throw new Errores(e.getMessage());
             }
         } else {
             throw new Errores("El paciente ya tiene una cuenta");

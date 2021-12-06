@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+        <!-- javascript -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" />
+        <!-- FONTAWESOME -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+              integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <!-- otro CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+        <!-- que es esto? -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+        <!-- llamado al propio css del archivo -->
+       <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
+        <title>HISTOMED - MEDICO</title>
+    </head>
+
+
+
+    <body id="body-pd">
+
+        <header class="header" id="header">
+            <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+            <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
+        </header>
+
+        <div class="l-navbar" id="nav-bar">
+            <nav class="nav">
+                <div> 
+                       <a href="#" class="nav_logo"> 
+                        <i class='bx bx-layer nav_logo-icon'></i>
+                        <span class="nav_logo-name">HISTOMED</span> 
+                       </a>
+                    <div class="nav_list">
+                        <a href="#" class="nav_link active"> 
+                            <i class='bx bxs-user'></i>
+                            <span class="nav_name">MIS DATOS</span> 
+                        </a> 
+                        <a href="#" class="nav_link"> 
+                            <i class='bx bx-pencil'></i>
+                            <span class="nav_name">Modificar</span> 
+                        </a>
+                        <a href="#" class="nav_link"> 
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="nav_name">PACIENTES</span> 
+                        </a> 
+                        <a href="#" class="nav_link"> 
+                            <i class='bx bx-book-add'></i>
+                            <span class="nav_name">Historia clinica</span>
+                        </a> 
+                            <a href="#" class="nav_link"> 
+                                <i class='bx bxs-info-circle'></i> 
+                                <span class="nav_name">Datos</span> 
+                            </a> 
+                        <a href="#" class="nav_link"> 
+                            <i class='bx bxs-band-aid'></i> 
+                            <span class="nav_name">Recetas</span>
+                        </a> 
+                    </div>
+                </div> 
+                <a href="#" class="nav_link"> 
+                    <i class='bx bx-log-out nav_icon'></i> 
+                    <span class="nav_name">Salir</span>
+                </a>
+            </nav>
+        </div>
+      
+        
+<!--        Fragment Footer-->
+        <div th:replace="footer.html :: footer"></div>
+          <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
+
+    </body>
+
+</html>

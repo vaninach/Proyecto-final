@@ -53,7 +53,7 @@ public class CentroMedicoSe implements UserDetailsService{
                 // Si no hay error, persistir Centro de Salud
                 centroRep.save(centroMedico);
             } catch (Errores e) {
-                System.out.println(e);
+                throw new Errores(e.getMessage());
             }
         }else{
               throw new Errores("Ya existe un Centro de salud con el registro ingresado.");
@@ -96,7 +96,7 @@ public class CentroMedicoSe implements UserDetailsService{
                 centroRep.save(centro);
 
             } catch (Errores e) {
-                System.out.println(e);
+                throw new Errores(e.getMessage());
             }
         }else{
               throw new Errores("Ya existe un Centro de salud con el registro ingresado.");

@@ -41,13 +41,13 @@ public class MedicoController {
     @Autowired
     private PacienteSe pacienteSe;
 
-    @RequestMapping("/admin/login")
-    public String adminlogin() {
+    @RequestMapping("/Medico/login")
+    public String Medicologin() {
         return "Medico/loginDoctor.html";
     }
 
-    @RequestMapping("/admin/dashboard")
-    public String admindashboard() {
+    @RequestMapping("/Medico/dashboard")
+    public String Medicodashboard() {
         return "dashboard.html";
     }
 
@@ -62,12 +62,19 @@ public class MedicoController {
         medicose.crear(matricula, nombre, apellido, fechaNac, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
         return "Medico/NuevoMedico.html";
     }
+    //agregado por nacho //
+    @RequestMapping("/Medico/inicioMedico")
+	public String incioCentroMedico() {
+		return "Medico/sidebarMedico.html";
+	}
+//////////////////////
 
     @GetMapping("/NuevoMedico2")
     public String Medico2(Model modelo, Medico medico) {
         modelo.addAttribute("medico", medico);
         return "Medico/NuevoMedico_1.html";
     }
+    
 
     @PostMapping("/NuevoMedico2")
     public String nuevoMedico2(Model modelo, Medico medico) throws Errores {
