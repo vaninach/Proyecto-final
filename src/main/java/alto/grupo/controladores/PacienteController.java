@@ -10,12 +10,14 @@ import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.errores.Errores;
+import alto.grupo.repositorios.HistClinicaRep;
 import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -42,14 +44,18 @@ public class PacienteController {
 
     @Autowired
     private HistClinicaSe histclinicase;
+    
+    @Autowired
+    private HistClinicaRep histclinicarep;
+
 
     @Autowired
     private MedicoSe medicose;
 
     @Autowired
     private CentroMedicoSe centromedicose;
-    
-     @Autowired
+
+    @Autowired
     private JavaMailSender javaMailSender;
 
     @RequestMapping("/login")
@@ -62,27 +68,23 @@ public class PacienteController {
         modelo.addAttribute("paciente", paciente);
         return "Paciente/NuevoPaciente.html";
     }
-    
 
     @PostMapping("CentroMedico/NuevoPaciente")
     public String nuevoPaciente(Model modelo, Paciente paciente) throws Errores {
         //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
-        
-        
-        try{
-        pacientese.Crearpaciente(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), null, paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
-        sendEmail(paciente.getMail());
-        }
-        catch(Errores ex){
-            
-            String mensaje=ex.getMessage();
-            modelo.addAttribute("mensaje",mensaje);
+
+        try {
+            pacientese.Crearpaciente(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), paciente.getProvincia(), paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
+            sendEmail(paciente.getMail());
+        } catch (Errores ex) {
+
+            String mensaje = ex.getMessage();
+            modelo.addAttribute("mensaje", mensaje);
             return "Paciente/NuevoPaciente.html";
-            
+
         }
         return "redirect:/CentroMedico/NuevoPaciente";
     }
-    
 
 //agregado por nacho //
     @RequestMapping("/inicioPaciente")
@@ -90,6 +92,7 @@ public class PacienteController {
 		return "Paciente/Sidebarpaciente.html";
 	}
 //////////////////////
+
     @GetMapping("editar-perfil")
     public String modificarPaciente(Model modelo, HttpSession session, @RequestParam String DNI, final Paciente paciente) {
 
@@ -112,10 +115,12 @@ public class PacienteController {
     @PostMapping("modificar2")
     public String modificarPaciente2(final Paciente paciente, HttpSession session, Model model) {
         try {
-            pacientese.Modificar(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), null, paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
+            System.out.println(paciente.getProvincia());
+            pacientese.Modificar(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), paciente.getProvincia(), paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
             session.setAttribute("pacientesesion", paciente);
         } catch (Errores ex) {
-            Logger.getLogger(PacienteController.class.getName()).log(Level.SEVERE, null, ex);
+            String mensaje=ex.getMessage();
+            model.addAttribute("mensaje",mensaje);
         }
         return "Paciente/modificarpaciente";
     }
@@ -134,8 +139,6 @@ public class PacienteController {
         List<String> listaMedicos = new ArrayList<>();
         List<String> listaCentroMedico = new ArrayList<>();
 
-       
-
         model.addAttribute("fecha", fecha);
         model.addAttribute("especialidad", especialidad);
 
@@ -152,7 +155,7 @@ public class PacienteController {
                 System.out.println("entramos al 1");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron registros del paciente";
-                model.addAttribute("mensaje",mensaje);
+                model.addAttribute("mensaje", mensaje);
             }
         } else if ((fecha == null || fecha.isEmpty())) {
             try {
@@ -160,7 +163,7 @@ public class PacienteController {
                 System.out.println("entramos al 2");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron registros en la especialidad solicitada";
-                model.addAttribute("mensaje",mensaje);
+                model.addAttribute("mensaje", mensaje);
             }
         } else if ((especialidad == null || especialidad.isEmpty())) {
             try {
@@ -168,7 +171,7 @@ public class PacienteController {
                 System.out.println("entramos al 3");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron registros en la fecha solicitada";
-                model.addAttribute("mensaje",mensaje);
+                model.addAttribute("mensaje", mensaje);
             }
         } else {
             try {
@@ -176,7 +179,7 @@ public class PacienteController {
                 System.out.println("entramos al 4");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron registros en la fecha y especialidad solicitados";
-                model.addAttribute("mensaje",mensaje);
+                model.addAttribute("mensaje", mensaje);
             }
 
         }
@@ -209,16 +212,52 @@ public class PacienteController {
         model.addAttribute("lista", lista);
         model.addAttribute("listamedico", listaMedicos);
         model.addAttribute("listacentromedico", listaCentroMedico);
-        
-        
 
         return "Paciente/BuscarHistoriasClinicas";
     }
     
     
     
+    @GetMapping("MostrarHistoriaClinica")
+    public String MostrarHC(HttpSession session, Model model, String id) {
+        
+        Paciente pac = (Paciente) session.getAttribute("pacientesesion");
+
+        if (pac == null) {
+            System.out.println("redireccionando1");
+            return "redirect:/inicio";
+
+        }
+        
+        Optional<HistoriasClinicas> histc=histclinicarep.findById(id);
+        
+        if(histc.isPresent()){
+            HistoriasClinicas historiac=histc.get();
+            if(!
+                    historiac.getDNI().equals(pac.getDNI())){
+                System.out.println("redireccionando3"+historiac.getDNI()+" "+pac.getDNI());
+                return "redirect:/inicio";
+            }
+            System.out.println("informe "+historiac.getInforme());
+            model.addAttribute("historiac", historiac);
+        }
+        else{
+            model.addAttribute("mensaje", "No se encontró ninguna historia clinica con el id solicitado");
+        }
+        
+        
+        return "Paciente/MostrarHistoriaclinica.html";
+    }
     
-     void sendEmail(String email) {
+    
+    
+    
+    
+    
+    
+    
+
+    void sendEmail(String email) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(email);
@@ -229,7 +268,5 @@ public class PacienteController {
         javaMailSender.send(msg);
 
     }
-    
-    
-    
+
 }

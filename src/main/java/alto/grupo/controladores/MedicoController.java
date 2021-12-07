@@ -1,16 +1,19 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Tools || Templates
  * and open the template in the editor.
  */
 package alto.grupo.controladores;
 
 import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.Medico;
+import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import alto.grupo.servicios.MedicoSe;
+import alto.grupo.servicios.PacienteSe;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,6 +39,9 @@ public class MedicoController {
 
     @Autowired
     private MedicoSe medicose;
+    
+    @Autowired
+    private PacienteSe pacienteSe;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -127,5 +133,65 @@ public class MedicoController {
         javaMailSender.send(msg);
 
     }
+    @GetMapping("Medico/BuscarPaciente")
+    public String BuscarHC(HttpSession session, Model model){
+        Medico med = (Medico)session.getAttribute("medicosesion");
 
+        if(!(med == null)){
+            model.addAttribute("miciudad", med.getCiudad());
+        }else{
+            System.out.println("MEDICO NULL");
+        }
+        return "Medico/BuscarPaciente";
+    }
+
+    @PostMapping("/Medico/BuscarPaciente")
+    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam String nombre,@RequestParam String apellido, @RequestParam String DNI, @RequestParam String ciudad) throws Errores{
+        List<Paciente> lista = new ArrayList<>();
+        List<Paciente> listaEdad = new ArrayList<>();  ///// para calcular la edad y pasarlo al front
+
+//        model.addAttribute("nombre",nombre);      // <- pienso que no hacen falta
+//        model.addAttribute("apellido",apellido);
+
+        Medico med = (Medico)session.getAttribute("medicosesion");
+
+        if(med == null){
+            throw new Error("Debe registrarse!");
+        }
+        
+        // si tengo DNI
+        if( !(DNI==null || DNI.isEmpty()) ){
+            Paciente pac = pacienteSe.BuscarPorDNI(DNI);
+            lista.add(pac);
+            System.out.println("Busqueda por DNI");
+        }
+        //else if(!(ciudad==null || ciudad.isEmpty() )){
+        //    lista = pacienteSe.BuscarPorNAPC(nombre, apellido, null, ciudad);
+        //}
+
+        else{   // tengo nombre y apellido
+            lista = pacienteSe.BuscarPorNAPC(nombre,apellido);
+            System.out.println("Busqueda por nombre y apellido");
+        }
+
+        model.addAttribute("lista",lista);
+        
+        return "Medico/BuscarPaciente";
+    }
+    
+    @PostMapping("/Medico/AgregarHistoriaClinica")
+    public String agregarHC(HttpSession session, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe){
+        Medico med = (Medico)session.getAttribute("medicosesion");
+
+        if(med == null){
+            throw new Error("Debe registrarse!");
+        }
+        
+        if(fechaVisita==null || fechaVisita.isEmpty() || especialidad==null || especialidad.isEmpty() || centroMedico==null || centroMedico.isEmpty() || informe==null || informe.isEmpty()){
+            System.out.println("===========================================================\nERROEERRRRERAREG");
+            throw new Error("Todos los campos deben ser completados.");
+        }
+        
+        return "Medico/BuscarPaciente";
+    }
 }
