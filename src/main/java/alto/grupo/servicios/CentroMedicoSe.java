@@ -6,7 +6,6 @@
 package alto.grupo.servicios;
 
 import alto.grupo.entidades.CentroMedico;
-import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.CentroMedicoRep;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class CentroMedicoSe implements UserDetailsService{
                 validar(centroMedico.getNombre());
                 validar(centroMedico.getTelefono());
                 validar(centroMedico.getMail());
-                // validar provincia?  -- puede que finalmente sea un String
+                validar(centroMedico.getProvincia());
                 validar(centroMedico.getCiudad());
                 validar(centroMedico.getCalle());
                 validar(centroMedico.getNumero());
@@ -61,7 +60,7 @@ public class CentroMedicoSe implements UserDetailsService{
     }
     
     @Transactional
-    public void crear (Long codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void crear (Long codigoRegistro, String nombre, String telefono, String mail, String provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         
         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);
 
@@ -70,7 +69,7 @@ public class CentroMedicoSe implements UserDetailsService{
                 validar(nombre);
                 validar(telefono);
                 validar(mail);
-                // validar provincia?
+                validar(provincia);
                 validar(ciudad);
                 validar(calle);
                 validar(numero);
@@ -85,6 +84,7 @@ public class CentroMedicoSe implements UserDetailsService{
                 centro.setNombre(nombre);
                 centro.setTelefono(telefono);
                 centro.setMail(mail);
+                centro.setCiudad(provincia);
                 centro.setCiudad(ciudad);
                 centro.setCalle(calle);
                 centro.setNumero(numero);
@@ -105,7 +105,7 @@ public class CentroMedicoSe implements UserDetailsService{
     
      
     @Transactional
-    public void modificarCentro(Long codigoRegistro, String nombre, String telefono, String mail, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void modificarCentro(Long codigoRegistro, String nombre, String telefono, String mail, String provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
 
         Optional<CentroMedico> CentroMedicoOpt = centroRep.findById(codigoRegistro);   
 
@@ -118,6 +118,8 @@ public class CentroMedicoSe implements UserDetailsService{
                 centro.setTelefono(telefono);
             validar(mail);
                 centro.setMail(mail);
+            validar(provincia);
+                centro.setProvincia(provincia);
             validar(ciudad);
                 centro.setCiudad(ciudad);
             validar(calle);
@@ -165,7 +167,7 @@ public class CentroMedicoSe implements UserDetailsService{
     }
     
     
-    public List<CentroMedico> buscarPorProvincia(Provincia provincia) throws Errores{
+    public List<CentroMedico> buscarPorProvincia(String provincia) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarProvincia(provincia);
         if (!centrosMedicos.isEmpty()) {
             return centrosMedicos;
@@ -174,7 +176,7 @@ public class CentroMedicoSe implements UserDetailsService{
         }
     }
      
-    public List<CentroMedico> buscarPorProvinciaCiudad(Provincia provincia, String ciudad) throws Errores{
+    public List<CentroMedico> buscarPorProvinciaCiudad(String provincia, String ciudad) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarProvinciaCiudad(provincia,ciudad);
         if (!centrosMedicos.isEmpty()) {
             return centrosMedicos;
@@ -192,7 +194,7 @@ public class CentroMedicoSe implements UserDetailsService{
         }
     }
      
-    public List<CentroMedico> buscarPorMatriculaProvincia(String matricula, Provincia provincia) throws Errores{
+    public List<CentroMedico> buscarPorMatriculaProvincia(String matricula, String provincia) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarMatriculaProvincia(matricula, provincia);
         if (!centrosMedicos.isEmpty()) {
             return centrosMedicos;
@@ -201,7 +203,7 @@ public class CentroMedicoSe implements UserDetailsService{
         }
     }
      
-    public List<CentroMedico> buscarPorMatriculaProvinciaCiudad(String matricula, Provincia provincia, String ciudad) throws Errores{
+    public List<CentroMedico> buscarPorMatriculaProvinciaCiudad(String matricula, String provincia, String ciudad) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarMatriculaProvinciaCiudad(matricula, provincia, ciudad);
         if (!centrosMedicos.isEmpty()) {
             return centrosMedicos;
@@ -228,7 +230,7 @@ public class CentroMedicoSe implements UserDetailsService{
         }
     }
     
-    public List<CentroMedico> buscarPorEspecialidadProvincia(String especialidad, Provincia provincia) throws Errores{
+    public List<CentroMedico> buscarPorEspecialidadProvincia(String especialidad, String provincia) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarEspecialidadProvincia(especialidad, provincia);
         if (!centrosMedicos.isEmpty()) {
             return centrosMedicos;
@@ -237,7 +239,7 @@ public class CentroMedicoSe implements UserDetailsService{
         }
     }
     
-    public List<CentroMedico> buscarPorEspecialidadProvinciaCiudad(String especialidad, Provincia provincia, String ciudad) throws Errores{
+    public List<CentroMedico> buscarPorEspecialidadProvinciaCiudad(String especialidad, String provincia, String ciudad) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarEspecialidadProvinciaCiudad(especialidad, provincia, ciudad);
         if (!centrosMedicos.isEmpty()) {
             return centrosMedicos;

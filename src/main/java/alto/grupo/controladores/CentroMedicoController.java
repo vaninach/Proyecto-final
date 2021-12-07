@@ -59,8 +59,9 @@ public class CentroMedicoController {
     public String nuevoCentroMedico(Model modelo, CentroMedico cmedico) throws Errores {
         //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
         modelo.addAttribute("cmedico", cmedico);
+        System.out.println(cmedico.getProvincia());
         try {
-            centroMedicose.crear(cmedico.getCodigoRegistro(), cmedico.getNombre(), cmedico.getTelefono(), cmedico.getMail(), null, cmedico.getCiudad(), cmedico.getCalle(), cmedico.getNumero(), cmedico.getPiso(), cmedico.getDepartamento(), cmedico.getOtros(), cmedico.getClave());
+            centroMedicose.crear(cmedico);
             sendEmail(cmedico.getMail());
         } catch (Errores ex) {
             String mensaje = ex.getMessage();
@@ -91,11 +92,13 @@ public class CentroMedicoController {
     @PostMapping("modificarCentroMedicos")
     public String modificarCentroMedico2(final CentroMedico cmed, HttpSession session, Model model) {
         try {
-            centroMedicose.modificarCentro(cmed.getCodigoRegistro(), cmed.getNombre(), cmed.getTelefono(), cmed.getMail(), null, cmed.getCiudad(), cmed.getCalle(), cmed.getNumero(), cmed.getPiso(), cmed.getDepartamento(), cmed.getOtros(), cmed.getClave());
+            centroMedicose.modificarCentro(cmed.getCodigoRegistro(), cmed.getNombre(), cmed.getTelefono(), cmed.getMail(), cmed.getProvincia(), cmed.getCiudad(), cmed.getCalle(), cmed.getNumero(), cmed.getPiso(), cmed.getDepartamento(), cmed.getOtros(), cmed.getClave());
             session.setAttribute("centromedicosesion", cmed);
             model.addAttribute("cmedico", cmed);
         } catch (Errores ex) {
-            Logger.getLogger(CentroMedicoController.class.getName()).log(Level.SEVERE, null, ex);
+            String mensaje=ex.getMessage();
+            model.addAttribute("mensaje",mensaje);
+            
         }
         return "CentroMedico/modificarCentroMedico";
     }
