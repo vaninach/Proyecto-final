@@ -65,7 +65,7 @@ public class SeguridadConfiguracionMedico extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().anyRequest().permitAll()//.authenticated()
 			.and().formLogin().loginPage("/Medico/login")
 				.defaultSuccessUrl("/NuevoMedico", true)
-				.failureUrl("/Medico/accessdenied")
+				.failureUrl("/Medico/login?error")
 			.permitAll()
 			.and().logout().logoutUrl("/Medico/logout").logoutSuccessUrl("/Medico/login?logout")
 			.and().exceptionHandling().accessDeniedPage("/Medico/accessdenied");

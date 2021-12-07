@@ -7,7 +7,6 @@ package alto.grupo.servicios;
 
 import alto.grupo.entidades.Medico;
 import alto.grupo.enums.Genero;
-import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +16,6 @@ import org.springframework.stereotype.Service;
 import alto.grupo.repositorios.MedicoRep;
 import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,7 +46,7 @@ public class MedicoSe implements UserDetailsService {
                 validar(medico.getFechaNac());
                 validar(medico.getGenero());  
                 validar(medico.getMail());
-                // validar(provincia); enum -> posible String
+                validar(medico.getProvincia()); 
                 validar(medico.getCiudad());  // si usamos la API, esto va a cambiar -> posible String
                 // validar(otros); Este si puede ser nulo
                 validar(medico.getClave());
@@ -65,7 +62,7 @@ public class MedicoSe implements UserDetailsService {
                 medRep.save(medico);
 
             } catch (Errores e) {
-                System.out.println(e);
+                throw new Errores(e.getMessage());
             }
             
         }else{
@@ -74,7 +71,7 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt =  medRep.findById(matricula);
         
@@ -86,7 +83,7 @@ public class MedicoSe implements UserDetailsService {
                 validar(fechaNac);
                 validar(genero);  //enum
                 validar(mail);
-                // validar(provincia); enum --> posible String
+                 validar(provincia);
                 validar(ciudad);  // si usamos la API, esto va a cambiar --> posible String
                 // validar(otros); Este si puede ser nulo
                 validar(clave);
@@ -117,7 +114,7 @@ public class MedicoSe implements UserDetailsService {
                 medRep.save(med);
 
             } catch (Errores e) {
-                System.out.println(e);
+                throw new Errores(e.getMessage());
             }
             
         }else{
@@ -126,7 +123,7 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, Provincia provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt = medRep.findById(matricula);
         
@@ -147,7 +144,7 @@ public class MedicoSe implements UserDetailsService {
             //med.setGenero(genero);
             validar(mail);
             med.setMail(mail);
-            // if(buscarCambios(provincia)) Enum--> posible String
+            validar(provincia);
             med.setProvincia(provincia);
             validar(ciudad);
             med.setCiudad(ciudad);
@@ -191,7 +188,7 @@ public class MedicoSe implements UserDetailsService {
         }
     }
 
-    public List<Medico> BuscarPorNAPC(String nombre,String apellido,Provincia provincia, String ciudad) throws Errores{
+    public List<Medico> BuscarPorNAPC(String nombre,String apellido,String provincia, String ciudad) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia, ciudad);
         if (!med.isEmpty()) {
             return med;
@@ -200,7 +197,7 @@ public class MedicoSe implements UserDetailsService {
         }
     }
     
-    public List<Medico> BuscarPorNAPC(String nombre,String apellido,Provincia provincia) throws Errores{
+    public List<Medico> BuscarPorNAPC(String nombre,String apellido,String provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia);
         if (!med.isEmpty()) {
             return med;
@@ -218,7 +215,7 @@ public class MedicoSe implements UserDetailsService {
         }
     }
     
-    public List<Medico> BuscarPorNAPCE(String esp1,String esp2,String esp3,Provincia provincia) throws Errores{
+    public List<Medico> BuscarPorNAPCE(String esp1,String esp2,String esp3,String provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, esp2, esp3, provincia);
         if (!med.isEmpty()) {
             return med;
@@ -227,7 +224,7 @@ public class MedicoSe implements UserDetailsService {
         }
     }
 
-    public List<Medico> BuscarPorNAPCE(String esp1,String esp2,Provincia provincia) throws Errores{
+    public List<Medico> BuscarPorNAPCE(String esp1,String esp2,String provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, esp2, provincia);
         if (!med.isEmpty()) {
             return med;
@@ -236,7 +233,7 @@ public class MedicoSe implements UserDetailsService {
         }
     }
     
-    public List<Medico> BuscarPorNAPCE(String esp1,Provincia provincia) throws Errores{
+    public List<Medico> BuscarPorNAPCE(String esp1,String provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp(esp1, provincia);
         if (!med.isEmpty()) {
             return med;
