@@ -41,7 +41,7 @@ public class Paciente implements Serializable {
     private String obraS3;
     private String nAfiliadoOS3;
     private String nacionalidad; //enum?
-    private Provincia provincia;
+    private String provincia;
     private String ciudad; // revisar como lo hacemos, query? bajar base de datos?
     private String calle;
     private String numero;
@@ -125,7 +125,7 @@ public class Paciente implements Serializable {
         return nacionalidad;
     }
 
-    public Provincia getProvincia() {
+    public String getProvincia() {
         return provincia;
     }
 
@@ -229,7 +229,7 @@ public class Paciente implements Serializable {
         this.nacionalidad = nacionalidad;
     }
 
-    public void setProvincia(Provincia provincia) {
+    public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 

@@ -9,7 +9,6 @@ import alto.grupo.entidades.CentroMedico;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.CentroMedicoRep;
 import alto.grupo.servicios.CentroMedicoSe;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,16 +88,17 @@ public class CentroMedicoController {
         return "CentroMedico/modificarCentroMedico";
     }
 
-    @PostMapping("modificarCentroMedicos")
+    @PostMapping("CentroMedico/modificarCentroMedicos")
     public String modificarCentroMedico2(final CentroMedico cmed, HttpSession session, Model model) {
         try {
+            model.addAttribute("cmedico", cmed);
             centroMedicose.modificarCentro(cmed.getCodigoRegistro(), cmed.getNombre(), cmed.getTelefono(), cmed.getMail(), cmed.getProvincia(), cmed.getCiudad(), cmed.getCalle(), cmed.getNumero(), cmed.getPiso(), cmed.getDepartamento(), cmed.getOtros(), cmed.getClave());
             session.setAttribute("centromedicosesion", cmed);
-            model.addAttribute("cmedico", cmed);
+            
         } catch (Errores ex) {
             String mensaje=ex.getMessage();
             model.addAttribute("mensaje",mensaje);
-            
+            return "CentroMedico/modificarCentroMedico";
         }
         return "CentroMedico/modificarCentroMedico";
     }

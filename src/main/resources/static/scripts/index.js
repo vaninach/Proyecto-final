@@ -11,7 +11,7 @@ function mostrarProvincias(data){
     let provincias = document.getElementById("provincia")
     data.map(item => {
         opcion = document.createElement("option")
-        opcion.value = item.id
+        opcion.value = item.nombre
         opcion.text = item.nombre
         provincias.appendChild(opcion)
     })
@@ -45,7 +45,7 @@ let camposForm = Array.from(document.querySelectorAll(".camposFormulario"))
 
 camposForm.forEach(item => {
     item.addEventListener("change", (e) => {
-        data[e.target.name] = e.target.value
+        data[e.target.name] = e.target.text
     })
 })
 
