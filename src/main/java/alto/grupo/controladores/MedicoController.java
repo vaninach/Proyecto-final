@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Tools || Templates
  * and open the template in the editor.
  */
 package alto.grupo.controladores;
@@ -133,9 +133,10 @@ public class MedicoController {
     @PostMapping("/Medico/BuscarPaciente")
     public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam String nombre,@RequestParam String apellido, @RequestParam String DNI, @RequestParam String ciudad) throws Errores{
         List<Paciente> lista = new ArrayList<>();
+        List<Paciente> listaEdad = new ArrayList<>();  ///// para calcular la edad y pasarlo al front
 
-        model.addAttribute("nombre",nombre);
-        model.addAttribute("apellido",apellido);
+//        model.addAttribute("nombre",nombre);      // <- pienso que no hacen falta
+//        model.addAttribute("apellido",apellido);
 
         Medico med = (Medico)session.getAttribute("medicosesion");
 
@@ -159,6 +160,22 @@ public class MedicoController {
         }
 
         model.addAttribute("lista",lista);
+        
+        return "Medico/BuscarPaciente";
+    }
+    
+    @PostMapping("/Medico/AgregarHistoriaClinica")
+    public String agregarHC(HttpSession session, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe){
+        Medico med = (Medico)session.getAttribute("medicosesion");
+
+        if(med == null){
+            throw new Error("Debe registrarse!");
+        }
+        
+        if(fechaVisita==null || fechaVisita.isEmpty() || especialidad==null || especialidad.isEmpty() || centroMedico==null || centroMedico.isEmpty() || informe==null || informe.isEmpty()){
+            System.out.println("===========================================================\nERROEERRRRERAREG");
+            throw new Error("Todos los campos deben ser completados.");
+        }
         
         return "Medico/BuscarPaciente";
     }
