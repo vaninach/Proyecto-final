@@ -66,17 +66,18 @@ public class MedicoController {
     @GetMapping("/NuevoMedico2")
     public String Medico2(Model modelo, Medico medico) {
         modelo.addAttribute("medico", medico);
-        return "Medico/NuevoMedico_1.html";
+        return "Medico/NuevoMedico_1_borrar.html";
     }
     
 
     @PostMapping("/NuevoMedico2")
     public String nuevoMedico2(Model modelo, Medico medico) throws Errores {
-        modelo.addAttribute("medico", medico);
+        System.out.println("dsfadsfcadsfca;sdfc;a\njahdsflajdfhalwkjd");
         System.out.println("todo correcto");
         //Podria hacerce un metodo crear medico que reciba ya un medico y lo persistamos directamente (haciendo las validaciones)
-        //medicose.crear(matricula, nombre, apellido, null, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
-        return "Medico/NuevoMedico_1.html";
+        medicose.crear(medico);
+        modelo.addAttribute("medico", medico);
+        return "Medico/NuevoMedico_1_borrar.html";
     }
     
     
