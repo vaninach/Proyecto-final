@@ -26,7 +26,7 @@
 
 
 <body id="body-pd">
-
+    <div th:fragment="Sidebarpaciente">
   <header class="header" id="header">
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
     <div class="header_img"> <img src="C:\Users\jfz97\OneDrive\Escritorio\Final Proyect\Front\Imagenes\Logo-Histomed.jpeg" alt="HistoMed"> </div>
@@ -159,10 +159,9 @@
       <a class="text-reset fw-bold" href="https://mdbootstrap.com/">TEAM 5</a>
     </div>
     <!-- Copyright -->
-<!--        Fragment Footer-->
-        <div th:replace="footer.html :: footer"></div>
-          <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
 
+          <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
+      </div>
 </body>
 
 </html>
