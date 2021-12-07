@@ -1,9 +1,10 @@
 let data = {}
-let provincia 
 
 fetch("https://apis.datos.gob.ar/georef/api/provincias")
 .then(respuesta => respuesta.json())
-.then(data => mostrarProvincias(data.provincias))
+.then(data => {
+    mostrarProvincias(data.provincias)
+console.log(data)})
 .catch(error => console.log(error))
 
 function mostrarProvincias(data){
@@ -35,10 +36,9 @@ function buscarCiudadesPorPcia(provincia){
 }
 
 document.querySelector("#provincia").addEventListener("change", (e) => {
-    let provincia = (e.target.value).split("-")
+    let provincia = e.target.value
     console.log(provincia)
-
-    if(provincia) buscarCiudadesPorPcia(provincia[1])
+    if(provincia) buscarCiudadesPorPcia(provincia)
 })
 
 let camposForm = Array.from(document.querySelectorAll(".camposFormulario"))
@@ -48,4 +48,3 @@ camposForm.forEach(item => {
         data[e.target.name] = e.target.text
     })
 })
-

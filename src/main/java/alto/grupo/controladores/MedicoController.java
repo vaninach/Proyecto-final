@@ -75,13 +75,13 @@ public class MedicoController {
     }
 //////////////////////
 
-    @GetMapping("/NuevoMedico2")
+    @GetMapping("CentroMedico/NuevoMedico2")
     public String Medico2(Model modelo, Medico medico) {
         modelo.addAttribute("medico", medico);
         return "Medico/NuevoMedico_1.html";
     }
 
-    @PostMapping("/NuevoMedico2")
+    @PostMapping("CentroMedico/NuevoMedico2")
     public String nuevoMedico2(Model modelo, Medico medico) throws Errores {
         modelo.addAttribute("medico", medico);
 
@@ -93,7 +93,7 @@ public class MedicoController {
             modelo.addAttribute("mensaje", mensaje);
             return "Medico/NuevoMedico_1.html";
         }
-        return "redirect:/NuevoMedico2";
+        return "redirect:CentroMedico/NuevoMedico2";
     }
 
     @GetMapping("editar-perfil-M")
