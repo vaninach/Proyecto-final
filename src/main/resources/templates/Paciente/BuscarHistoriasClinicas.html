@@ -15,52 +15,52 @@ and open the template in the editor.
 
     </head>
     <body>
-        
+
         <div class="container">
 
-        <section name="buscador">
-            <form th:action="@{BuscarHistoriasClinicas}" method="POST">
+            <section name="buscador">
+                <form th:action="@{BuscarHistoriasClinicas}" method="POST">
 
-                <input type="date" id="fechaVisita" name="fecha"/>
+                    <input type="date" id="fechaVisita" name="fecha"/>
 
-                <input type="text" id="especialidad" name="especialidad"/>
+                    <input type="text" id="especialidad" name="especialidad"/>
 
-                <button type="submit" id="buscar"> Buscar </button>
-
-
-            </form>
+                    <button type="submit" id="buscar"> Buscar </button>
 
 
-        </section>
-
-        <div th:if="${!#lists.isEmpty(lista)}" >
+                </form>
 
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Medico</th>
-                        <th>Centro Medico</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="listas,iterStat :${lista}">
-                        <td th:text="${listas.fechaVisita}"></td>
-                    <td th:text="${listamedico[__${iterStat.index}__]}"></td>
-                    <td th:text="${listacentromedico[__${iterStat.index}__]}"></td>
+            </section>
+
+            <div th:if="${!#lists.isEmpty(lista)}" >
+
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Medico</th>
+                            <th>Centro Medico</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="listas,iterStat :${lista}">
+                            <td th:text="${listas.fechaVisita}"></td>
+                            <td th:text="${listamedico[__${iterStat.index}__]}"></td>
+                            <td th:text="${listacentromedico[__${iterStat.index}__]}"></td>
                     <td > <a th:href="@{MostrarHistoriaClinica(id=${listas.id})}">Elegir</a></td>
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </tbody>
+                </table>
 
 
-        </div>
+            </div>
 
-        <div th:if=${mensaje!=null}>
-            <p th:text="${mensaje}" class="alert alert-danger"></p>
-        </div>
+            <div th:if=${mensaje!=null}>
+                <p th:text="${mensaje}" class="alert alert-danger"></p>
+            </div>
 
         </div>
 
