@@ -179,6 +179,16 @@ public class MedicoController {
         return "Medico/BuscarPaciente";
     }
     
+    @GetMapping("/Medico/VerHistoriasClinicas")
+    public String verHC(HttpSession session){
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            throw new Error("Debe registrarse!");
+        }
+        
+        return "Medico/VerHC";
+    }
+    
     @PostMapping("/Medico/AgregarHistoriaClinica")
     public String agregarHC(HttpSession session, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe){
         Medico med = (Medico)session.getAttribute("medicosesion");

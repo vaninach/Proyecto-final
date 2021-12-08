@@ -47,14 +47,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr onclick="CollapseExpandAllUtil.collapseExpandAll(this)" th:each="paciente:${lista}">
+                    <tr th:each="paciente:${lista}">
                         <td th:text="${paciente.nombre} + ' ' + ${paciente.apellido}"></td>
                         <td th:text="${paciente.DNI}"></td>
                         <td th:text="${paciente.fechaNac}"></td>
-                        <td th:text="${paciente.genero}">Genero</td>
-                        <td th:text="${paciente.grupoS}">Grupo Sanguineo</td>
+                        <td th:text="${paciente.genero}"></td>
+                        <td th:text="${paciente.grupoS}"></td>
                         <td th:text="${paciente.telefono}"></td>
                         <td th:text="${paciente.mail}"></td>
+                        <td><a th:href="@{VerHistoriasClinicas(dni=${paciente.DNI})}">Ver historias clinicas</td>
                     </tr>
                 </tbody>
             </table>
