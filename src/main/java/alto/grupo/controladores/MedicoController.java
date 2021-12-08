@@ -63,7 +63,7 @@ public class MedicoController {
 
     @PostMapping("/NuevoMedico")
     public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac, String mail, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
-
+        System.out.println("\n\n\nPOST MAPPING NUEVOMEDICO");
         medicose.crear(matricula, nombre, apellido, fechaNac, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
         return "Medico/doctor.html";
     }
@@ -93,7 +93,7 @@ public class MedicoController {
             modelo.addAttribute("mensaje", mensaje);
             return "Medico/NuevoMedico_1.html";
         }
-        return "redirect:CentroMedico/NuevoMedico2";
+        return "redirect:NuevoMedico2";
     }
 
     @GetMapping("editar-perfil-M")
