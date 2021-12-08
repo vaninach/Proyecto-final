@@ -93,7 +93,7 @@ public class MedicoController {
             modelo.addAttribute("mensaje", mensaje);
             return "Medico/NuevoMedico_1.html";
         }
-        return "redirect:CentroMedico/NuevoMedico2";
+        return "redirect:/CentroMedico/NuevoMedico2";
     }
 
     @GetMapping("editar-perfil-M")
