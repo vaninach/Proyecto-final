@@ -55,11 +55,11 @@ public class CentroMedicoController {
     }
 
     @PostMapping("/NuevoCentroMedico")
-    public String nuevoCentroMedico(Model modelo, CentroMedico cmedico) throws Errores {
-        //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
+    public String nuevoCentroMedico(Model modelo, CentroMedico cmedico,String clave2) throws Errores {
         modelo.addAttribute("cmedico", cmedico);
-        System.out.println(cmedico.getProvincia());
+        
         try {
+            if(!cmedico.getClave().equals(clave2)) throw new Errores("Las claves deben coincidir, intentelo nuevamente");
             centroMedicose.crear(cmedico);
             sendEmail(cmedico.getMail());
         } catch (Errores ex) {

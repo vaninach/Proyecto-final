@@ -83,7 +83,7 @@ public class MedicoSe implements UserDetailsService {
                 validar(fechaNac);
                 validar(genero);  //enum
                 validar(mail);
-                 validar(provincia);
+                validar(provincia);
                 validar(ciudad);  // si usamos la API, esto va a cambiar --> posible String
                 // validar(otros); Este si puede ser nulo
                 validar(clave);
@@ -126,11 +126,6 @@ public class MedicoSe implements UserDetailsService {
     public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt = medRep.findById(matricula);
-        
-        // ==========================================================
-        // PROBLEMA: sin validacion => posibles cpos vacios seteados
-        // SOLUCION: pre-llenado de fields
-        // ==========================================================
         
         if(medOpt.isPresent()){
             Medico med = medOpt.get();

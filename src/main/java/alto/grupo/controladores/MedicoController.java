@@ -63,7 +63,7 @@ public class MedicoController {
 
     @PostMapping("/NuevoMedico")
     public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac, String mail, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
-
+        System.out.println("\n\n\nPOST MAPPING NUEVOMEDICO");
         medicose.crear(matricula, nombre, apellido, fechaNac, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
         return "Medico/doctor.html";
     }
@@ -71,17 +71,17 @@ public class MedicoController {
     //agregado por nacho //
     @RequestMapping("/Medico/inicioMedico")
     public String incioCentroMedico() {
-        return "Medico/sidebarMedico.html";
+        return "Medico/principalMedico";
     }
 //////////////////////
 
-    @GetMapping("/NuevoMedico2")
+    @GetMapping("CentroMedico/NuevoMedico2")
     public String Medico2(Model modelo, Medico medico) {
         modelo.addAttribute("medico", medico);
         return "Medico/NuevoMedico_1.html";
     }
 
-    @PostMapping("/NuevoMedico2")
+    @PostMapping("CentroMedico/NuevoMedico2")
     public String nuevoMedico2(Model modelo, Medico medico) throws Errores {
         modelo.addAttribute("medico", medico);
 
@@ -93,7 +93,7 @@ public class MedicoController {
             modelo.addAttribute("mensaje", mensaje);
             return "Medico/NuevoMedico_1.html";
         }
-        return "redirect:/NuevoMedico2";
+        return "redirect:NuevoMedico2";
     }
 
     @GetMapping("editar-perfil-M")
@@ -177,6 +177,16 @@ public class MedicoController {
         model.addAttribute("lista",lista);
         
         return "Medico/BuscarPaciente";
+    }
+    
+    @GetMapping("/Medico/VerHistoriasClinicas")
+    public String verHC(HttpSession session){
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            throw new Error("Debe registrarse!");
+        }
+        
+        return "Medico/VerHC";
     }
     
     @PostMapping("/Medico/AgregarHistoriaClinica")

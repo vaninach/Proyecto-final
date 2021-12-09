@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -70,10 +71,13 @@ public class PacienteController {
     }
 
     @PostMapping("CentroMedico/NuevoPaciente")
-    public String nuevoPaciente(Model modelo, Paciente paciente) throws Errores {
+    public String nuevoPaciente(Model modelo, Paciente paciente,String clave2) throws Errores {
         //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
 
         try {
+            
+            if(!paciente.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
+            
             pacientese.Crearpaciente(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), paciente.getProvincia(), paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
             sendEmail(paciente.getMail());
         } catch (Errores ex) {
@@ -134,7 +138,7 @@ public class PacienteController {
 
     @PostMapping("BuscarHistoriasClinicas")
 
-    public String BuscarHC2(HttpSession session, Model model, @RequestParam String fecha, @RequestParam String especialidad) throws Errores {
+    public String BuscarHC2(HttpSession session, Model model, @RequestParam String fecha, @RequestParam String especialidad,RedirectAttributes re) throws Errores {
         List<HistoriasClinicas> lista = new ArrayList<>();
         List<String> listaMedicos = new ArrayList<>();
         List<String> listaCentroMedico = new ArrayList<>();
@@ -212,6 +216,10 @@ public class PacienteController {
         model.addAttribute("lista", lista);
         model.addAttribute("listamedico", listaMedicos);
         model.addAttribute("listacentromedico", listaCentroMedico);
+        
+        re.addFlashAttribute("lista", lista);
+        re.addFlashAttribute("listamedico", listaMedicos);
+        re.addFlashAttribute("listacentromedico", listaCentroMedico);
 
         return "Paciente/BuscarHistoriasClinicas";
     }
@@ -219,7 +227,7 @@ public class PacienteController {
     
     
     @GetMapping("MostrarHistoriaClinica")
-    public String MostrarHC(HttpSession session, Model model, String id) {
+    public String MostrarHC(HttpSession session, Model model, String id, RedirectAttributes re) {
         
         Paciente pac = (Paciente) session.getAttribute("pacientesesion");
 
@@ -239,14 +247,16 @@ public class PacienteController {
                 return "redirect:/inicio";
             }
             System.out.println("informe "+historiac.getInforme());
+            re.addFlashAttribute("historiac", historiac);
             model.addAttribute("historiac", historiac);
         }
         else{
             model.addAttribute("mensaje", "No se encontró ninguna historia clinica con el id solicitado");
+            re.addFlashAttribute("mensaje","No se encontró ninguna historia clinica con el id solicitado");
         }
         
-        
-        return "Paciente/MostrarHistoriaclinica.html";
+        return "redirect:/BuscarHistoriasClinicas";
+       // return "Paciente/MostrarHistoriaclinica.html";
     }
     
     
