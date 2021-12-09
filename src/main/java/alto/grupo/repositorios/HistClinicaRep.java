@@ -23,27 +23,27 @@ public interface HistClinicaRep extends JpaRepository<HistoriasClinicas, String>
     // en el front
     // Referencia: PacienteSe.java y PacienteRep.java de la Vani
     
-    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI")
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarDNI(@Param("DNI") String DNI);
     
-    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.especialidad LIKE %:especialidad%")
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.especialidad LIKE %:especialidad% ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarDNIEspecialidad(@Param("DNI") String DNI, @Param("especialidad") String especialidad);
     
     // Funciona asi para los tipo Date??
-    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.fechaVisita LIKE :fechaVisita")
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.fechaVisita LIKE :fechaVisita ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarDNIFecha(@Param("DNI") String DNI, @Param("fechaVisita") String fechaVisita);
     
     // Funciona asi para los tipo Date??
-    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.fechaVisita LIKE :fechaVisita AND c.especialidad LIKE %:especialidad%")
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.fechaVisita LIKE :fechaVisita AND c.especialidad LIKE %:especialidad% ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarDNIFechaEspecialidad(@Param("DNI") String DNI, @Param("fechaVisita") String fechaVisita, @Param("especialidad") String especialidad);
 
-    @Query("SELECT c FROM HistoriasClinicas c WHERE c.matricula LIKE :matricula")
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.matricula LIKE :matricula ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarMatricula(@Param("matricula") String matricula);
 
-    @Query("SELECT c FROM HistoriasClinicas c WHERE c.matricula LIKE :matricula AND c.DNI LIKE :DNI")
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.matricula LIKE :matricula AND c.DNI LIKE :DNI ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarMatriculaDNI(@Param("matricula") String matricula, @Param("DNI") String DNI);
    
-    @Query("SELECT c FROM HistoriasClinicas c WHERE c.centroMedico LIKE %:centroMedico%")
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.centroMedico LIKE %:centroMedico% ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarCentroMedico(@Param("centroMedico") Long centroMedico);
     
 }

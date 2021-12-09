@@ -71,7 +71,7 @@ public class MedicoController {
     //agregado por nacho //
     @RequestMapping("/Medico/inicioMedico")
     public String incioCentroMedico() {
-        return "Medico/sidebarMedico.html";
+        return "Medico/principalMedico";
     }
 //////////////////////
 

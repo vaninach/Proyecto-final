@@ -61,6 +61,42 @@ and open the template in the editor.
             <div th:if=${mensaje!=null}>
                 <p th:text="${mensaje}" class="alert alert-danger"></p>
             </div>
+            
+            
+            
+<!--            <div th:if=${mensaje!=null}>
+            <p th:text="${mensaje}" class="alert alert-danger"></p>
+        </div>-->
+        
+  
+        <div th:if="${historiac!=null}" >
+        
+        <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Medico</th>
+                        <th>Centro Medico</th>
+                        <th> Especialidad </th>
+                        <th> Informe</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                     <tbody>
+                    
+                        <td th:text="${historiac.fechaVisita}"></td>
+                          <td th:text="${historiac.matricula}"></td>
+                         <td th:text="${historiac.centromedico}"></td>
+                     <td th:text="${historiac.especialidad}"></td>
+                     <td th:text="${historiac.informe}"></td>
+                  
+                </tbody>
+            </table>
+        
+            
+            
+            
+            
 
         </div>
 
