@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -134,7 +135,7 @@ public class PacienteController {
 
     @PostMapping("BuscarHistoriasClinicas")
 
-    public String BuscarHC2(HttpSession session, Model model, @RequestParam String fecha, @RequestParam String especialidad) throws Errores {
+    public String BuscarHC2(HttpSession session, Model model, @RequestParam String fecha, @RequestParam String especialidad,RedirectAttributes re) throws Errores {
         List<HistoriasClinicas> lista = new ArrayList<>();
         List<String> listaMedicos = new ArrayList<>();
         List<String> listaCentroMedico = new ArrayList<>();
@@ -212,14 +213,18 @@ public class PacienteController {
         model.addAttribute("lista", lista);
         model.addAttribute("listamedico", listaMedicos);
         model.addAttribute("listacentromedico", listaCentroMedico);
+        
+        re.addFlashAttribute("lista", lista);
+        re.addFlashAttribute("listamedico", listaMedicos);
+        re.addFlashAttribute("listacentromedico", listaCentroMedico);
 
-        return "Paciente/BuscarHistoriasClinicas";
+        return "redirect:/BuscarHistoriasClinicas";
     }
     
     
     
     @GetMapping("MostrarHistoriaClinica")
-    public String MostrarHC(HttpSession session, Model model, String id) {
+    public String MostrarHC(HttpSession session, Model model, String id, RedirectAttributes re) {
         
         Paciente pac = (Paciente) session.getAttribute("pacientesesion");
 
@@ -239,14 +244,16 @@ public class PacienteController {
                 return "redirect:/inicio";
             }
             System.out.println("informe "+historiac.getInforme());
+            re.addFlashAttribute("historiac", historiac);
             model.addAttribute("historiac", historiac);
         }
         else{
             model.addAttribute("mensaje", "No se encontró ninguna historia clinica con el id solicitado");
+            re.addFlashAttribute("mensaje","No se encontró ninguna historia clinica con el id solicitado");
         }
         
-        
-        return "Paciente/MostrarHistoriaclinica.html";
+        return "redirect:/BuscarHistoriasClinicas";
+       // return "Paciente/MostrarHistoriaclinica.html";
     }
     
     
