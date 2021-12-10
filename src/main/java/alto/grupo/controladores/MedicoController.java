@@ -6,11 +6,13 @@
 package alto.grupo.controladores;
 
 import alto.grupo.entidades.CentroMedico;
+import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
+import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
 import java.util.ArrayList;
@@ -42,6 +44,9 @@ public class MedicoController {
     
     @Autowired
     private PacienteSe pacienteSe;
+    
+    @Autowired
+    private HistClinicaSe histclinSe;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -82,10 +87,11 @@ public class MedicoController {
     }
 
     @PostMapping("CentroMedico/NuevoMedico2")
-    public String nuevoMedico2(Model modelo, Medico medico) throws Errores {
+    public String nuevoMedico2(Model modelo, Medico medico,String clave2) throws Errores {
         modelo.addAttribute("medico", medico);
 
         try {
+            if(!medico.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
             medicose.crear(medico);
             sendEmail(medico.getMail());
         } catch (Errores ex) {
@@ -138,6 +144,7 @@ public class MedicoController {
         Medico med = (Medico)session.getAttribute("medicosesion");
 
         if(!(med == null)){
+            model.addAttribute("miprovincia", med.getProvincia());
             model.addAttribute("miciudad", med.getCiudad());
         }else{
             System.out.println("MEDICO NULL");
@@ -146,7 +153,7 @@ public class MedicoController {
     }
 
     @PostMapping("/Medico/BuscarPaciente")
-    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam String nombre,@RequestParam String apellido, @RequestParam String DNI, @RequestParam String ciudad) throws Errores{
+    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam String nombre,@RequestParam String apellido, @RequestParam String DNI, @RequestParam String provincia, @RequestParam String ciudad) throws Errores{
         List<Paciente> lista = new ArrayList<>();
         List<Paciente> listaEdad = new ArrayList<>();  ///// para calcular la edad y pasarlo al front
 
@@ -165,9 +172,13 @@ public class MedicoController {
             lista.add(pac);
             System.out.println("Busqueda por DNI");
         }
-        //else if(!(ciudad==null || ciudad.isEmpty() )){
-        //    lista = pacienteSe.BuscarPorNAPC(nombre, apellido, null, ciudad);
-        //}
+        else if(!(provincia==null || provincia.isEmpty() )){
+            if(!(ciudad==null || ciudad.isEmpty() )){
+                lista = pacienteSe.BuscarPorNAPC(nombre, apellido, provincia, ciudad);
+            }else{
+                lista = pacienteSe.BuscarPorNAPC(nombre, apellido, provincia);
+            }
+        }
 
         else{   // tengo nombre y apellido
             lista = pacienteSe.BuscarPorNAPC(nombre,apellido);
@@ -180,11 +191,38 @@ public class MedicoController {
     }
     
     @GetMapping("/Medico/VerHistoriasClinicas")
-    public String verHC(HttpSession session){
+    public String verHCtodas(HttpSession session, String dni,Model model) throws Errores{
+        List<HistoriasClinicas> lista = new ArrayList<>();
+        List<String> listaMedicos = new ArrayList<>();
+        List<String> listaCentroMedico = new ArrayList<>();
+
         Medico med = (Medico)session.getAttribute("medicosesion");
         if(med == null){
             throw new Error("Debe registrarse!");
         }
+        
+        Paciente pac = pacienteSe.BuscarPorDNI(dni); 
+        
+        try {
+            lista = histclinSe.buscarPorDNI(pac.getDNI());
+        } catch (Errores ex) {
+            String mensaje = "No se encontraron historias clinicas del paciente";
+            model.addAttribute("mensaje", mensaje);
+        }
+        
+        
+        
+        return "Medico/VerHC";
+    }
+    
+    @PostMapping("/Medico/VerHistoriasClinicas")
+    public String verHCfiltro(HttpSession session){
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            throw new Error("Debe registrarse!");
+        }
+        
+        
         
         return "Medico/VerHC";
     }
@@ -192,7 +230,6 @@ public class MedicoController {
     @PostMapping("/Medico/AgregarHistoriaClinica")
     public String agregarHC(HttpSession session, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe){
         Medico med = (Medico)session.getAttribute("medicosesion");
-
         if(med == null){
             throw new Error("Debe registrarse!");
         }
