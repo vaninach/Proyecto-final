@@ -14,7 +14,11 @@
               integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="../../static/css/doctor.css"  th:href="@{../css/doctor.css}"/>
+       <link rel="stylesheet" href="../../static/css/doctor.css"  th:href="@{../css/doctor.css}"/>
+<!--  Link Archivo del estilo CSS-->
+       <link rel="stylesheet" href="../../static/css/doctor.css"  th:href="@{../css/doctor.css}">
+<!--Link del archivo del estilo de la sidebar-->
+        <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
 
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -23,50 +27,9 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <img src="/histomed.png"alt="" width="35" height="29">
-                    <a class="navbar-brand" href="#">HistoMed</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active fas fa-home" aria-current="page" href="#">Inicio</a>
-                            </li>
-                            <li class="nav-item">
-
-                                <a class="nav-link fas fa-procedures" href="#">Paciente</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fas fa-user-md" href="#">Doctor</a>
-                            </li>
-                            <li class="nav-item">
-
-
-
-                                <a class="nav-link fas fa-clinic-medical " href="#">Clinica</a>
-                            </li>
-                            <li><a class="nav-item" th:href="@{editar-perfil-M(matricula=__${session.medicosesion.matricula}__)}" th:if='${session.medicosesion != null}' th:text='${"Hola " + session.medicosesion.nombre +"!"}' >hola</a></li>
-                            <li><a class="nav-link" th:href="@{/logout}"> Salir</a> </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle fas fa-question-circle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-question-circle"></i>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-
-                        </ul>
-
-                    </div>
-            </div>
-        </nav>
+        
+           <div th:replace="/CentroMedico/sidebarCentroMedico.html :: sidebarCentroMedico"></div>
+          <div class="centrado">
         <h1>Registro de Doctores </h1>
         <form class="need-validation " th:action="@{/CentroMedico/NuevoMedico2}" th:object="${medico}" method="POST">
             <div th:if="${mensaje != null}">
@@ -74,42 +37,46 @@
             </div>
 
             <div class="col-md-offset">
-                <div class="form-group col-md-6 " >
+                <div class="form-group col-md-12 " >
                     <label for="exampleInputNombre"></label>
                     <br/>
                     <input type="number" class="form-control " id="nombre" aria-describedby="nombreHelp" name="matricula" th:field="*{matricula}" placeholder="Ingrese su matricula"/>
 
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="exampleInputNombre"></label>
                     <br/>
-                    <input type=string class="form-control" id="dni" aria-describedby="dniHelp" name="nombre"th:field="*{nombre}" placeholder="Ingrese su nombre"/>
+                    <input type=text class="form-control" id="dni" aria-describedby="dniHelp" name="nombre"th:field="*{nombre}" placeholder="Ingrese su nombre"/>
 
                 </div>  
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="exampleInputNombre"></label>
                     <br/>
-                    <input type=string class="form-control" id="matricula" aria-describedby="dniHelp" name="apellido" th:field="*{apellido}" placeholder="Ingrese su apellido"/>
+                    <input type=text class="form-control" id="matricula" aria-describedby="dniHelp" name="apellido" th:field="*{apellido}" placeholder="Ingrese su apellido"/>
 
                 </div>  
 
 
 
-                <div class="form-group col-md-6">  Date input 
+                <div class="form-group col-md-12">  Seleccione su fecha de nacimiento 
 
                     <input class="form-control" id="matricula" name="fechaNac" th:field="*{fechaNac}" type="date"/>
                 </div>
 
-                <!--                                            <div class="form-group">
-                                                                <label for="matricula" class="col-sm-2 control-label">Seleccione su genero </label>
-                                                                <div class="col-sm-2">
-                                                                    <select class="form-control inputstl" id="matricula">
-                                                                        <option>Masculino</option>
-                                                                        <option>Femenino</option>
-                                                                    </select>          -->
+                    <div class="form-group col-md-12">
+                <label for="matricula" class="col-sm-2 control-label col-md-12">Seleccione su genero </label>
+                <div class="col-sm-2 col-md-12">
+                    <select class="form-control inputstl" id="matricula">
+                        <option>Masculino</option>
+                        <option>Femenino</option>
+                        <option>Intrasexual</option>
+                    </select>
+                </div>
 
             </div>
-            <div class="form-group col-md-6">
+
+            </div>
+            <div class="form-group col-md-12">
                 <label for="exampleInputEmail1"></label>
                 <br/>
                 <input type="email" class="form-control" id="matricula" aria-describedby="emailHelp" name="mail" th:field="*{mail}" placeholder="Ingrese su email"/>
@@ -129,39 +96,49 @@
                     </select>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputPassword1"></label>
                 <br/>
                 <input type="password" class="form-control" id="matricula" name="clave" th:field="*{clave}" placeholder="Ingrese su contraseña"/>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
+                <label for="exampleInputPassword1"></label>
+                <br/>
+                <input type="password" class="form-control" id="clave2" name="clave2" th:name="clave2" placeholder="Ingrese nuevamente su contraseña"/>
+            </div>
+
+            <div class="form-group col-md-12">
                 <label for="exampleInputNombre"></label>
                 <br/>
-                <input type=string class="form-control" id="matricula" aria-describedby="especialidad1Help" name="especialidad1" th:field="*{especialidad1}" placeholder="Ingrese su especialidad"/>
+                <input type=text class="form-control" id="matricula" aria-describedby="especialidad1Help" name="especialidad1" th:field="*{especialidad1}" placeholder="Ingrese su especialidad"/>
 
             </div> 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputNombre"></label>
                 <br/>
-                <input type=string class="form-control" id="matricula" aria-describedby="especialidad2Help" name="especialidad2" th:field="*{especialidad2}" placeholder="Ingrese si tiene otra especialidad"/>
+                <input type=text class="form-control" id="matricula" aria-describedby="especialidad2Help" name="especialidad2" th:field="*{especialidad2}" placeholder="Ingrese si tiene otra especialidad"/>
 
             </div> 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputNombre"></label>
                 <br/>
-                <input type=string class="form-control" id="matricula" aria-describedby="especialidad3Help" name="especialidad3" th:field="*{especialidad3}" placeholder="Ingrese si tiene otra especialidad mas"/>
+                <input type=text class="form-control" id="matricula" aria-describedby="especialidad3Help" name="especialidad3" th:field="*{especialidad3}" placeholder="Ingrese si tiene otra especialidad mas"/>
 
             </div> 
             <!--                                                                <div class="form-group col-md-6">
                                                                                 <label for="exampleInputNombre"></label>
                                                                                 <br/>
-                                                                                <input type=string class="form-control" id="matricula" aria-describedby="especialidad3Help" name="centroMedicos" placeholder="Ingrese el centro medico en el cual atiende"/>
+                                                                                <input type=text class="form-control" id="matricula" aria-describedby="especialidad3Help" name="centroMedicos" placeholder="Ingrese el centro medico en el cual atiende"/>
                                                         
                                                                             </div> -->
             <br/>
             <button type="submit" class="btn btn-primary">Registrarse</button>
-            </div>
+         
         </form>
+           </div>
+          <!-- Fragment Footer-->
+            <div th:replace="footer.html :: footer"></div>
+
         <script src="../../static/scripts/index.js" th:src="@{../../scripts/index.js}" ></script>
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>

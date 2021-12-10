@@ -13,134 +13,35 @@
         <!-- FONTAWESOME -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
               integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <!-- otro CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+        <!-- otro CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
         <!-- que es esto? -->
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 
-         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
         <!-- llamado al propio css del archivo -->
-  <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
+        <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
         <title>HISTOMED - CENTRO MEDICO</title>
     </head>
     <body>
 
 
-<!--    Fragment SideBar-->
-    
+        <!--    Fragment SideBar-->
+
         <div th:replace="sidebarCentromedico.html :: sidebarCentroMedico"></div>
 
-                            
-                                     
-
-                                          
-                                            <div class="centrado">
-                                                <h1>Registro de Doctores </h1>
-                                                <form class="need-validation " th:action="@{/NuevoMedico2}" th:object="${medico}" method="POST">
-                                                    <div th:if="${mensaje != null}">
-                                                        <p th:text="${mensaje}" class="alert alert-danger"></p>
-                                                    </div>
-
-                                                    <div class="col-md-offset">
-                                                        <div class="form-group col-md-6 " >
-                                                            <label for="exampleInputNombre"></label>
-                                                            <br/>
-                                                            <input type="number" class="form-control " id="nombre" aria-describedby="nombreHelp" name="matricula" th:field="*{matricula}" placeholder="Ingrese su matricula"/>
-
-                                                        </div>
-                                                    </div>   
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputNombre"></label>
-                                                        <br/>
-                                                        <input type=string class="form-control" id="dni" aria-describedby="dniHelp" name="nombre"th:field="*{nombre}" placeholder="Ingrese su nombre"/>
-
-                                                    </div>  
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputNombre"></label>
-                                                        <br/>
-                                                        <input type=string class="form-control" id="matricula" aria-describedby="dniHelp" name="apellido" th:field="*{apellido}" placeholder="Ingrese su apellido"/>
-
-                                                    </div>  
 
 
 
-                                                    <div class="form-group col-md-6">  Date input 
 
-                                                        <input class="form-control" id="matricula" name="fechaNac" th:field="*{fechaNac}" type="date"/>
-                                                    </div>
+      
+            <!-- Fragment Footer-->
+            <div th:replace="footer.html :: footer"></div>
 
-                                                    <div class="form-group">
-                                                        <label for="matricula" class="col-sm-2 control-label">Seleccione su genero </label>
-                                                        <div class="col-sm-2">
-                                                            <select class="form-control inputstl" id="matricula">
-                                                                <option>Masculino</option>
-                                                                <option>Femenino</option>
-                                                                <option>Intrasexual</option>
-                                                            </select>        
-                                                        </div> 
-
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputEmail1"></label>
-                                                        <br/>
-                                                        <input type="email" class="form-control" id="matricula" aria-describedby="emailHelp" name="mail" th:field="*{mail}" placeholder="Ingrese su email"/>
-
-                                                    </div>
-                                                    <br/>
-                                                    <div class="form-group col-md-12">
-                                                        <label for="exampleInputNombre">Seleccione la provincia en la que ejerce</label>
-                                                        <label for="exampleInputNombre"></label>
-                                                        <select class="form-control inputstl camposFormulario" id="provincia" aria-describedby="provinciaHelp" name="provincia" th:field="*{provincia}">
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group col-md-12">
-                                                        <label for="exampleInputNombre">Seleccione la ciudad en la que ejerce</label>
-                                                        <br>
-                                                            <select  class="form-control camposFormulario" id="ciudad" aria-describedby="ciudadHelp" name="ciudad" th:field="*{ciudad}" placeholder="">
-                                                            </select>
-                                                    </div>
-
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputPassword1"></label>
-                                                        <br/>
-                                                        <input type="password" class="form-control" id="matricula" name="clave" th:field="*{clave}" placeholder="Ingrese su contraseña"/>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputNombre"></label>
-                                                        <br/>
-                                                        <input type=string class="form-control" id="matricula" aria-describedby="especialidad1Help" name="especialidad1" th:field="*{especialidad1}" placeholder="Ingrese su especialidad"/>
-
-                                                    </div> 
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputNombre"></label>
-                                                        <br/>
-                                                        <input type=string class="form-control" id="matricula" aria-describedby="especialidad2Help" name="especialidad2" th:field="*{especialidad2}" placeholder="Ingrese si tiene otra especialidad"/>
-
-                                                    </div> 
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputNombre"></label>
-                                                        <br/>
-                                                        <input type=string class="form-control" id="matricula" aria-describedby="especialidad3Help" name="especialidad3" th:field="*{especialidad3}" placeholder="Ingrese si tiene otra especialidad mas"/>
-
-                                                    </div> 
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputNombre"></label>
-                                                        <br/>
-                                                        <input type=string class="form-control" id="matricula" aria-describedby="especialidad3Help" name="centroMedicos" placeholder="Ingrese el centro medico en el cual atiende"/>
-
-                                                    </div> 
-                                                    <div>
-                                                        <br/>
-                                                        <button type="submit" class="btn btn-primary">Registrarse</button>
-                                                    </div>
-                                                </form>
-<!-- Fragment Footer-->
-        <div th:replace="footer.html :: footer"></div>
-         
-</body>
+    </body>
 
 
 </html>
