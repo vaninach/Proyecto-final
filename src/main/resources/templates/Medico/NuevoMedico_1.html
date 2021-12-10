@@ -66,10 +66,10 @@
                     <div class="form-group col-md-12">
                 <label for="matricula" class="col-sm-2 control-label col-md-12">Seleccione su genero </label>
                 <div class="col-sm-2 col-md-12">
-                    <select class="form-control inputstl" id="matricula">
-                        <option>Masculino</option>
-                        <option>Femenino</option>
-                        <option>Intrasexual</option>
+                    <select class="form-control inputstl" id="genero" name="genero"  th:field="*{genero}">
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
                     </select>
                 </div>
 
