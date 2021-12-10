@@ -54,12 +54,12 @@
 
             </div> 
 
-<!--            <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
 
                 <br/>
-                <input type=genero class="form-control" id="genero" aria-describedby="generoHelp" name="genero" placeholder="GENERO"/>
+                <input type=text class="form-control" id="genero" aria-describedby="generoHelp" name="genero" th:field="*{genero}" placeholder="GENERO"/>
 
-            </div> -->
+            </div> 
             <div class="form-group col-md-6">
 
                 <br/>
@@ -90,12 +90,12 @@
                 <input type=text class="form-control" id="telefonoContacto" aria-describedby="telefonoContactoHelp" name="telefonoContacto" th:field="*{telefonoContacto}" placeholder="TELEFONO CONTACTO"/>
 
             </div> 
-<!--            <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
 
                 <br/>
-                <input type=grupoS class="form-control" id="grupoS" aria-describedby="grupoSHelp" name="grupoS" placeholder="GRUPO SANGUINO"/>
+                <input type=text class="form-control" id="grupoS" aria-describedby="grupoSHelp" name="grupoS" th:field="*{grupoS}" placeholder="GRUPO SANGUINO"/>
 
-            </div> -->
+            </div> 
             <div class="form-group col-md-6">
 
                 <br/>
@@ -171,7 +171,13 @@
             <div class="form-group col-md-6">
 
                 <br/>
-                <input type=password class="form-control" id="clave" aria-describedby="claveHelp" name="clave" th:name="clave" placeholder="CLAVE"/>
+                <input type=password class="form-control" id="clave" aria-describedby="claveHelp" name="clave" th:name="clave" placeholder="Ingrese la nueva clave"/>
+            </div>
+            <br/>
+            <div class="form-group col-md-6">
+
+                <br/>
+                <input type=password class="form-control" id="clave2" aria-describedby="claveHelp" name="clave2" th:name="clave2" placeholder="Ingrese Nuevamente su clave"/>
             </div>
             <br/>
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
