@@ -57,14 +57,14 @@
                     <td th:text="${paciente.provincia} + ', ' + ${paciente.ciudad}"></td>>
                     <td th:text="${paciente.telefono}"></td>
                     <td th:text="${paciente.mail}"></td>
-                    <td><a th:href="@{VerHistoriasClinicas(dni=${paciente.DNI})}">Ver historias clinicas</td>
+                    <td><a th:href="@{BuscarHistoriasClinicas(dni=${paciente.DNI})}">Buscar historias clinicas</td>
                 </tr>
             </tbody>
         </table>
 
         <br><br>
 
-        <script>
+        <!-- <script>
             var CollapseExpandAllUtil = {
                 collapseExpandAll: function (x) {
                     var allSectionsReference = document.querySelectorAll(".informeExpansion");
@@ -75,15 +75,15 @@
                     }
                 }
             };
-        </script>
+        </script> -->
 
     </div>
 
 
-    <div class="informeExpansion collapse">
+    <!-- <div class="informeExpansion collapse">
         <form th:action="@{/Medico/VerHistoriasClinicas}" method="POST">
-            <!-- <input id="login-username" type="date" class="form-control" name="fechaNac" value=""
-                placeholder="Ingrese su matricula" /> -->
+            <input id="login-username" type="date" class="form-control" name="fechaNac" value=""
+                placeholder="Ingrese su matricula" />
             <input type="text" id="nombre" name="nombre" placeholder="Nombre del paciente" /><br>
             <input type="text" id="apellido" name="apellido" placeholder="Apellido del paciente" /><br>
             <input type="text" id="DNI" name="DNI" placeholder="DNI del paciente" /><br>
@@ -95,7 +95,7 @@
 
             <button type="submit">Agregar</button><br>
         </form>
-    </div>
+    </div> -->
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

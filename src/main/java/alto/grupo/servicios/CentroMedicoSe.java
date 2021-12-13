@@ -43,9 +43,9 @@ public class CentroMedicoSe implements UserDetailsService{
                 validar(centroMedico.getCiudad());
                 validar(centroMedico.getCalle());
                 validar(centroMedico.getNumero());
-                validar(centroMedico.getPiso());
+                //validar(centroMedico.getPiso()); --> si puede ser nulo
                 validar(centroMedico.getDepartamento());
-                validar(centroMedico.getOtros());
+                // validar(centroMedico.getOtros()); --> si puede ser nulo
                 validar(centroMedico.getClave());
                 String encriptada = new BCryptPasswordEncoder().encode(centroMedico.getClave());
                 centroMedico.setClave(encriptada);
@@ -73,9 +73,9 @@ public class CentroMedicoSe implements UserDetailsService{
                 validar(ciudad);
                 validar(calle);
                 validar(numero);
-                validar(piso);
+                //validar(piso); --> si puede ser nulo
                 validar(departamento);
-                validar(otros);
+                //validar(otros); --> si puede ser nulo
                 validar(clave);
                 // Si no hay error, crear Centro de Salud
 
@@ -125,15 +125,14 @@ public class CentroMedicoSe implements UserDetailsService{
             validar(calle);
                 centro.setNombre(calle);
             validar(numero);
-                centro.setNombre(numero);    
-            validar(piso);
-                centro.setNombre(piso);
+                centro.setNumero(numero);    
+            centro.setPiso(piso);   // puede ser vacio
             validar(departamento);
-                centro.setNombre(departamento);    
-            centro.setNombre(otros); //  puede ser vacio
+                centro.setDepartamento(departamento);    
+            centro.setOtros(otros); //  puede ser vacio
             String encriptada = new BCryptPasswordEncoder().encode(clave);
             if (buscarCambiosClave(clave))
-                centro.setNombre(encriptada);
+                centro.setClave(encriptada);
 
             centroRep.save(centro);
 
