@@ -273,38 +273,45 @@ public class MedicoController {
 
         if (!(centroMedico == null || centroMedico.isEmpty())   ) {
             try {
-                listaHC = histclinSe.buscarPorDNI(pac.getDNI());
-                System.out.println("entramos al 1");
+                listaHC = histclinSe.buscarPorDNICentroMedico(pac.getDNI(), centroMedico);
+                System.out.println("\nBusca por DNI y CM");
             } catch (Errores ex) {
-                String mensaje = "No se encontraron registros del paciente";
+                String mensaje = "No se encontraron registros del paciente en el centro médico solicitado";
                 model.addAttribute("mensaje", mensaje);
             }
         } else if (!(especialidad == null || especialidad.isEmpty())) {
             try {
                 listaHC = histclinSe.buscarPorDNIEspecialidad(pac.getDNI(), especialidad);
-                System.out.println("entramos al 2");
+                System.out.println("\nBusca por DNI y especialidad");
             } catch (Errores ex) {
-                String mensaje = "No se encontraron registros en la especialidad solicitada";
+                String mensaje = "No se encontraron registros en la especialidad solicitada para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
             }
         } else if (!(fechaVisita == null || fechaVisita.isEmpty())) {
             try {
                 listaHC = histclinSe.buscarPorDNIFecha(pac.getDNI(), fechaVisita);
-                System.out.println("entramos al 3");
+                System.out.println("\nBusca por DNI y fecha");
             } catch (Errores ex) {
-                String mensaje = "No se encontraron registros en la fecha solicitada";
+                String mensaje = "No se encontraron registros en la fecha solicitada para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
             }
         } else if (!(fechaVisita == null || fechaVisita.isEmpty()) && !(especialidad == null || especialidad.isEmpty())){
             try {
                 listaHC = histclinSe.buscarPorDNIFechaEspecialidad(pac.getDNI(), fechaVisita, especialidad);
-                System.out.println("entramos al 4");
+                System.out.println("\nBusca por DNI, fecha y especialidad");
             } catch (Errores ex) {
-                String mensaje = "No se encontraron registros en la fecha y especialidad solicitados";
+                String mensaje = "No se encontraron registros en la fecha y especialidad solicitados para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
             }
-
-        }        
+        } else {
+            try {
+                listaHC = histclinSe.buscarPorDNI(pac.getDNI());
+                System.out.println("\nBusca SOLO por DNI (trae todas las HC)");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron historias clinicas para el paciente elegido.";
+                model.addAttribute("mensaje", mensaje);
+            }
+        }       
 
         if("on".equals(soloMio)){
             Iterator<HistoriasClinicas> itr = listaHC.iterator();

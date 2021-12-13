@@ -47,7 +47,7 @@ public interface HistClinicaRep extends JpaRepository<HistoriasClinicas, String>
     @Query("SELECT c FROM HistoriasClinicas c WHERE c.centroMedico LIKE %:centroMedico% ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarCentroMedico(@Param("centroMedico") Long centroMedico);
     
-    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.centroMedico LIKE %:centroMedico% ORDER BY c.fechaVisita DESC")
+    @Query("SELECT c FROM HistoriasClinicas c WHERE c.DNI LIKE :DNI AND c.centroMedico =:centroMedico ORDER BY c.fechaVisita DESC")
     public List<HistoriasClinicas> buscarDNICentroMedico(@Param("DNI") String DNI,@Param("centroMedico") Long centroMedico);
     
 }

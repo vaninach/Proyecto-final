@@ -51,8 +51,7 @@
                     <td th:text="${hc.especialidad}"></td>
                     <td th:text="${listamedico[__${iterStat.index}__]}"></td>
                     <td th:text="${listacentromedico[__${iterStat.index}__]}"></td>
-                    <td th:text="${hc.informe + ' [[cambiar por link de descarga del informe]]'}"></td> 
-                    <!-- <td><a th:href="@{VerHistoriasClinicas(dni=${paciente.DNI})}">Ver historias clinicas</td> -->
+                    <td th:text="${hc.informe}"></td> 
                 </tr>
             </tbody>
         </table>
