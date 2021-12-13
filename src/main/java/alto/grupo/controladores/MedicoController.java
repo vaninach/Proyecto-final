@@ -12,12 +12,15 @@ import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
+import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -44,6 +48,9 @@ public class MedicoController {
     
     @Autowired
     private PacienteSe pacienteSe;
+    
+    @Autowired
+    private CentroMedicoSe centromedicoSe;
     
     @Autowired
     private HistClinicaSe histclinSe;
@@ -194,9 +201,9 @@ public class MedicoController {
         return "Medico/BuscarPaciente";
     }
     
-    @GetMapping("/Medico/VerHistoriasClinicas")
-    public String verHCtodas(HttpSession session, String dni,Model model) throws Errores{
-        List<HistoriasClinicas> lista = new ArrayList<>();
+    @GetMapping("/Medico/BuscarHistoriasClinicas")
+    public String buscarHC(HttpSession session, String dni, Model model) throws Errores{
+        List<HistoriasClinicas> listaHC = new ArrayList<>();
         List<String> listaMedicos = new ArrayList<>();
         List<String> listaCentroMedico = new ArrayList<>();
 
@@ -207,28 +214,149 @@ public class MedicoController {
         
         Paciente pac = pacienteSe.BuscarPorDNI(dni); 
         
+        model.addAttribute("paciente", pac);
+        
         try {
-            lista = histclinSe.buscarPorDNI(pac.getDNI());
+            listaHC = histclinSe.buscarPorDNI(pac.getDNI());
         } catch (Errores ex) {
             String mensaje = "No se encontraron historias clinicas del paciente";
             model.addAttribute("mensaje", mensaje);
         }
         
+        if (listaHC.size() != 0){
+            for (HistoriasClinicas historiasClinicas : listaHC) {
+                try {
+                    Medico medico = medicose.BuscarPorMatricula(historiasClinicas.getMatricula());
+                    if (medico != null) {
+                        listaMedicos.add(medico.getNombre() + " " + medico.getApellido());
+                    }
+                } catch (Errores ex) {
+                    listaMedicos.add("INVALID");
+                }
+
+                try {
+                    CentroMedico cmed = centromedicoSe.buscarPorCodigo(historiasClinicas.getCentromedico());
+                    if (cmed != null) {
+                        listaCentroMedico.add(cmed.getNombre());
+                    }
+                } catch (Errores ex) {
+                    listaCentroMedico.add("INVALID");
+                }
+            }
+        }
+                
+        model.addAttribute("listaHC",listaHC);
+        model.addAttribute("listamedico", listaMedicos);
+        model.addAttribute("listacentromedico", listaCentroMedico);
         
-        
-        return "Medico/VerHC";
+        return "Medico/BuscarHC";
     }
     
-    @PostMapping("/Medico/VerHistoriasClinicas")
-    public String verHCfiltro(HttpSession session){
+    @PostMapping("/Medico/BuscarHistoriasClinicas")
+    public String verHCfiltro(HttpSession session, Model model, @RequestParam String DNI, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam(required=false) String soloMio, RedirectAttributes re){
+        String greet = "on".equals(soloMio) ? "Good morning" : "Hi";
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+greet);
+        
+        
+        List<HistoriasClinicas> listaHC = new ArrayList<>();
+        List<String> listaMedicos = new ArrayList<>();
+        List<String> listaCentroMedico = new ArrayList<>();
+        Paciente pac = new Paciente();
+        
         Medico med = (Medico)session.getAttribute("medicosesion");
         if(med == null){
-            throw new Error("Debe registrarse!");
+            return "redirect:/inicio";
         }
         
+        try{
+            pac = pacienteSe.BuscarPorDNI(DNI); 
+        } catch (Errores ex) {
+            String mensaje = "No se encontraron registros del paciente solicitado";
+            model.addAttribute("mensaje", mensaje);
+        }
+
+        if ((fechaVisita == null || fechaVisita.isEmpty()) && (especialidad == null || especialidad.isEmpty())) {
+            try {
+                listaHC = histclinSe.buscarPorDNI(pac.getDNI());
+                System.out.println("entramos al 1");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros del paciente";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } else if ((fechaVisita == null || fechaVisita.isEmpty())) {
+            try {
+                listaHC = histclinSe.buscarPorDNIEspecialidad(pac.getDNI(), especialidad);
+                System.out.println("entramos al 2");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la especialidad solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } else if ((especialidad == null || especialidad.isEmpty())) {
+            try {
+                listaHC = histclinSe.buscarPorDNIFecha(pac.getDNI(), fechaVisita);
+                System.out.println("entramos al 3");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } else {
+            try {
+                listaHC = histclinSe.buscarPorDNIFechaEspecialidad(pac.getDNI(), fechaVisita, especialidad);
+                System.out.println("entramos al 4");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha y especialidad solicitados";
+                model.addAttribute("mensaje", mensaje);
+            }
+
+        }        
+
+        if("on".equals(soloMio)){
+            Iterator<HistoriasClinicas> itr = listaHC.iterator();
+            while(itr.hasNext()) {
+                HistoriasClinicas histClin = itr.next();
+                System.out.println("\n\n1-"+histClin.getMatricula());
+                System.out.println("2-"+med.getMatricula());
+                if(!Objects.equals(histClin.getMatricula(), med.getMatricula())){
+                    System.out.println("==> removing "+histClin.getMatricula());
+                    System.out.println("==>          "+histClin.getInforme());
+                    itr.remove();
+                }                
+            }
+        }
         
+        if (listaHC.size() != 0) {
+            for (HistoriasClinicas historiasClinicas : listaHC) {
+                try {
+                    Medico medico = medicose.BuscarPorMatricula(historiasClinicas.getMatricula());
+                    if (medico != null) {
+                        listaMedicos.add(medico.getNombre() + " " + medico.getApellido());
+                    }
+                } catch (Errores ex) {
+                    listaMedicos.add("INVALID");
+                }
+
+                try {
+                    CentroMedico cmed = centromedicoSe.buscarPorCodigo(historiasClinicas.getCentromedico());
+                    if (cmed != null) {
+                        listaCentroMedico.add(cmed.getNombre());
+                    }
+                } catch (Errores ex) {
+                    listaCentroMedico.add("INVALID");
+                }
+            }
+        }
         
-        return "Medico/VerHC";
+        model.addAttribute("paciente", pac);
+      
+        model.addAttribute("listaHC",listaHC);
+        re.addFlashAttribute("listaHC",listaHC);
+        model.addAttribute("listamedico", listaMedicos);
+        re.addFlashAttribute("listamedico",listaMedicos);
+        model.addAttribute("listacentromedico", listaCentroMedico);
+        re.addFlashAttribute("listacentromedico",listaCentroMedico);
+        
+        return "Medico/BuscarHC";
+        //return "inicio";
     }
     
     @PostMapping("/Medico/AgregarHistoriaClinica")

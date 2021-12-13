@@ -14,30 +14,29 @@
 <body>
     <div class="buscador">
         <label> DNI y nombre del paciente</label>
+        <h4 th:text="${paciente.nombre} + ' ' + ${paciente.apellido}"></h4>
+        <h4 th:text="${paciente.DNI}"></h4>
         <br><br>
 
-        <form th:action="@{/Medico/AgregarHistoriaClinica}" method="POST">
-            <label> Filtrar las historias clinicas</label><br>
-<!--                <input type="text" id="DNI" name="DNI" placeholder="DNI" th:value="*{pac.DNI}" /><br>-->
-            <input type="text" id="fechaVisita" name="fechaVisita" placeholder="Fecha visita" th:value="*{miciudad}" /><br>
+        <form th:action="@{/Medico/BuscarHistoriasClinicas}" method="POST">
+            <label> Filtro de búsqueda</label><br>
+            <input type="date" id="fechaVisita" name="fechaVisita" placeholder="Fecha visita" th:value="*{miciudad}" /><br>
             <input type="text" id="especialidad" name="especialidad" placeholder="Especialidad" /><br>
             <input type="text" id="centroMedico" name="centroMedico" placeholder="Centro Medico" /><br>
-            <input type="text" id="informe" name="informe" placeholder="Detalles del informe" /><br>
             
-            <input type="checkbox" name="mishc">
-            <label for="mishc"> Solo historias clinicas hechas por mi </label><br>
-        
-            <button type="submit">Buscar</button><br>
+            <input type="checkbox" name="soloMio" id="soloMio"/>
+            <label for="soloMio">Solo historias clinicas hechas por mi</label>
+
+            <br><br><br>
+            <button type="submit" th:name="DNI" th:value=${paciente.DNI}>Filtrar</button><br>
 
             
         </form>
     </div>
 
-    <div class="resultados">
-        
-    
+    <div class="resultados" th:if="${!#lists.isEmpty(listaHC)}">    
         <table class="table table-hover">
-            <thead class="">
+            <thead>
                 <tr>
                     <th>Fecha de visita</th>
                     <th>Especialidad</th>
@@ -47,16 +46,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="hc:${lista}">
+                <tr th:each="hc,iterStat :${listaHC}">
                     <td th:text="${hc.fechaVisita}"></td>
                     <td th:text="${hc.especialidad}"></td>
-                    <td th:text="${hc.matricula} + ' cambiar por nombre med'"></td>
-                    <td th:text="${hc.centroMedico} + ' cambiar por nombre centmed'"></td>
-                    <td th:text="${hc.informe + ' cambiar por link de descarga del informe'}"></td>
+                    <td th:text="${listamedico[__${iterStat.index}__]}"></td>
+                    <td th:text="${listacentromedico[__${iterStat.index}__]}"></td>
+                    <td th:text="${hc.informe + ' [[cambiar por link de descarga del informe]]'}"></td> 
                     <!-- <td><a th:href="@{VerHistoriasClinicas(dni=${paciente.DNI})}">Ver historias clinicas</td> -->
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <div th:if=${mensaje!=null}>
+        <p th:text="${mensaje}" class="alert alert-danger"></p>
+    </div>
+
 </body>
 </html>

@@ -47,12 +47,12 @@
                             <span class="nav_name">Mis Datos</span> 
                         </a> 
                     </div>
-                    <a th:href="@{editar-perfil(DNI=__${session.pacientesesion.DNI}__)}"  class="nav_link"> 
+                    <a th:href="@{/Paciente/editar-perfil(DNI=__${session.pacientesesion.DNI}__)}"  class="nav_link"> 
                         <i class='bx bx-edit-alt'></i></i>
                         <span class="nav_name">Modificar Datos</span> 
                     </a> 
 
-                    <a th:href='@{BuscarHistoriasClinicas}' class="nav_link"> 
+                    <a th:href='@{/Paciente/BuscarHistoriasClinicas}' class="nav_link"> 
                         <i class='bx bx-message-square-detail nav_icon'></i> 
                         <span class="nav_name">Historia Clínica</span> 
                     </a>
@@ -62,10 +62,14 @@
                         <span class="nav_name">Receta</span>
                     </a> 
 
-                    <a href="#" class="nav_link">
+                    <a href="/logout" th:href="@{/logout}" class="nav_link">
                         <i class='bx bx-search-alt-2'></i>
                         <span class="nav_name">Buscar Médico</span> 
                     </a> 
+                    <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
+                        <input class="boton" type="submit" value="salir" >
+                    </form>
+
                     <a href="#" class="nav_link"> 
                         <i class='bx bx-log-out nav_icon'></i> 
                         <span class="nav_name">Cerrar Sesión</span>

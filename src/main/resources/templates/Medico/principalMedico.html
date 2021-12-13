@@ -19,12 +19,12 @@
               integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
         <!-- llamado al propio css del archivo -->
-       <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
+        <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
         <title>HISTOMED - MEDICO</title>
     </head>
     <body>
 
-   <div th:fragment="sidebarMedico">
+        <div th:fragment="sidebarMedico">
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
                 <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
@@ -61,6 +61,10 @@
                             </a> 
                         </div>
                     </div> 
+
+                    <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
+                        <input class="boton" type="submit" value="salir" >
+                    </form>
                     <a href="#" class="nav_link"> 
                         <i class='bx bx-log-out nav_icon'></i> 
                         <span class="nav_name">Salir</span>
@@ -70,10 +74,10 @@
 
 
 
-           <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script> 
+            <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script> 
         </div>
-        
-<!--        Fragment Footer-->
+
+        <!--        Fragment Footer-->
         <div th:replace="footer.html :: footer"></div>
 
     </body>
