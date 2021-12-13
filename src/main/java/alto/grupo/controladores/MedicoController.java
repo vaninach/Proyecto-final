@@ -68,17 +68,17 @@ public class MedicoController {
         return "dashboard.html";
     }
 
-    @GetMapping("/NuevoMedico")
-    public String Medico() {
-        return "Medico/doctor.html";
-    }
-
-    @PostMapping("/NuevoMedico")
-    public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac,String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
-        System.out.println("\n\n\nPOST MAPPING NUEVOMEDICO");
-        medicose.crear(matricula, nombre, apellido, fechaNac, genero, mail, provincia, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
-        return "Medico/doctor.html";
-    }
+//    @GetMapping("/NuevoMedico")
+//    public String Medico() {
+//        return "Medico/doctor.html";
+//    }
+//
+//    @PostMapping("/NuevoMedico")
+//    public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac,String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
+//        System.out.println("\n\n\nPOST MAPPING NUEVOMEDICO");
+//        medicose.crear(matricula, nombre, apellido, fechaNac, genero, mail, provincia, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
+//        return "Medico/doctor.html";
+//    }
 
     //agregado por nacho //
     @RequestMapping("/Medico/inicioMedico")
