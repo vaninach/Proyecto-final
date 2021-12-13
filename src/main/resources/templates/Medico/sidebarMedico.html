@@ -62,6 +62,9 @@
                                 <i class='bx bxs-band-aid'></i> 
                                 <span class="nav_name">Recetas</span>
                             </a> 
+                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
+                                <input class="boton" type="submit" value="salir" >
+                            </form>
                         </div>
                     </div> 
                     <a href="#" class="nav_link"> 
@@ -73,10 +76,10 @@
 
 
 
-            
+            <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script> 
         </div>
-        
-        <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
+
+
     </body>
 
 </html>

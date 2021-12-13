@@ -71,7 +71,7 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt =  medRep.findById(matricula);
         
@@ -81,7 +81,7 @@ public class MedicoSe implements UserDetailsService {
                 validar(nombre);
                 validar(apellido);
                 validar(fechaNac);
-                validar(genero);  //enum
+                validar(genero);  
                 validar(mail);
                 validar(provincia);
                 validar(ciudad);  // si usamos la API, esto va a cambiar --> posible String
@@ -123,7 +123,7 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, Genero genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt = medRep.findById(matricula);
         
@@ -135,8 +135,8 @@ public class MedicoSe implements UserDetailsService {
             med.setApellido(apellido);
             validar(fechaNac); 
             med.setFechaNac(fechaNac);
-            //validar(genero);  falta en el front
-            //med.setGenero(genero);
+            validar(genero);  
+            med.setGenero(genero);
             validar(mail);
             med.setMail(mail);
             validar(provincia);

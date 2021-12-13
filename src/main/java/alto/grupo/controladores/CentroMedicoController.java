@@ -89,8 +89,10 @@ public class CentroMedicoController {
     }
 
     @PostMapping("CentroMedico/modificarCentroMedicos")
-    public String modificarCentroMedico2(final CentroMedico cmed, HttpSession session, Model model) {
+    public String modificarCentroMedico2(final CentroMedico cmed, HttpSession session, Model model,String clave2) {
         try {
+            
+             if(clave2!=null && !cmed.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
             model.addAttribute("cmedico", cmed);
             centroMedicose.modificarCentro(cmed.getCodigoRegistro(), cmed.getNombre(), cmed.getTelefono(), cmed.getMail(), cmed.getProvincia(), cmed.getCiudad(), cmed.getCalle(), cmed.getNumero(), cmed.getPiso(), cmed.getDepartamento(), cmed.getOtros(), cmed.getClave());
             session.setAttribute("centromedicosesion", cmed);

@@ -74,9 +74,9 @@ public class MedicoController {
     }
 
     @PostMapping("/NuevoMedico")
-    public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac, String mail, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
+    public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac,String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
         System.out.println("\n\n\nPOST MAPPING NUEVOMEDICO");
-        medicose.crear(matricula, nombre, apellido, fechaNac, null, mail, null, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
+        medicose.crear(matricula, nombre, apellido, fechaNac, genero, mail, provincia, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
         return "Medico/doctor.html";
     }
 
@@ -109,9 +109,10 @@ public class MedicoController {
         return "redirect:NuevoMedico2";
     }
 
-    @GetMapping("editar-perfil-M")
+    @GetMapping("Medico/editar-perfil-M")
     public String modificarMedico(Model modelo, HttpSession session, @RequestParam Integer matricula, final Medico medico) {
-
+        
+        System.out.println("fhjadshfasdfadñlsakfj");
         Medico med = (Medico) session.getAttribute("medicosesion");
 
         if (med.getMatricula().intValue() != matricula) {
@@ -122,10 +123,13 @@ public class MedicoController {
         return "Medico/modificarMedico";
     }
 
-    @PostMapping("modificarMedicos")
-    public String modificarMedico2(final Medico med, HttpSession session, Model model) {
+    @PostMapping("Medico/modificarMedicos")
+    public String modificarMedico2(final Medico med, HttpSession session, Model model,String clave2) {
         try {
-            medicose.modificar(med.getMatricula(), med.getNombre(), med.getApellido(), med.getFechaNac(), null, med.getMail(), null, med.getCiudad(), med.getOtros(), med.getClave(), med.getEspecialidad1(), med.getEspecialidad2(), med.getEspecialidad3(), null);
+            
+             if(clave2!=null && !med.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
+            
+            medicose.modificar(med.getMatricula(), med.getNombre(), med.getApellido(), med.getFechaNac(), med.getGenero(), med.getMail(), med.getProvincia(), med.getCiudad(), med.getOtros(), med.getClave(), med.getEspecialidad1(), med.getEspecialidad2(), med.getEspecialidad3(), null);
             session.setAttribute("medicosesion", med);
         } catch (Errores ex) {
             String mensaje = ex.getMessage();

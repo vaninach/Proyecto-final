@@ -20,15 +20,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,10 +52,9 @@ public class PacienteController {
 
     @Autowired
     private HistClinicaSe histclinicase;
-    
+
     @Autowired
     private HistClinicaRep histclinicarep;
-
 
     @Autowired
     private MedicoSe medicose;
@@ -59,7 +65,7 @@ public class PacienteController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @RequestMapping("/login")
+    @RequestMapping("/Paciente/login")
     public String login() {
         return "Paciente/loginPaciente.html";
     }
@@ -71,14 +77,16 @@ public class PacienteController {
     }
 
     @PostMapping("CentroMedico/NuevoPaciente")
-    public String nuevoPaciente(Model modelo, Paciente paciente,String clave2) throws Errores {
+    public String nuevoPaciente(Model modelo, Paciente paciente, String clave2) throws Errores {
         //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
 
         try {
-            
-            if(!paciente.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
-            
-            pacientese.Crearpaciente(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), paciente.getProvincia(), paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
+
+            if (!paciente.getClave().equals(clave2)) {
+                throw new Errores("Las claves no coinciden, intentelo nuevamente");
+            }
+
+            pacientese.Crearpaciente(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), paciente.getGenero(), paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), paciente.getGrupoS(), paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), paciente.getProvincia(), paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
             sendEmail(paciente.getMail());
         } catch (Errores ex) {
 
@@ -91,19 +99,19 @@ public class PacienteController {
     }
 
 //agregado por nacho //
-    @RequestMapping("/inicioPaciente")
-	public String incioCentroMedico() {
-		return "Paciente/Sidebarpaciente.html";
-	}
+    @RequestMapping("/Paciente/inicioPaciente")
+    public String incioCentroMedico() {
+        return "Paciente/Sidebarpaciente.html";
+    }
 //////////////////////
 
-    @GetMapping("editar-perfil")
+    @GetMapping("/Paciente/editar-perfil")
     public String modificarPaciente(Model modelo, HttpSession session, @RequestParam String DNI, final Paciente paciente) {
 
         Paciente pac = (Paciente) session.getAttribute("pacientesesion");
 
         if (pac.getDNI() == null || !pac.getDNI().equals(DNI)) {
-            return "redirect:/NuevoPaciente";
+            return "redirect:/inicio";
         }
 
         try {
@@ -116,29 +124,34 @@ public class PacienteController {
         return "Paciente/modificarpaciente";
     }
 
-    @PostMapping("modificar2")
-    public String modificarPaciente2(final Paciente paciente, HttpSession session, Model model) {
+    @PostMapping("/Paciente/modificar2")
+    public String modificarPaciente2(final Paciente paciente, HttpSession session, Model model, String clave2) {
         try {
+
+            if (clave2 != null && !paciente.getClave().equals(clave2)) {
+                throw new Errores("Las claves no coinciden, intentelo nuevamente");
+            }
+
             System.out.println(paciente.getProvincia());
-            pacientese.Modificar(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), null, paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), null, paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), paciente.getProvincia(), paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
+            pacientese.Modificar(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), paciente.getGenero(), paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), paciente.getGrupoS(), paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), paciente.getProvincia(), paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
             session.setAttribute("pacientesesion", paciente);
         } catch (Errores ex) {
-            String mensaje=ex.getMessage();
-            model.addAttribute("mensaje",mensaje);
+            String mensaje = ex.getMessage();
+            model.addAttribute("mensaje", mensaje);
         }
         return "Paciente/modificarpaciente";
     }
 
-    @GetMapping("BuscarHistoriasClinicas")
+    @GetMapping("/Paciente/BuscarHistoriasClinicas")
 
     public String BuscarHC(HttpSession session, Model model, String fecha, String especialidad) {
 
         return "Paciente/BuscarHistoriasClinicas";
     }
 
-    @PostMapping("BuscarHistoriasClinicas")
+    @PostMapping("/Paciente/BuscarHistoriasClinicas")
 
-    public String BuscarHC2(HttpSession session, Model model, @RequestParam String fecha, @RequestParam String especialidad,RedirectAttributes re) throws Errores {
+    public String BuscarHC2(HttpSession session, Model model, @RequestParam String fecha, @RequestParam String especialidad, RedirectAttributes re) throws Errores {
         List<HistoriasClinicas> lista = new ArrayList<>();
         List<String> listaMedicos = new ArrayList<>();
         List<String> listaCentroMedico = new ArrayList<>();
@@ -216,19 +229,17 @@ public class PacienteController {
         model.addAttribute("lista", lista);
         model.addAttribute("listamedico", listaMedicos);
         model.addAttribute("listacentromedico", listaCentroMedico);
-        
+
         re.addFlashAttribute("lista", lista);
         re.addFlashAttribute("listamedico", listaMedicos);
         re.addFlashAttribute("listacentromedico", listaCentroMedico);
 
         return "Paciente/BuscarHistoriasClinicas";
     }
-    
-    
-    
-    @GetMapping("MostrarHistoriaClinica")
+
+    @GetMapping("/Paciente/MostrarHistoriaClinica")
     public String MostrarHC(HttpSession session, Model model, String id, RedirectAttributes re) {
-        
+
         Paciente pac = (Paciente) session.getAttribute("pacientesesion");
 
         if (pac == null) {
@@ -236,36 +247,29 @@ public class PacienteController {
             return "redirect:/inicio";
 
         }
-        
-        Optional<HistoriasClinicas> histc=histclinicarep.findById(id);
-        
-        if(histc.isPresent()){
-            HistoriasClinicas historiac=histc.get();
-            if(!
-                    historiac.getDNI().equals(pac.getDNI())){
-                System.out.println("redireccionando3"+historiac.getDNI()+" "+pac.getDNI());
+
+        Optional<HistoriasClinicas> histc = histclinicarep.findById(id);
+
+        if (histc.isPresent()) {
+            HistoriasClinicas historiac = histc.get();
+            if (!historiac.getDNI().equals(pac.getDNI())) {
+                System.out.println("redireccionando3" + historiac.getDNI() + " " + pac.getDNI());
                 return "redirect:/inicio";
             }
-            System.out.println("informe "+historiac.getInforme());
+            System.out.println("informe " + historiac.getInforme());
             re.addFlashAttribute("historiac", historiac);
             model.addAttribute("historiac", historiac);
-        }
-        else{
+        } else {
             model.addAttribute("mensaje", "No se encontró ninguna historia clinica con el id solicitado");
-            re.addFlashAttribute("mensaje","No se encontró ninguna historia clinica con el id solicitado");
+            re.addFlashAttribute("mensaje", "No se encontró ninguna historia clinica con el id solicitado");
         }
-        
-        return "redirect:/BuscarHistoriasClinicas";
-       // return "Paciente/MostrarHistoriaclinica.html";
+
+        return "redirect:/Paciente/BuscarHistoriasClinicas";
+        // return "Paciente/MostrarHistoriaclinica.html";
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+  
 
     void sendEmail(String email) {
 
