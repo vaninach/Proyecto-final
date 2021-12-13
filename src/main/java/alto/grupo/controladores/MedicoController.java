@@ -254,10 +254,6 @@ public class MedicoController {
     
     @PostMapping("/Medico/BuscarHistoriasClinicas")
     public String verHCfiltro(HttpSession session, Model model, @RequestParam String DNI, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam(required=false) String soloMio, RedirectAttributes re){
-        String greet = "on".equals(soloMio) ? "Good morning" : "Hi";
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+greet);
-        
-        
         List<HistoriasClinicas> listaHC = new ArrayList<>();
         List<String> listaMedicos = new ArrayList<>();
         List<String> listaCentroMedico = new ArrayList<>();
@@ -275,7 +271,7 @@ public class MedicoController {
             model.addAttribute("mensaje", mensaje);
         }
 
-        if ((fechaVisita == null || fechaVisita.isEmpty()) && (especialidad == null || especialidad.isEmpty())) {
+        if (!(centroMedico == null || centroMedico.isEmpty())   ) {
             try {
                 listaHC = histclinSe.buscarPorDNI(pac.getDNI());
                 System.out.println("entramos al 1");
@@ -283,7 +279,7 @@ public class MedicoController {
                 String mensaje = "No se encontraron registros del paciente";
                 model.addAttribute("mensaje", mensaje);
             }
-        } else if ((fechaVisita == null || fechaVisita.isEmpty())) {
+        } else if (!(especialidad == null || especialidad.isEmpty())) {
             try {
                 listaHC = histclinSe.buscarPorDNIEspecialidad(pac.getDNI(), especialidad);
                 System.out.println("entramos al 2");
@@ -291,7 +287,7 @@ public class MedicoController {
                 String mensaje = "No se encontraron registros en la especialidad solicitada";
                 model.addAttribute("mensaje", mensaje);
             }
-        } else if ((especialidad == null || especialidad.isEmpty())) {
+        } else if (!(fechaVisita == null || fechaVisita.isEmpty())) {
             try {
                 listaHC = histclinSe.buscarPorDNIFecha(pac.getDNI(), fechaVisita);
                 System.out.println("entramos al 3");
@@ -299,7 +295,7 @@ public class MedicoController {
                 String mensaje = "No se encontraron registros en la fecha solicitada";
                 model.addAttribute("mensaje", mensaje);
             }
-        } else {
+        } else if (!(fechaVisita == null || fechaVisita.isEmpty()) && !(especialidad == null || especialidad.isEmpty())){
             try {
                 listaHC = histclinSe.buscarPorDNIFechaEspecialidad(pac.getDNI(), fechaVisita, especialidad);
                 System.out.println("entramos al 4");
@@ -314,11 +310,7 @@ public class MedicoController {
             Iterator<HistoriasClinicas> itr = listaHC.iterator();
             while(itr.hasNext()) {
                 HistoriasClinicas histClin = itr.next();
-                System.out.println("\n\n1-"+histClin.getMatricula());
-                System.out.println("2-"+med.getMatricula());
                 if(!Objects.equals(histClin.getMatricula(), med.getMatricula())){
-                    System.out.println("==> removing "+histClin.getMatricula());
-                    System.out.println("==>          "+histClin.getInforme());
                     itr.remove();
                 }                
             }
