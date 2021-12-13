@@ -102,9 +102,10 @@ public class MedicoController {
         return "redirect:NuevoMedico2";
     }
 
-    @GetMapping("editar-perfil-M")
+    @GetMapping("Medico/editar-perfil-M")
     public String modificarMedico(Model modelo, HttpSession session, @RequestParam Integer matricula, final Medico medico) {
-
+        
+        System.out.println("fhjadshfasdfadñlsakfj");
         Medico med = (Medico) session.getAttribute("medicosesion");
 
         if (med.getMatricula().intValue() != matricula) {
@@ -115,10 +116,13 @@ public class MedicoController {
         return "Medico/modificarMedico";
     }
 
-    @PostMapping("modificarMedicos")
-    public String modificarMedico2(final Medico med, HttpSession session, Model model) {
+    @PostMapping("Medico/modificarMedicos")
+    public String modificarMedico2(final Medico med, HttpSession session, Model model,String clave2) {
         try {
-            medicose.modificar(med.getMatricula(), med.getNombre(), med.getApellido(), med.getFechaNac(), null, med.getMail(), null, med.getCiudad(), med.getOtros(), med.getClave(), med.getEspecialidad1(), med.getEspecialidad2(), med.getEspecialidad3(), null);
+            
+             if(clave2!=null && !med.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
+            
+            medicose.modificar(med.getMatricula(), med.getNombre(), med.getApellido(), med.getFechaNac(), med.getGenero(), med.getMail(), med.getProvincia(), med.getCiudad(), med.getOtros(), med.getClave(), med.getEspecialidad1(), med.getEspecialidad2(), med.getEspecialidad3(), null);
             session.setAttribute("medicosesion", med);
         } catch (Errores ex) {
             String mensaje = ex.getMessage();

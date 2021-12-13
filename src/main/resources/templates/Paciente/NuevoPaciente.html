@@ -62,12 +62,12 @@
                 </div> 
 
                 <div class="form-group col-md-12">
-                    <label for="matricula" class="col-sm-2 control-label col-md-12">Seleccione su genero </label>
+                    <label for="genero" class="col-sm-2 control-label col-md-12">Seleccione su genero </label>
                     <div class="col-sm-2 col-md-12">
-                        <select class="form-control inputstl" id="matricula">
-                            <option>Masculino</option>
-                            <option>Femenino</option>
-                            <option>Intrasexual</option>
+                        <select class="form-control inputstl" id="Genero"  name="genero" th:field="*{genero}">
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Intersexual">Intrasexual</option>
                         </select>
                     </div>
 
@@ -103,19 +103,19 @@
 
                 </div> 
                 <div class="form-group col-md-12">
-                    <label for="matricula" class="col-sm-2 control-label col-md-12">Seleccione su grupo sanguineo </label>
+                    <label for="grupoS" class="col-sm-2 control-label col-md-12">Seleccione su grupo sanguineo </label>
                     <div class="col-sm-2 col-md-12">
-                        <select class="form-control inputstl" id="matricula">
+                        <select class="form-control inputstl" id="grupoS" name="grupoS" th:field="*{grupoS}">
 
 
-                            <option>0 Negativo</option>
-                            <option>0 Positivo</option>
-                            <option>A Negativo</option>
-                            <option>A Positivo</option>
-                            <option>B Negativo</option>
-                            <option>B Positivo</option>
-                            <option>AB Negativo</option>
-                            <option>AB Positivo</option>
+                            <option value="O-">O -</option>
+                            <option value="O+">O +</option>
+                            <option value="A-">A -</option>
+                            <option value="A+">A +</option>
+                            <option value="B-">B -</option>
+                            <option value="B+">B +</option>
+                            <option value="AB-">AB -</option>
+                            <option value="AB+">AB +</option>
 
                         </select>
                     </div>
