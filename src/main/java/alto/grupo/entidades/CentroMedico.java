@@ -5,8 +5,6 @@
  */
 package alto.grupo.entidades;
 
-import alto.grupo.enums.Provincia;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -29,7 +27,7 @@ public class CentroMedico {
     private String nombre;
     private String telefono;
     private String mail;
-    private Provincia provincia;  // va a hacer un String (posiblemente)
+    private String provincia;  // va a hacer un String (posiblemente)
     private String ciudad; // revisar como lo hacemos, query? bajar base de datos? => llegan Strings del front
     private String calle;
     private String numero;
@@ -75,7 +73,7 @@ public class CentroMedico {
         this.mail = mail;
     }
 
-    public void setProvincia(Provincia provincia) {
+    public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 
@@ -138,7 +136,7 @@ public class CentroMedico {
         return mail;
     }
 
-    public Provincia getProvincia() {
+    public String getProvincia() {
         return provincia;
     }
 

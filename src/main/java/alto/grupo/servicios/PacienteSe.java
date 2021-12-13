@@ -8,7 +8,6 @@ package alto.grupo.servicios;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.GrupoS;
-import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import javax.transaction.Transactional;
 import alto.grupo.repositorios.PacienteRep;
 import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,7 +43,7 @@ public class PacienteSe implements UserDetailsService {
                 validar(paciente.getNombre());
                 validar(paciente.getApellido());
                 validar(paciente.getFechaNac()); // esta validacion?? no haria falta porque aparece el calensaario?
-               // validar(paciente.getGenero()); //esto todavia no lo resolvemos
+                validar(paciente.getGenero()); 
                 validar(paciente.getEstadoCivil());
                 validar(paciente.getTelefono());
                 validar(paciente.getMail());
@@ -60,8 +57,7 @@ public class PacienteSe implements UserDetailsService {
                 validar(paciente.getObraS3());
                 validar(paciente.getnAfiliadoOS3());
                 validar(paciente.getNacionalidad());
-                Provincia p=paciente.getProvincia();
-                //validar(paciente.getProvincia()); --> posible String
+                validar(paciente.getProvincia());
                 validar(paciente.getCiudad());
                 validar(paciente.getCalle());
                 validar(paciente.getNumero());
@@ -75,7 +71,7 @@ public class PacienteSe implements UserDetailsService {
                 parep.save(paciente);
 
             } catch (Errores e) {
-                System.out.println(e);
+                throw new Errores(e.getMessage());
             }
         } else {
             throw new Errores("El paciente ya tiene una cuenta");
@@ -83,7 +79,7 @@ public class PacienteSe implements UserDetailsService {
     }
     
     @Transactional
-    public void Crearpaciente(String DNI, String nombre, String apellido, String fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void Crearpaciente(String DNI, String nombre, String apellido, String fechaNac, String genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, String grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, String provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
         Optional<Paciente> paci = parep.findById(DNI);
         if (!paci.isPresent()) {
 
@@ -91,13 +87,13 @@ public class PacienteSe implements UserDetailsService {
                 validar(nombre);
                 validar(apellido);
                 validar(fechaNac);
-               // validar(genero);  //esto todavia no lo resolvemos
+                validar(genero);  
                 validar(estadoCivil);
                 validar(telefono);
                 validar(mail);
                 validar(nombreContacto);
                 validar(telefonoContacto);
-               // validar(grupoS);
+                validar(grupoS);
                 //validar(obraS1);  // No lo vamos a validar en la creacion
                 //validar(nAfiliadoOS1);    // se pueden agregar luego
                 //validar(obraS2);
@@ -105,7 +101,7 @@ public class PacienteSe implements UserDetailsService {
                 //validar(obraS3);
                 //validar(nAfiliadoOS3);
                 validar(nacionalidad);
-                //validar(provincia); --> posible String
+                validar(provincia);
                 validar(ciudad);
                 validar(calle);
                 validar(numero);
@@ -154,7 +150,7 @@ public class PacienteSe implements UserDetailsService {
     }
 
     @Transactional
-    public void Modificar(String DNI, String nombre, String apellido, String fechaNac, Genero genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, GrupoS grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, Provincia provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
+    public void Modificar(String DNI, String nombre, String apellido, String fechaNac, String genero, String estadoCivil, String telefono, String mail, String nombreContacto, String telefonoContacto, String grupoS, String obraS1, String nAfiliadoOS1, String obraS2, String nAfiliadoOS2, String obraS3, String nAfiliadoOS3, String nacionalidad, String provincia, String ciudad, String calle, String numero, String piso, String departamento, String otros, String clave) throws Errores {
 
         Optional<Paciente> paciop = parep.findById(DNI);
         if (paciop.isPresent()) {
@@ -194,7 +190,7 @@ public class PacienteSe implements UserDetailsService {
             pac.setnAfiliadoOS1(nAfiliadoOS3);
             validar(nacionalidad);
             pac.setNacionalidad(nacionalidad);
-            //  validar(provincia);  // ver esta validacion --> posible String
+            validar(provincia);  
             pac.setProvincia(provincia);
             validar(ciudad);
             pac.setCiudad(ciudad);
@@ -243,7 +239,7 @@ public class PacienteSe implements UserDetailsService {
     }
 
     @Transactional
-    public List<Paciente> BuscarPorNAPC(String nombre, String apellido, Provincia provincia, String ciudad) throws Errores {
+    public List<Paciente> BuscarPorNAPC(String nombre, String apellido, String provincia, String ciudad) throws Errores {
         List<Paciente> paci = parep.BuscarNombreApellidoProvincia(nombre, apellido, provincia, ciudad);
         if (!paci.isEmpty()) {
             return paci;
@@ -253,7 +249,7 @@ public class PacienteSe implements UserDetailsService {
     }
 
     @Transactional
-    public List<Paciente> BuscarPorNAPC(String nombre, String apellido, Provincia provincia) throws Errores {
+    public List<Paciente> BuscarPorNAPC(String nombre, String apellido, String provincia) throws Errores {
         List<Paciente> paci = parep.BuscarNombreApellidoProvincia(nombre, apellido, provincia);
         if (!paci.isEmpty()) {
             return paci;
@@ -299,19 +295,7 @@ public class PacienteSe implements UserDetailsService {
         
     }
     
-    //enum
-    private void validar(Genero genero) throws Errores {
-        if(genero==null){
-            throw new Errores("El genero no puede ser nulo.");
-        }
-    }
     
-    //enum
-    private void validar(GrupoS grupoS) throws Errores {
-        if(grupoS==null){
-            throw new Errores("El grupo sanguineo no puede ser nulo.");
-        }
-    }
     // ============== END VALIDACIONES Y BUSQUEDA DE CAMBIOS =================
 
 //    @Override

@@ -56,15 +56,17 @@ public class SeguridadConfiguracionCentroMedico extends WebSecurityConfigurerAda
 //			.and().logout().logoutSuccessUrl("/login");
 //		
 //		http.csrf().disable();
-System.out.println("hola");
         http.antMatcher("/CentroMedico/**")
                 .authorizeRequests().anyRequest().permitAll()//.authenticated()
                 .and().formLogin().loginPage("/CentroMedico/login")
                 .defaultSuccessUrl("/CentroMedico/inicioCentroMedico", true)
-                .failureUrl("/accessdenied")
+                .failureUrl("/CentroMedico/login?error")
                 .permitAll()
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/inicio")
-                .and().exceptionHandling().accessDeniedPage("/accessdenied");
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/inicio").deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
+                //.and().logout().logoutUrl("/logout").logoutSuccessUrl("/inicio")
+                //.and().exceptionHandling().accessDeniedPage("/accessdenied");
         http.csrf().disable();
 
     }

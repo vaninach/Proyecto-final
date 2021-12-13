@@ -6,10 +6,7 @@
 package alto.grupo.entidades;
 
 import javax.persistence.Entity;
-import alto.grupo.enums.*;
 import java.io.Serializable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 /**
@@ -25,15 +22,13 @@ public class Paciente implements Serializable {
     private String nombre;
     private String apellido;
     private String fechaNac;
-    @Enumerated(EnumType.STRING)  // en la bdd guarda strings (FEM.., MASC..) en lugar de numeros (0,1)
-    private Genero genero;
+    private String genero;
     private String estadoCivil; //enum?
     private String telefono;
     private String mail;
     private String nombreContacto;
     private String telefonoContacto;
-    @Enumerated(EnumType.STRING) 
-    private GrupoS grupoS;
+    private String grupoS;
     private String obraS1;
     private String nAfiliadoOS1;
     private String obraS2;
@@ -41,7 +36,7 @@ public class Paciente implements Serializable {
     private String obraS3;
     private String nAfiliadoOS3;
     private String nacionalidad; //enum?
-    private Provincia provincia;
+    private String provincia;
     private String ciudad; // revisar como lo hacemos, query? bajar base de datos?
     private String calle;
     private String numero;
@@ -69,7 +64,7 @@ public class Paciente implements Serializable {
         return fechaNac;
     }
 
-    public Genero getGenero() {
+    public String getGenero() {
         return genero;
     }
 
@@ -93,7 +88,7 @@ public class Paciente implements Serializable {
         return telefonoContacto;
     }
 
-    public GrupoS getGrupoS() {
+    public String getGrupoS() {
         return grupoS;
     }
 
@@ -125,7 +120,7 @@ public class Paciente implements Serializable {
         return nacionalidad;
     }
 
-    public Provincia getProvincia() {
+    public String getProvincia() {
         return provincia;
     }
 
@@ -173,7 +168,7 @@ public class Paciente implements Serializable {
         this.fechaNac = fechaNac;
     }
 
-    public void setGenero(Genero genero) {
+    public void setGenero(String genero) {
         this.genero = genero;
     }
 
@@ -197,7 +192,7 @@ public class Paciente implements Serializable {
         this.telefonoContacto = telefonoContacto;
     }
 
-    public void setGrupoS(GrupoS grupoS) {
+    public void setGrupoS(String grupoS) {
         this.grupoS = grupoS;
     }
 
@@ -229,7 +224,7 @@ public class Paciente implements Serializable {
         this.nacionalidad = nacionalidad;
     }
 
-    public void setProvincia(Provincia provincia) {
+    public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 

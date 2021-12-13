@@ -29,10 +29,9 @@ public class Medico {
     private String nombre;
     private String apellido;
     private String fechaNac;
-    @Enumerated(EnumType.STRING)  // en la bdd guarda strings (FEM.., MASC..) en lugar de numeros (0,1)
-    private Genero genero;
+    private String genero;
     private String mail;
-    private Provincia provincia;
+    private String provincia;
     private String ciudad; // revisar como lo hacemos, query? bajar base de datos?
     private String otros;
     private String clave;
@@ -68,7 +67,7 @@ public class Medico {
         return fechaNac;
     }
 
-    public Genero getGenero() {
+    public String getGenero() {
         return genero;
     }
 
@@ -76,7 +75,7 @@ public class Medico {
         return mail;
     }
 
-    public Provincia getProvincia() {
+    public String getProvincia() {
         return provincia;
     }
 
@@ -124,7 +123,7 @@ public class Medico {
         this.fechaNac = fechaNac;
     }
 
-    public void setGenero(Genero genero) {
+    public void setGenero(String genero) {
         this.genero = genero;
     }
 
@@ -132,7 +131,7 @@ public class Medico {
         this.mail = mail;
     }
 
-    public void setProvincia(Provincia provincia) {
+    public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 

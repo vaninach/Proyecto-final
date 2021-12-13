@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
     <head>
 
@@ -23,49 +23,60 @@
               integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
         <!-- llamado al propio css del archivo -->
-        <link rel="stylesheet" href="/css/sidebar.css"  th:href="@{/css/sidebar.css}">
+        <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
         <title>HISTOMED - CENTRO MEDICO</title>
     </head>
+    <div th:fragment="sidebarCentroMedico">
+
+
+        <body id="body-pd">
+
+            <header class="header" id="header">
+                <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+                <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
+            </header>
+
+            <div class="l-navbar" id="nav-bar">
+                <nav class="nav">
+                    <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span
+                                class="nav_logo-name">HISTOMED</span> </a>
+                        <div class="nav_list"> 
+                            <a th:href="@{editar-perfil-CM(codigo=__${session.centromedicosesion.codigoRegistro}__)}" th:if='${session.centromedicosesion != null}' 
+                               class="nav_link active"> <span
+                                    class="nav_name">MIS DATOS</span> </a>
+
+                            <!--Linea comentada, creo que eso se podria hacer con JS-->
+                            <!--                            <a href="#" class="nav_link"> <i class='bx bx-pencil'></i> <span
+                                                                class="nav_name">Modificar</span> </a> -->
+
+                            <!--Ver como podemos hacer esto-->
+                            <!--                            <a href="#" class="nav_link"> <i class='bx bx-search'></i> <span
+                                                                class="nav_name">PACIENTES</span> </a> -->
+
+                            <a href="NuevoPaciente" class="nav_link"> <i class='bx bx-add-to-queue'></i>
+                                <span class="nav_name">Agregar paciente</span> </a>
+
+                            <!--Lo mismo que con paciente, ver que se puede hacer-->
+                            <!--                            <a href="#" class="nav_link"> <i
+                                                                class='bx bx-search'></i> <span class="nav_name">MEDICOS</span> </a> -->
+
+                            <a href="NuevoMedico2" class="nav_link"> <i
+                                    class='bx bx-add-to-queue'></i><span class="nav_name">Agregar medico</span> </a> 
+                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
+                                <input class="boton" type="submit" value="salir" >
+                            </form>
+                        </div>
+                    </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Salir</span>
+                    </a>
+                </nav>
+            </div>
 
 
 
-    <body id="body-pd">
 
-        <header class="header" id="header">
-            <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-            <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
-        </header>
+            <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
+    </div>
+</body>
 
-        <div class="l-navbar" id="nav-bar">
-            <nav class="nav">
-                <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span
-                            class="nav_logo-name">HISTOMED</span> </a>
-                    <div class="nav_list"> 
-                        <a th:href="@{editar-perfil-CM(codigo=__${session.centromedicosesion.codigoRegistro}__)}" th:if='${session.centromedicosesion != null}' 
-                            class="nav_link active"> <i class='bx bxs-user'></i> <span
-                                class="nav_name">MIS DATOS</span> </a>
-                             
-                                
-                                
-                                
-                        <a href="#" class="nav_link"> <i class='bx bx-pencil'></i> <span
-                                class="nav_name">Modificar</span> </a> 
-                        <a href="#" class="nav_link"> <i class='bx bx-search'></i> <span
-                                class="nav_name">PACIENTES</span> </a> 
-                        <a href="NuevoPaciente" class="nav_link"> <i class='bx bx-add-to-queue'></i>
-                            <span class="nav_name">Agregar paciente</span> </a>
-                        <a href="#" class="nav_link"> <i
-                                class='bx bx-search'></i> <span class="nav_name">MEDICOS</span> </a> 
-                        <a href="#" class="nav_link"> <i
-                                class='bx bx-add-to-queue'></i><span class="nav_name">Agregar medico</span> </a> 
-                    </div>
-                </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Salir</span>
-                </a>
-            </nav>
-        </div>
-
-
-        <script src="sidebar.js"></script>
-    </body>
 
 </html>

@@ -9,7 +9,6 @@ import alto.grupo.entidades.CentroMedico;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.CentroMedicoRep;
 import alto.grupo.servicios.CentroMedicoSe;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +55,12 @@ public class CentroMedicoController {
     }
 
     @PostMapping("/NuevoCentroMedico")
-    public String nuevoCentroMedico(Model modelo, CentroMedico cmedico) throws Errores {
-        //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
+    public String nuevoCentroMedico(Model modelo, CentroMedico cmedico,String clave2) throws Errores {
         modelo.addAttribute("cmedico", cmedico);
+        
         try {
-            centroMedicose.crear(cmedico.getCodigoRegistro(), cmedico.getNombre(), cmedico.getTelefono(), cmedico.getMail(), null, cmedico.getCiudad(), cmedico.getCalle(), cmedico.getNumero(), cmedico.getPiso(), cmedico.getDepartamento(), cmedico.getOtros(), cmedico.getClave());
+            if(!cmedico.getClave().equals(clave2)) throw new Errores("Las claves deben coincidir, intentelo nuevamente");
+            centroMedicose.crear(cmedico);
             sendEmail(cmedico.getMail());
         } catch (Errores ex) {
             String mensaje = ex.getMessage();
@@ -88,14 +88,19 @@ public class CentroMedicoController {
         return "CentroMedico/modificarCentroMedico";
     }
 
-    @PostMapping("modificarCentroMedicos")
-    public String modificarCentroMedico2(final CentroMedico cmed, HttpSession session, Model model) {
+    @PostMapping("CentroMedico/modificarCentroMedicos")
+    public String modificarCentroMedico2(final CentroMedico cmed, HttpSession session, Model model,String clave2) {
         try {
-            centroMedicose.modificarCentro(cmed.getCodigoRegistro(), cmed.getNombre(), cmed.getTelefono(), cmed.getMail(), null, cmed.getCiudad(), cmed.getCalle(), cmed.getNumero(), cmed.getPiso(), cmed.getDepartamento(), cmed.getOtros(), cmed.getClave());
-            session.setAttribute("centromedicosesion", cmed);
+            
+             if(clave2!=null && !cmed.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
             model.addAttribute("cmedico", cmed);
+            centroMedicose.modificarCentro(cmed.getCodigoRegistro(), cmed.getNombre(), cmed.getTelefono(), cmed.getMail(), cmed.getProvincia(), cmed.getCiudad(), cmed.getCalle(), cmed.getNumero(), cmed.getPiso(), cmed.getDepartamento(), cmed.getOtros(), cmed.getClave());
+            session.setAttribute("centromedicosesion", cmed);
+            
         } catch (Errores ex) {
-            Logger.getLogger(CentroMedicoController.class.getName()).log(Level.SEVERE, null, ex);
+            String mensaje=ex.getMessage();
+            model.addAttribute("mensaje",mensaje);
+            return "CentroMedico/modificarCentroMedico";
         }
         return "CentroMedico/modificarCentroMedico";
     }

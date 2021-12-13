@@ -64,11 +64,14 @@ public class SeguridadConfiguracionMedico extends WebSecurityConfigurerAdapter {
 			http.antMatcher("/Medico/**")
 			.authorizeRequests().anyRequest().permitAll()//.authenticated()
 			.and().formLogin().loginPage("/Medico/login")
-				.defaultSuccessUrl("/NuevoMedico", true)
-				.failureUrl("/Medico/accessdenied")
+				.defaultSuccessUrl("/Medico/inicioMedico", true)
+				.failureUrl("/Medico/login?error")
 			.permitAll()
-			.and().logout().logoutUrl("/Medico/logout").logoutSuccessUrl("/Medico/login?logout")
-			.and().exceptionHandling().accessDeniedPage("/Medico/accessdenied");
+                                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/inicio").deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
+			//.and().logout().logoutUrl("/Medico/logout").logoutSuccessUrl("/Medico/login?logout")
+			//.and().exceptionHandling().accessDeniedPage("/Medico/accessdenied");
 		http.csrf().disable();
 	}	
     

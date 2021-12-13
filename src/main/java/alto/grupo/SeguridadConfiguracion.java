@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  *
@@ -51,13 +52,16 @@ public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter {
                 
                 
                 
-                http.antMatcher("/**")
+                http.antMatcher("/Paciente/**")
 			.authorizeRequests().anyRequest().permitAll()//.authenticated()
-			.and().formLogin().loginPage("/login")
-				.defaultSuccessUrl("/NuevoPaciente", true)
+			.and().formLogin().loginPage("/Paciente/login")
+				.defaultSuccessUrl("/Paciente/inicioPaciente", true)
 			.permitAll()
-			.and().logout().logoutUrl("/logout").logoutSuccessUrl("/login")
-			.and().exceptionHandling().accessDeniedPage("/accessdenied");
+                        .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+.logoutSuccessUrl("/inicio").deleteCookies("JSESSIONID")
+.invalidateHttpSession(true) ;
+			//.and().logout().logoutUrl("/logout").logoutSuccessUrl("/inicio")
+			//.and().exceptionHandling().accessDeniedPage("/accessdenied");
 		http.csrf().disable();
                 
     }
