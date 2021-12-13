@@ -22,7 +22,7 @@
         
         
         <h1>Datos Personales</h1>
-        <form class="need-validation" th:action="@{/modificar2}" th:object="${paciente}" method="POST">
+        <form class="need-validation" th:action="@{/Paciente/modificar2}" th:object="${paciente}" method="POST">
            
             <div th:if="${mensaje != null}">
                 <p th:text="${mensaje}" class="alert alert-danger"></p>

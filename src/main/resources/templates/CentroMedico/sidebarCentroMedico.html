@@ -26,11 +26,11 @@
         <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
         <title>HISTOMED - CENTRO MEDICO</title>
     </head>
-  <div th:fragment="sidebarCentroMedico">
+    <div th:fragment="sidebarCentroMedico">
 
 
-    <body id="body-pd">
-      
+        <body id="body-pd">
+
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
                 <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
@@ -56,12 +56,15 @@
                             <a href="NuevoPaciente" class="nav_link"> <i class='bx bx-add-to-queue'></i>
                                 <span class="nav_name">Agregar paciente</span> </a>
 
-                                <!--Lo mismo que con paciente, ver que se puede hacer-->
-<!--                            <a href="#" class="nav_link"> <i
-                                    class='bx bx-search'></i> <span class="nav_name">MEDICOS</span> </a> -->
+                            <!--Lo mismo que con paciente, ver que se puede hacer-->
+                            <!--                            <a href="#" class="nav_link"> <i
+                                                                class='bx bx-search'></i> <span class="nav_name">MEDICOS</span> </a> -->
 
                             <a href="NuevoMedico2" class="nav_link"> <i
                                     class='bx bx-add-to-queue'></i><span class="nav_name">Agregar medico</span> </a> 
+                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
+                                <input class="boton" type="submit" value="salir" >
+                            </form>
                         </div>
                     </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Salir</span>
                     </a>
@@ -72,8 +75,8 @@
 
 
             <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
-        </div>
-    </body>
+    </div>
+</body>
 
 
 </html>
