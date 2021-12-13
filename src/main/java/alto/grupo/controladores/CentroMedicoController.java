@@ -45,7 +45,7 @@ public class CentroMedicoController {
 
     @RequestMapping("/CentroMedico/inicioCentroMedico")
     public String incioCentroMedico() {
-        return "CentroMedico/sidebarCentroMedico.html";
+        return "CentroMedico/principalCentroMedico.html";
     }
 
     @GetMapping("/NuevoCentroMedico")
