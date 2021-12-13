@@ -63,10 +63,6 @@ public class MedicoController {
         return "Medico/loginDoctor.html";
     }
 
-    @RequestMapping("/Medico/dashboard")
-    public String Medicodashboard() {
-        return "dashboard.html";
-    }
 
     @GetMapping("/NuevoMedico")
     public String Medico() {
