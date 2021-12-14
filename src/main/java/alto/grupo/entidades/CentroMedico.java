@@ -179,6 +179,13 @@ public class CentroMedico {
     public List<Integer> getMedicos() {
         return medicos;
     }
+
+    @Override
+    public String toString() {
+        return "CentroMedico{" + "codigoRegistro=" + codigoRegistro + ", nombre=" + nombre + ", telefono=" + telefono + ", mail=" + mail + ", provincia=" + provincia + ", ciudad=" + ciudad + ", calle=" + calle + ", numero=" + numero + ", piso=" + piso + ", departamento=" + departamento + ", otros=" + otros + ", clave=" + clave + ", obrasSociales=" + obrasSociales + ", especialidades=" + especialidades + ", medicos=" + medicos + '}';
+    }
+    
+    
     
     
     

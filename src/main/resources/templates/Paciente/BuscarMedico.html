@@ -97,15 +97,15 @@ and open the template in the editor.
                     </tr>
                 </thead>
                      <tbody>
-                    
-                        <td th:text="${centrosm.nombre}"></td>
-                          <td th:text="${centrosm.telefono}"></td>
-                         <td th:text="${centrosm.email}"></td>
-                     <td th:text="${centrosm.provincia}"></td>
-                     <td th:text="${centrosm.ciudad}"></td>
-                     <td th:text="${centrosm.calle}"></td>
-                     <td th:text="${centrosm.numero}"></td>
-                  
+                    <tr th:each="cm,iterStat :${centrosm}">
+                        <td th:text="${cm.nombre}"></td>
+                          <td th:text="${cm.telefono}"></td>
+                         <td th:text="${cm.mail}"></td>
+                     <td th:text="${cm.provincia}"></td>
+                     <td th:text="${cm.ciudad}"></td>
+                     <td th:text="${cm.calle}"></td>
+                     <td th:text="${cm.numero}"></td>
+                    </tr>
                 </tbody>
             </table>
         

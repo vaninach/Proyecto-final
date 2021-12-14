@@ -261,6 +261,13 @@ public class PacienteController {
         // return "Paciente/MostrarHistoriaclinica.html";
     }
 
+    
+    
+    
+    
+    
+    
+    
     @GetMapping("/Paciente/BuscarPorMedico")
 
     public String BuscarMedico(HttpSession session, Model model, String nombre, String apellido, String especialidad) {
@@ -268,6 +275,7 @@ public class PacienteController {
         return "Paciente/BuscarMedico";
     }
 
+    
     @PostMapping("/Paciente/BuscarPorMedico")
 
     public String BuscarMedico2(HttpSession session, Model model, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String especialidad, @RequestParam String provincia, @RequestParam String ciudad, RedirectAttributes re) throws Errores {
@@ -369,8 +377,8 @@ public class PacienteController {
 
     @GetMapping("/Paciente/MostrarCentrosMedicos")
     public String MostrarHC(HttpSession session, Model model, Integer id, RedirectAttributes re) {
-
-        List<CentroMedico> listaCentroMedico = new ArrayList<>();
+        List<CentroMedico> listaCM_real=new ArrayList<CentroMedico>();
+        
         Paciente pac = (Paciente) session.getAttribute("pacientesesion");
 
         if (pac == null) {
@@ -382,17 +390,26 @@ public class PacienteController {
         try {
             Medico med = medicose.BuscarPorMatricula(id);
 
-            List<Long> listacodigocentro = med.getCentrosMedicos();
-
-            for (Long long1 : listacodigocentro) {
-                CentroMedico cmed = centromedicose.buscarPorCodigo(long1);
-                if (cmed != null) {
-                    listaCentroMedico.add(cmed);
-                }
+            List<Long> listaCM=medicose.MostrarCentrosMedicos(med.getMatricula());
+            
+            for (Long long1 : listaCM) {
+                CentroMedico cmed=centromedicose.buscarPorCodigo(long1);
+                listaCM_real.add(cmed);
             }
-            if (listaCentroMedico.size() != 0) {
-                re.addFlashAttribute("centrosm", listaCentroMedico);
-                model.addAttribute("centrom", listaCentroMedico);
+        
+        //model.addAttribute("listaCM", listaCM);
+
+            System.out.println("Hemos llegado hasta aqui=========================================");
+                
+            
+            if (listaCM.size() != 0) {
+                
+                System.out.println("Hemos llegado hasta aqui nuevamente=========================================");
+                System.out.println(listaCM_real);
+                
+                
+                re.addFlashAttribute("centrosm", listaCM_real);
+                model.addAttribute("centrosm", listaCM_real); 
             } else {
                 model.addAttribute("mensaje", "No se encontró ningún Centro Medico asociado");
                 re.addFlashAttribute("mensaje", "No se encontró ningún Centro Medico asociado");

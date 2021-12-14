@@ -372,20 +372,6 @@ public class MedicoController {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
        @GetMapping("Medico/VincularCM")
     public String BuscarCM(HttpSession session, Model model){
         
