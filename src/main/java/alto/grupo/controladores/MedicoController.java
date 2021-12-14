@@ -14,6 +14,7 @@ import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -349,19 +350,25 @@ public class MedicoController {
         //return "inicio";
     }
     
-    @PostMapping("/Medico/AgregarHistoriaClinica")
-    public String agregarHC(HttpSession session, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe){
+    @GetMapping("/Medico/AgregarHistoriaClinica")
+    public String agregarHC(Model model, HttpSession session, String dni/*, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe*/){
         Medico med = (Medico)session.getAttribute("medicosesion");
         if(med == null){
             throw new Error("Debe registrarse!");
         }
+
+        HistoriasClinicas hclinica = new HistoriasClinicas();
+        hclinica.setDNI(dni);
+        hclinica.setMatricula(med.getMatricula());
+        hclinica.setEspecialidad(med.getEspecialidad1());
+        hclinica.setMatricula(med.getMatricula());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        hclinica.setFechaVisita(formatter.format(date));
         
-        if(fechaVisita==null || fechaVisita.isEmpty() || especialidad==null || especialidad.isEmpty() || centroMedico==null || centroMedico.isEmpty() || informe==null || informe.isEmpty()){
-            System.out.println("===========================================================\nERROEERRRRERAREG");
-            throw new Error("Todos los campos deben ser completados.");
-        }
+        model.addAttribute("hclinica",hclinica);
         
-        return "Medico/BuscarPaciente";
+        return "HistoriasClinicas/NuevoHistoriaClinica";
     }
     
     
@@ -401,6 +408,40 @@ public class MedicoController {
         
         return "Medico/Vincular-CM";
     }
+    
+    
+    
+    
+//       @GetMapping("Medico/VincularCM")
+//    public String BuscarCM(HttpSession session, Model model){
+//        
+//        return "Medico/Vincular-CM";
+//    }
+//
+//    @PostMapping("/Medico/VincularCM")
+//    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM) throws Errores{
+//        
+//        CentroMedico cmed=centromedicoSe.buscarPorCodigo(RegistroCM);
+//        List<CentroMedico> listaCM=new ArrayList<>();
+//        
+//        
+//
+//        Medico med = (Medico)session.getAttribute("medicosesion");
+//
+//        if(med == null){
+//            model.addAttribute("mensaje", "Debe Registrarse!!");
+//            
+//            return "redirect:/inicio";
+//        }
+//        
+//       if(cmed!=null){
+//           listaCM.add(cmed);
+//           model.addAttribute("listaCM", listaCM);
+//       }
+//       
+//        
+//        return "Medico/Vincular-CM";
+//    }
     
     @GetMapping("/Medico/ElegirCM")
     public String ElegirCM(HttpSession session, Long id, Model model,RedirectAttributes re) throws Errores{
