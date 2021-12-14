@@ -63,10 +63,6 @@ public class MedicoController {
         return "Medico/loginDoctor.html";
     }
 
-    @RequestMapping("/Medico/dashboard")
-    public String Medicodashboard() {
-        return "dashboard.html";
-    }
 
 //    @GetMapping("/NuevoMedico")
 //    public String Medico() {
@@ -82,8 +78,8 @@ public class MedicoController {
 
     //agregado por nacho //
     @RequestMapping("/Medico/inicioMedico")
-    public String inicioCentroMedico() {
-        return "Medico/principalMedico";
+    public String incioCentroMedico() {
+        return "Medico/principalMedico.html";
     }
 //////////////////////
 
