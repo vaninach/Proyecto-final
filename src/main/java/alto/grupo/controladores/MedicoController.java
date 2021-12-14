@@ -413,36 +413,36 @@ public class MedicoController {
     
     
     
-       @GetMapping("Medico/VincularCM")
-    public String BuscarCM(HttpSession session, Model model){
-        
-        return "Medico/Vincular-CM";
-    }
-
-    @PostMapping("/Medico/VincularCM")
-    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM) throws Errores{
-        
-        CentroMedico cmed=centromedicoSe.buscarPorCodigo(RegistroCM);
-        List<CentroMedico> listaCM=new ArrayList<>();
-        
-        
-
-        Medico med = (Medico)session.getAttribute("medicosesion");
-
-        if(med == null){
-            model.addAttribute("mensaje", "Debe Registrarse!!");
-            
-            return "redirect:/inicio";
-        }
-        
-       if(cmed!=null){
-           listaCM.add(cmed);
-           model.addAttribute("listaCM", listaCM);
-       }
-       
-        
-        return "Medico/Vincular-CM";
-    }
+//       @GetMapping("Medico/VincularCM")
+//    public String BuscarCM(HttpSession session, Model model){
+//        
+//        return "Medico/Vincular-CM";
+//    }
+//
+//    @PostMapping("/Medico/VincularCM")
+//    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM) throws Errores{
+//        
+//        CentroMedico cmed=centromedicoSe.buscarPorCodigo(RegistroCM);
+//        List<CentroMedico> listaCM=new ArrayList<>();
+//        
+//        
+//
+//        Medico med = (Medico)session.getAttribute("medicosesion");
+//
+//        if(med == null){
+//            model.addAttribute("mensaje", "Debe Registrarse!!");
+//            
+//            return "redirect:/inicio";
+//        }
+//        
+//       if(cmed!=null){
+//           listaCM.add(cmed);
+//           model.addAttribute("listaCM", listaCM);
+//       }
+//       
+//        
+//        return "Medico/Vincular-CM";
+//    }
     
     @GetMapping("/Medico/ElegirCM")
     public String ElegirCM(HttpSession session, Long id, Model model,RedirectAttributes re) throws Errores{
