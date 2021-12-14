@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    <h1>Buscar Paciente </h1>
     <div class="buscador">
         <form th:action="@{/Medico/BuscarPaciente}" method="POST">
             <!-- <input id="login-username" type="date" class="form-control" name="fechaNac" value=""
@@ -22,8 +23,7 @@
             <input type="text" id="apellido" name="apellido" placeholder="Apellido del paciente" /><br>
             <input type="text" id="DNI" name="DNI" placeholder="DNI del paciente" /><br>
             <label for="provincia"> Provincia </label>
-            <input type="text" id="provincia" name="provincia" placeholder="Provincia del paciente"
-                th:value="*{miprovincia}" /><br>
+            <input type="text" id="provincia" name="provincia" placeholder="Provincia del paciente" th:value="*{miprovincia}" /><br>
             <label for="ciudad"> Ciudad </label>
             <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad del paciente" th:value="*{miciudad}" /><br>
 

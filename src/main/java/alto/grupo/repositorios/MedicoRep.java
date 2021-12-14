@@ -26,6 +26,9 @@ public interface MedicoRep extends JpaRepository<Medico, Integer> {
     @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido% AND c.provincia=:provincia AND c.ciudad=:ciudad")
     public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("provincia") String provincia, @Param("ciudad") String ciudad);
 
+    @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido% AND c.provincia=:provincia AND c.ciudad=:ciudad AND c.especialidad1 LIKE %:esp%")
+    public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("provincia") String provincia, @Param("ciudad") String ciudad,@Param("esp") String esp);
+
     @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido%")
     public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido);
 

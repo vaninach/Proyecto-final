@@ -71,7 +71,7 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Long> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt =  medRep.findById(matricula);
         
@@ -123,7 +123,7 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Long> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt = medRep.findById(matricula);
         
@@ -170,6 +170,54 @@ public class MedicoSe implements UserDetailsService {
         }
 
     }    
+    
+     @Transactional
+    public void ModificarCentrosMedicos(Integer matricula,Long codigoCM) throws Errores {
+        Optional<Medico> medOpt = medRep.findById(matricula);
+        if(medOpt.isPresent()){
+            Medico med=medOpt.get();
+            List<Long> listaCM=med.getCentrosMedicos();
+            if(listaCM.contains(codigoCM)) throw new Errores("El registro ya se encuentra en la lista");
+            listaCM.add(codigoCM);
+            med.setCentrosMedicos(listaCM);
+            medRep.save(med);
+        } else {
+            throw new Errores("No se encuentra el médico de matricula " + matricula + " en la base de datos");
+        }
+
+    }    
+    
+     @Transactional
+    public List<Long> MostrarCentrosMedicos(Integer matricula) throws Errores {
+        Optional<Medico> medOpt = medRep.findById(matricula);
+        if(medOpt.isPresent()){
+            Medico med=medOpt.get();
+            List<Long> listaCM=med.getCentrosMedicos();
+            return listaCM;
+        } else {
+            throw new Errores("No se encuentra el médico de matricula " + matricula + " en la base de datos");
+        }
+
+    }    
+    
+      @Transactional
+    public void EliminarCentrosMedicos(Integer matricula,Long id) throws Errores {
+        Optional<Medico> medOpt = medRep.findById(matricula);
+        if(medOpt.isPresent()){
+            Medico med=medOpt.get();
+            List<Long> listaCM=med.getCentrosMedicos();
+            
+            listaCM.remove(id);
+            
+            med.setCentrosMedicos(listaCM);
+            medRep.save(med);
+            
+            
+        } else {
+            throw new Errores("No se encuentra el médico de matricula " + matricula + " en la base de datos");
+        }
+
+    }    
     // ======================== END CRUD ======================
     
     
@@ -188,7 +236,16 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
+        }
+    }
+    
+    public List<Medico> BuscarPorNAPC(String nombre,String apellido,String provincia, String ciudad,String especialidad) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia, ciudad,especialidad);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun medico");
         }
     }
     
@@ -197,7 +254,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
     
@@ -206,7 +263,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
     
@@ -215,7 +272,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
 
@@ -224,7 +281,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
     
@@ -233,7 +290,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
     // ======================== END SERVICE FOR QUERIES ======================

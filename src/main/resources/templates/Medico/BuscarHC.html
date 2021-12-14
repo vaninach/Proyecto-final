@@ -76,6 +76,11 @@
         </table>
     </div>
 
+    <div class="agregarHC">
+        <button>Nueva historia clinica</button>
+        <button><a th:href="@{AgregarHistoriaClinica(dni=${paciente.DNI})}">Nueva historia clinica</a></button>
+    </div>
+
     <div th:if=${mensaje!=null}>
         <p th:text="${mensaje}" class="alert alert-danger"></p>
     </div>
