@@ -71,7 +71,7 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void crear(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Long> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt =  medRep.findById(matricula);
         
@@ -123,7 +123,7 @@ public class MedicoSe implements UserDetailsService {
     }
     
     @Transactional
-    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Integer> centrosMedicos) throws Errores{
+    public void modificar(Integer matricula, String nombre, String apellido, String fechaNac, String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3, List<Long> centrosMedicos) throws Errores{
 
         Optional<Medico> medOpt = medRep.findById(matricula);
         
@@ -188,7 +188,16 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
+        }
+    }
+    
+    public List<Medico> BuscarPorNAPC(String nombre,String apellido,String provincia, String ciudad,String especialidad) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia, ciudad,especialidad);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun medico");
         }
     }
     
@@ -197,7 +206,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
     
@@ -206,7 +215,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
     
@@ -215,7 +224,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
 
@@ -224,7 +233,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
     
@@ -233,7 +242,7 @@ public class MedicoSe implements UserDetailsService {
         if (!med.isEmpty()) {
             return med;
         } else {
-            throw new Errores("No se encontro ningun paciente");
+            throw new Errores("No se encontro ningun medico");
         }
     }
     // ======================== END SERVICE FOR QUERIES ======================
