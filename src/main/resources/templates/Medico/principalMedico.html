@@ -29,47 +29,9 @@
     <body>
 
 
-            <div class="l-navbar" id="nav-bar">
-                <nav class="nav">
-                    <div> 
-                        <a href="#" class="nav_logo"> 
-                            <i class='bx bx-layer nav_logo-icon'></i>
-                            <span class="nav_logo-name">HISTOMED</span> 
-                        </a>
-                        <div class="nav_list">
-                            <a th:href="@{editar-perfil-M(matricula=__${session.medicosesion.matricula}__)}" class="nav_link active"> 
-                                <i class='bx bxs-user'></i>
-                                <span class="nav_name">MIS DATOS</span> 
-                            </a> 
-
-                            <a th:href="@{BuscarPaciente}" class="nav_link"> 
-                                <i class='bx bx-plus-medical'></i>
-                                <span class="nav_name">PACIENTES</span> 
-                            </a> 
-                            <a th:href="@{AgregarHistoriaClinica}" class="nav_link"> 
-                                <i class='bx bx-book-add'></i>
-                                <span class="nav_name">Historia clinica</span>
-                            </a> 
-                            <!-- <a th:href="@{AgregarHistoriaClinica}" class="nav_link"> 
-                                <i class='bx bxs-info-circle'></i> 
-                                <span class="nav_name">Datos</span> 
-                            </a>  -->
-                            <!-- <a th:href="#" class="nav_link"> 
-                                <i class='bx bxs-band-aid'></i> 
-                                <span class="nav_name">Recetas</span>
-                            </a>  -->
-                        </div>
-                    </div> 
-
-                    <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
-                        <input class="boton" type="submit" value="salir" >
-                    </form>
-                    <a href="#" class="nav_link"> 
-                        <i class='bx bx-log-out nav_icon'></i> 
-                        <span class="nav_name">Salir</span>
-                    </a>
-                </nav>
-            </div>
+        <!--    Fragment SideBar-->
+       
+        <div th:replace="Medico/sidebarMedico.html :: sidebarMedico"></div>
 
 
 
