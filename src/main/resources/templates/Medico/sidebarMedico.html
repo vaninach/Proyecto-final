@@ -25,9 +25,9 @@
 
 
 
+    <div th:fragment="sidebarMedico">
+        <body id="body-pd">
 
-    <body id="body-pd">
-        <div th:fragment="sidebarMedico">
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
                 <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
@@ -58,10 +58,14 @@
                                 <i class='bx bxs-info-circle'></i> 
                                 <span class="nav_name">Datos</span> 
                             </a> 
-                            <a href="#" class="nav_link"> 
+                            <a href="VincularCM" class="nav_link"> 
                                 <i class='bx bxs-band-aid'></i> 
-                                <span class="nav_name">Recetas</span>
-                            </a> 
+                                <span class="nav_name">Vincular Centro Medico</span>
+                            </a>
+                            <a href="MostrarCM" class="nav_link"> 
+                                <i class='bx bxs-band-aid'></i> 
+                                <span class="nav_name">Gestion Centros Medicos</span>
+                            </a>
                             <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
                                 <input class="boton" type="submit" value="salir" >
                             </form>
@@ -77,9 +81,9 @@
 
 
             <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script> 
-        </div>
+    </div>
 
 
-    </body>
+</body>
 
 </html>

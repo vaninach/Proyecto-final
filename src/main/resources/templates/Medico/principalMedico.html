@@ -2,6 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
     <head>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
         <!-- javascript -->
@@ -19,16 +23,11 @@
               integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
         <!-- llamado al propio css del archivo -->
-        <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
-        <title>HISTOMED - MEDICO</title>
+        <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{/css/sidebar.css}">
+        <title>HISTOMED -MEDICO</title>
     </head>
     <body>
 
-        <div th:fragment="sidebarMedico">
-            <header class="header" id="header">
-                <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-                <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
-            </header>
 
             <div class="l-navbar" id="nav-bar">
                 <nav class="nav">
@@ -74,12 +73,13 @@
 
 
 
-            <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script> 
-        </div>
 
-        <!--        Fragment Footer-->
-        <div th:replace="footer.html :: footer"></div>
+
+      
+            <!-- Fragment Footer-->
+            <div th:replace="footer.html :: footer"></div>
 
     </body>
 
+ <script src="../../static/scripts/sidebar.js" th:src="@{../../static/scripts/sidebar.js}" ></script> 
 </html>

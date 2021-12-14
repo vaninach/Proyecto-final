@@ -64,10 +64,6 @@ public class MedicoController {
         return "Medico/loginDoctor.html";
     }
 
-    @RequestMapping("/Medico/dashboard")
-    public String Medicodashboard() {
-        return "dashboard.html";
-    }
 
 //    @GetMapping("/NuevoMedico")
 //    public String Medico() {
@@ -83,8 +79,8 @@ public class MedicoController {
 
     //agregado por nacho //
     @RequestMapping("/Medico/inicioMedico")
-    public String inicioCentroMedico() {
-        return "Medico/principalMedico";
+    public String incioCentroMedico() {
+        return "Medico/principalMedico.html";
     }
 //////////////////////
 
@@ -379,4 +375,117 @@ public class MedicoController {
         
         return "HistoriasClinicas/NuevoHistoriaClinica";
     }
+    
+    
+    
+    
+       @GetMapping("Medico/VincularCM")
+    public String BuscarCM(HttpSession session, Model model){
+        
+        return "Medico/Vincular-CM";
+    }
+
+    @PostMapping("/Medico/VincularCM")
+    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM) throws Errores{
+        
+        CentroMedico cmed=centromedicoSe.buscarPorCodigo(RegistroCM);
+        List<CentroMedico> listaCM=new ArrayList<>();
+        
+        
+
+        Medico med = (Medico)session.getAttribute("medicosesion");
+
+        if(med == null){
+            model.addAttribute("mensaje", "Debe Registrarse!!");
+            
+            return "redirect:/inicio";
+        }
+        
+       if(cmed!=null){
+           listaCM.add(cmed);
+           model.addAttribute("listaCM", listaCM);
+       }
+       
+        
+        return "Medico/Vincular-CM";
+    }
+    
+    @GetMapping("/Medico/ElegirCM")
+    public String ElegirCM(HttpSession session, Long id, Model model,RedirectAttributes re) throws Errores{
+        
+        
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            return "redirect:/inicio";
+        }
+        
+        try{
+        medicose.ModificarCentrosMedicos(med.getMatricula(), id);
+        }
+        catch(Errores ex){
+            re.addFlashAttribute("mensaje", ex.getMessage());
+            model.addAttribute("mensaje", ex.getMessage());
+            return "redirect:/Medico/VincularCM";
+        }
+        
+        
+        model.addAttribute("mensaje", "Se vinculó el centro medico exitosamente!!");
+        re.addFlashAttribute("mensaje", "Se vinculó el centro medico exitosamente!");
+        
+        return "redirect:/Medico/VincularCM";
+    }
+    
+    
+    @GetMapping("/Medico/MostrarCM")
+    public String MostrarCM(HttpSession session, Model model,RedirectAttributes re) throws Errores{
+        
+        
+        
+
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            return "redirect:/inicio";
+        }
+        
+        
+        List<Long> listaCM=medicose.MostrarCentrosMedicos(med.getMatricula());
+
+        
+        model.addAttribute("listaCM", listaCM);
+        
+        
+        return "/Medico/Mostrar-CM";
+    }
+    
+    @GetMapping("/Medico/EliminarCM")
+    public String MostrarCM(HttpSession session, Long id, Model model,RedirectAttributes re) throws Errores{
+        
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            return "redirect:/inicio";
+        }
+        
+        
+        medicose.EliminarCentrosMedicos(med.getMatricula(),id);
+
+        
+        re.addFlashAttribute("mensaje", "Registro eliminado exitosamente");
+        
+        
+        return "redirect:/Medico/MostrarCM";
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

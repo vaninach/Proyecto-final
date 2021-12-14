@@ -7,6 +7,7 @@ package alto.grupo.entidades;
 
 import alto.grupo.enums.Genero;
 import alto.grupo.enums.Provincia;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -44,7 +45,7 @@ public class Medico {
     @ElementCollection
     @CollectionTable(name = "medico_centros_medicos", joinColumns = @JoinColumn(name = "medico_matricula"))
     @Column(name = "centro_medico")
-    private List<Integer> centrosMedicos;  //
+    private List<Long> centrosMedicos=new ArrayList<>();  //
 
     public Medico() {
     }
@@ -103,7 +104,7 @@ public class Medico {
         return especialidad3;
     }
 
-    public List<Integer> getCentrosMedicos() {
+    public List<Long> getCentrosMedicos() {
         return centrosMedicos;
     }
 
@@ -159,8 +160,13 @@ public class Medico {
         this.especialidad3 = especialidad3;
     }
 
-    public void setCentrosMedicos(List<Integer> centrosMedicos) {
+    public void setCentrosMedicos(List<Long> centrosMedicos) {
         this.centrosMedicos = centrosMedicos;
+    }
+
+    @Override
+    public String toString() {
+        return "Medico{" + "matricula=" + matricula + ", nombre=" + nombre + ", apellido=" + apellido + '}';
     }
     
     
