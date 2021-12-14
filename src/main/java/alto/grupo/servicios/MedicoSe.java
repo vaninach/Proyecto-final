@@ -170,6 +170,54 @@ public class MedicoSe implements UserDetailsService {
         }
 
     }    
+    
+     @Transactional
+    public void ModificarCentrosMedicos(Integer matricula,Long codigoCM) throws Errores {
+        Optional<Medico> medOpt = medRep.findById(matricula);
+        if(medOpt.isPresent()){
+            Medico med=medOpt.get();
+            List<Long> listaCM=med.getCentrosMedicos();
+            if(listaCM.contains(codigoCM)) throw new Errores("El registro ya se encuentra en la lista");
+            listaCM.add(codigoCM);
+            med.setCentrosMedicos(listaCM);
+            medRep.save(med);
+        } else {
+            throw new Errores("No se encuentra el médico de matricula " + matricula + " en la base de datos");
+        }
+
+    }    
+    
+     @Transactional
+    public List<Long> MostrarCentrosMedicos(Integer matricula) throws Errores {
+        Optional<Medico> medOpt = medRep.findById(matricula);
+        if(medOpt.isPresent()){
+            Medico med=medOpt.get();
+            List<Long> listaCM=med.getCentrosMedicos();
+            return listaCM;
+        } else {
+            throw new Errores("No se encuentra el médico de matricula " + matricula + " en la base de datos");
+        }
+
+    }    
+    
+      @Transactional
+    public void EliminarCentrosMedicos(Integer matricula,Long id) throws Errores {
+        Optional<Medico> medOpt = medRep.findById(matricula);
+        if(medOpt.isPresent()){
+            Medico med=medOpt.get();
+            List<Long> listaCM=med.getCentrosMedicos();
+            
+            listaCM.remove(id);
+            
+            med.setCentrosMedicos(listaCM);
+            medRep.save(med);
+            
+            
+        } else {
+            throw new Errores("No se encuentra el médico de matricula " + matricula + " en la base de datos");
+        }
+
+    }    
     // ======================== END CRUD ======================
     
     
