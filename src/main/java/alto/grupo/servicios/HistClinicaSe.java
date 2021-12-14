@@ -5,10 +5,10 @@
  */
 package alto.grupo.servicios;
 
+import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.HistClinicaRep;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 public class HistClinicaSe {
 
     @Autowired private HistClinicaRep histClinRep;
+    
+    @Autowired private CentroMedicoSe centroMedicoSe;
 
     // ======================== CRUD ======================
     @Transactional
@@ -183,12 +185,25 @@ public class HistClinicaSe {
         }
     }
     
-    public List<HistoriasClinicas> buscarPorCentroMedico(Long centroMedico) throws Errores{
-        List<HistoriasClinicas> histClin = histClinRep.buscarCentroMedico(centroMedico);
+    public List<HistoriasClinicas> buscarPorDNICentroMedico(String DNI, String centroMedico) throws Errores{
+        List<CentroMedico> centroMed = centroMedicoSe.buscarPorNombre(centroMedico);
+        Long centroCodigo = centroMed.get(0).getCodigoRegistro();
+        List<HistoriasClinicas> histClin = histClinRep.buscarDNICentroMedico(DNI, centroCodigo);
         if (!histClin.isEmpty()) {
             return histClin;
         } else {
-            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ")");
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al código de establecimiento (" + centroMedico + ") para el DNI solicitado (" + DNI + ")");
+        }
+    }
+    
+    public List<HistoriasClinicas> buscarPorDNIFechaEspecialidadCentromedico(String DNI, String fechaVisita, String especialidad, String centroMedico) throws Errores {
+        List<CentroMedico> centroMed = centroMedicoSe.buscarPorNombre(centroMedico);
+        Long centroCodigo = centroMed.get(0).getCodigoRegistro();
+        List<HistoriasClinicas> histClin = histClinRep.buscarDNIFechaEspecialidadCentromedico(DNI, fechaVisita, especialidad, centroCodigo);
+        if (!histClin.isEmpty()) {
+            return histClin;
+        } else {
+            throw new Errores("No se encontro ninguna historia clinica correspondiente al DNI solicitado (" + DNI + "), la especialidad (" + especialidad + "), la fecha (" + fechaVisita + ") y el centro medico (" + centroMedico + " - " + centroCodigo + ")");
         }
     }
     // ======================== END SERVICE FOR QUERIES ======================

@@ -21,15 +21,15 @@ and open the template in the editor.
             <section name="buscador">
                 <form th:action="@{/Paciente/BuscarPorMedico}" method="POST">
 
-                    <input type="text" id="nombre" name="nombre"/>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre medico"/>
                     
-                    <input type="text" id="apellido" name="apellido"/>
+                    <input type="text" id="apellido" name="apellido" placeholder="Apellido medico"/>
 
-                    <input type="text" id="especialidad" name="especialidad"/>
+                    <input type="text" id="especialidad" name="especialidad" placeholder="Especialidad medico"/>
                     
-                    <input type="text" id="provincia" name="provincia"/>
+                    <input type="text" id="provincia" name="provincia" placeholder="Provincia medico"/>
                     
-                    <input type="text" id="ciudad" name="ciudad"/>
+                    <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad medico"/>
 
                     <button type="submit" id="buscar"> Buscar </button>
 
@@ -39,7 +39,7 @@ and open the template in the editor.
 
             </section>
 
-            <div th:if="${!#lists.isEmpty(lista)}" >
+            <div th:if="${!#lists.isEmpty(listamedico)}" >
 
 
                 <table class="table table-striped">
@@ -54,14 +54,14 @@ and open the template in the editor.
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="listas,iterStat :${lista}">
+                        <tr th:each="listas,iterStat :${listamedico}">
                             <td th:text="${listas.nombre}"></td>
                             <td th:text="${listas.apellido}"></td>
-                            <td th:text="${listas.especialidad}"></td>
+                            <td th:text="${listas.especialidad1}"></td>
                             
 <!--                            <td th:text="${listamedico[__${iterStat.index}__]}"></td>
                             <td th:text="${listacentromedico[__${iterStat.index}__]}"></td>-->
-                    <td > <a th:href="@{MostrarCentrosMedicos(id=${listas.id})}">Ver Centros Medicos</a></td>
+                    <td > <a th:href="@{MostrarCentrosMedicos(id=${listas.matricula})}">Ver Centros Medicos</a></td>
                         </tr>
                     </tbody>
                 </table>

@@ -162,6 +162,11 @@ public class Medico {
     public void setCentrosMedicos(List<Long> centrosMedicos) {
         this.centrosMedicos = centrosMedicos;
     }
+
+    @Override
+    public String toString() {
+        return "Medico{" + "matricula=" + matricula + ", nombre=" + nombre + ", apellido=" + apellido + '}';
+    }
     
     
  

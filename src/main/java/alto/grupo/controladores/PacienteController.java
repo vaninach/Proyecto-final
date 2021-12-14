@@ -286,16 +286,26 @@ public class PacienteController {
         }
         // System.out.println(nombre + " " + especialidad);
 
+        if(nombre==null || nombre.isEmpty() || apellido==null || apellido.isEmpty()){
+            model.addAttribute("mensaje", "Debe completar el nombre y apellido del medico!");
+            
+            return "Paciente/BuscarMedico";
+        }
+        
         //Buscar por nombre, apellido, 
-        if ((provincia == null || provincia.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty())) {
+        if (   (provincia == null || provincia.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty())) {
             try {
+                System.out.println("entro 1"+ nombre + apellido);
                 listaMedicos = medicose.BuscarPorNAPC(nombre, apellido);
+                System.out.println(listaMedicos);
+                System.out.println(listaMedicos.size());
             } catch (Errores ex) {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
             }
         } //Buscar por nombre apellido ciudad y provincia
         else if ((especialidad == null || especialidad.isEmpty())) {
             try {
+                System.out.println("entro 2");
                 listaMedicos = medicose.BuscarPorNAPC(nombre, apellido, provincia, ciudad);
             } catch (Errores ex) {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
@@ -303,6 +313,7 @@ public class PacienteController {
         } // nombre apellido provincia
         else if ((especialidad == null || especialidad.isEmpty()) && (ciudad == null || ciudad.isEmpty())) {
             try {
+                System.out.println("entro 3");
                 listaMedicos = medicose.BuscarPorNAPC(nombre, apellido, provincia);
             } catch (Errores ex) {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
@@ -310,11 +321,14 @@ public class PacienteController {
         } //todos los campos
         else if (((provincia == null || provincia.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty()) && (nombre == null || nombre.isEmpty()) && (apellido == null || apellido.isEmpty()))) {
             try {
+                System.out.println("entro 4");
                 listaMedicos = medicose.BuscarPorNAPC(nombre, apellido, provincia, ciudad, especialidad);
             } catch (Errores ex) {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
             }
         } else {
+            
+            System.out.println("entro 5");
 
             model.addAttribute("mensaje", "No se puede realizar la busqueda, intente completando otros campos");
 
