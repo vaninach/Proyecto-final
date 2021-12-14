@@ -16,6 +16,7 @@ import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -358,18 +359,24 @@ public class MedicoController {
         //return "inicio";
     }
     
-    @PostMapping("/Medico/AgregarHistoriaClinica")
-    public String agregarHC(HttpSession session, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe){
+    @GetMapping("/Medico/AgregarHistoriaClinica")
+    public String agregarHC(Model model, HttpSession session, String dni/*, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe*/){
         Medico med = (Medico)session.getAttribute("medicosesion");
         if(med == null){
             throw new Error("Debe registrarse!");
         }
+
+        HistoriasClinicas hclinica = new HistoriasClinicas();
+        hclinica.setDNI(dni);
+        hclinica.setMatricula(med.getMatricula());
+        hclinica.setEspecialidad(med.getEspecialidad1());
+        hclinica.setMatricula(med.getMatricula());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        hclinica.setFechaVisita(formatter.format(date));
         
-        if(fechaVisita==null || fechaVisita.isEmpty() || especialidad==null || especialidad.isEmpty() || centroMedico==null || centroMedico.isEmpty() || informe==null || informe.isEmpty()){
-            System.out.println("===========================================================\nERROEERRRRERAREG");
-            throw new Error("Todos los campos deben ser completados.");
-        }
+        model.addAttribute("hclinica",hclinica);
         
-        return "Medico/BuscarPaciente";
+        return "HistoriasClinicas/NuevoHistoriaClinica";
     }
 }

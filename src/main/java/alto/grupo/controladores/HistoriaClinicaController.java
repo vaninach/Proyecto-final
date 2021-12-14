@@ -34,7 +34,7 @@ private HistClinicaRep HistoriaClinicarep;
 
     
 @GetMapping("/NuevaHistoriaClinica")
-public String HistoriaClinica(Model modelo,HistoriasClinicas hclinica){
+public String HistoriaClinica(Model modelo, HistoriasClinicas hclinica){
     modelo.addAttribute("hclinica",hclinica);
     return "HistoriasClinicas/NuevoHistoriaClinica.html";
 }
