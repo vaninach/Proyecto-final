@@ -327,7 +327,7 @@ public class PacienteController {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
             }
         } //todos los campos
-        else if (((provincia == null || provincia.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty()) && (nombre == null || nombre.isEmpty()) && (apellido == null || apellido.isEmpty()))) {
+        else if (!((provincia == null || provincia.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty()))) {
             try {
                 System.out.println("entro 4");
                 listaMedicos = medicose.BuscarPorNAPC(nombre, apellido, provincia, ciudad, especialidad);
@@ -342,35 +342,10 @@ public class PacienteController {
 
         }
 
-//        if (lista.size() != 0) {
-//
-//            for (HistoriasClinicas historiasClinicas : lista) {
-//                try {
-//                    Medico med = medicose.BuscarPorMatricula(historiasClinicas.getMatricula());
-//                    if (med != null) {
-//                        listaMedicos.add(med.getNombre() + " " + med.getApellido());
-//                    }
-//                } catch (Errores ex) {
-//                    listaMedicos.add("INVALID");
-//                }
-//
-//                try {
-//                    CentroMedico cmed = centromedicose.buscarPorCodigo(historiasClinicas.getCentromedico());
-//                    if (cmed != null) {
-//                        listaCentroMedico.add(cmed.getNombre());
-//                    }
-//                } catch (Errores ex) {
-//                    listaCentroMedico.add("INVALID");
-//                }
-//
-//            }
-//
-//        }
+
         model.addAttribute("listamedico", listaMedicos);
-        //   model.addAttribute("listacentromedico", listaCentroMedico);
 
         re.addFlashAttribute("listamedico", listaMedicos);
-//        re.addFlashAttribute("listacentromedico", listaCentroMedico);
 
         return "Paciente/BuscarMedico";
     }
@@ -397,14 +372,11 @@ public class PacienteController {
                 listaCM_real.add(cmed);
             }
         
-        //model.addAttribute("listaCM", listaCM);
 
-            System.out.println("Hemos llegado hasta aqui=========================================");
                 
             
             if (listaCM.size() != 0) {
                 
-                System.out.println("Hemos llegado hasta aqui nuevamente=========================================");
                 System.out.println(listaCM_real);
                 
                 
