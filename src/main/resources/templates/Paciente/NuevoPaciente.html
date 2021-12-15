@@ -73,9 +73,15 @@
 
                 </div>
                 <div class="form-group col-md-12">
-
-                    <br/>
-                    <input type=text class="form-control" id="estadoCivil" aria-describedby="estadoCivilHelp" name="estadoCivil" th:field="*{estadoCivil}" placeholder="ESTADO CIVIL"/>
+                    <label for="estadoCivil" class="col-sm-2 control-label col-md-12">Seleccione su estado civil </label>
+                    <div class="col-sm-2 col-md-12">
+                        <select class="form-control inputstl" id="estadoCivil"  name="estadoCivil" th:field="*{estadoCivil}">
+                            <option value="Soltero">Soltero</option>
+                            <option value="Casado">Casado</option>
+                            <option value="Divorciado">Divorciado</option>
+                            <option value="Viudo">Viudo</option>
+                        </select>
+                    </div>
 
                 </div> 
                 <div class="form-group col-md-12">
@@ -164,15 +170,15 @@
 
                 <br/>
                 <div class="form-group col-md-12">
-                    <label for="exampleInputNombre">Seleccione la provincia en la que ejerce</label>
-                    <label for="exampleInputNombre"></label>
+                    <label for="provincia">Seleccione su provincia</label>
+                    <br>
                     <select class="form-control inputstl camposFormulario" id="provincia" aria-describedby="provinciaHelp" name="provincia" th:field="*{provincia}">
                     </select>
                 </div>
 
                 <br/>
                 <div class="form-group col-md-12">
-                    <label for="exampleInputNombre">Seleccione la ciudad en la que ejerce</label>
+                    <label for="exampleInputNombre">Seleccione su ciudad</label>
                     <br>
                     <select  class="form-control camposFormulario" id="ciudad" aria-describedby="ciudadHelp" name="ciudad" th:field="*{ciudad}" placeholder="">
                     </select>

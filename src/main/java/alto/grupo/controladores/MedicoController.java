@@ -6,8 +6,6 @@ import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
-import alto.grupo.enums.Genero;
-import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
@@ -19,8 +17,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -383,10 +379,8 @@ public class MedicoController {
     }
 
     @PostMapping("/Medico/VincularCM")
-    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM) throws Errores{
+    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM){
         
-        CentroMedico cmed=centromedicoSe.buscarPorCodigo(RegistroCM);
-        List<CentroMedico> listaCM=new ArrayList<>();
         
         
 
@@ -398,9 +392,15 @@ public class MedicoController {
             return "redirect:/inicio";
         }
         
-       if(cmed!=null){
+       try{
+           CentroMedico cmed=centromedicoSe.buscarPorCodigo(RegistroCM);
+        List<CentroMedico> listaCM=new ArrayList<>();
+        
            listaCM.add(cmed);
            model.addAttribute("listaCM", listaCM);
+       }
+       catch(Errores er){
+           model.addAttribute("mensaje", er.getMessage());
        }
        
         
