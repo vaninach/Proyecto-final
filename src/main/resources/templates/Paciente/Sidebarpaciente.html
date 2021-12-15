@@ -23,10 +23,10 @@
         <title>Paciente</title>
     </head>
 
-
+  <div th:fragment="Sidebarpaciente">
 
     <body id="body-pd">
-        <div th:fragment="Sidebarpaciente">
+      
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
                 <div class="header_img"> <img src="/imagenes/Logo-Histomed.jpeg" alt="HistoMed"> </div>
@@ -62,7 +62,7 @@
                         <span class="nav_name">Receta</span>
                     </a> 
 
-                    <a href="/logout" th:href="@{/logout}" class="nav_link">
+                    <a href="/Paciente/BuscarPorMedico" th:href="@{/Paciente/BuscarPorMedico}" class="nav_link">
                         <i class='bx bx-search-alt-2'></i>
                         <span class="nav_name">Buscar Médico</span> 
                     </a> 

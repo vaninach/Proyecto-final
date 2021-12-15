@@ -25,9 +25,9 @@
 
 
 
+    <div th:fragment="sidebarMedico">
+        <body id="body-pd">
 
-    <body id="body-pd">
-        <div th:fragment="sidebarMedico">
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
                 <div class="header_toggle"> <i class='fas fa-user-md'></i> </div>
@@ -47,24 +47,28 @@
                                 <span class="nav_name">MIS DATOS</span> 
                             </a> 
 
-                            <a href="#" class="nav_link"> 
+                            <a th:href="@{BuscarPaciente}" class="nav_link"> 
                                 <i class='bx bx-plus-medical'></i>
                                 <span class="nav_name">PACIENTES</span> 
                             </a> 
-                            <a href="#" class="nav_link"> 
+<!--                            <a href="@{/Medico/BuscarHistoriasClinicas}" class="nav_link"> 
                                 <i class='bx bx-book-add'></i>
                                 <span class="nav_name">Historia clinica</span>
-                            </a> 
-                            <a href="#" class="nav_link"> 
-                                <i class='bx bxs-info-circle'></i> 
+                            </a> -->
+                            <a th:href="@{AgregarHistoriaClinica}" class="nav_link"> 
+                                <i class='bx bx-book-add'></i> 
                                 <span class="nav_name">Datos</span> 
                             </a> 
-                            <a href="#" class="nav_link"> 
+<!--                            <a href="VincularCM" class="nav_link"> 
                                 <i class='bx bxs-band-aid'></i> 
-                                <span class="nav_name">Recetas</span>
-                            </a> 
-                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
-                                <input class="boton" type="submit" value="salir" >
+                                <span class="nav_name">Vincular Centro Medico</span>
+                            </a>
+                            <a href="MostrarCM" class="nav_link"> 
+                                <i class='bx bxs-band-aid'></i> 
+                                <span class="nav_name">Gestion Centros Medicos</span>
+                            </a>
+                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item bx bx-log-out nav_icon " >
+                                <input class="" type="submit" value="" >
                             </form>
                         </div>
                     </div> 
@@ -78,9 +82,9 @@
 
 
             <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script> 
-        </div>
+    </div>
 
 
-    </body>
+</body>
 
 </html>

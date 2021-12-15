@@ -26,6 +26,9 @@ public interface MedicoRep extends JpaRepository<Medico, Integer> {
     @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido% AND c.provincia=:provincia AND c.ciudad=:ciudad")
     public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("provincia") String provincia, @Param("ciudad") String ciudad);
 
+    @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido% AND c.provincia=:provincia AND c.ciudad=:ciudad AND c.especialidad1 LIKE %:esp%")
+    public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("provincia") String provincia, @Param("ciudad") String ciudad,@Param("esp") String esp);
+
     @Query("SELECT c FROM Medico c WHERE c.nombre LIKE %:nombre% AND c.apellido LIKE %:apellido%")
     public List<Medico> BuscarNombreApellidoProvincia(@Param("nombre") String nombre, @Param("apellido") String apellido);
 
@@ -38,7 +41,6 @@ public interface MedicoRep extends JpaRepository<Medico, Integer> {
     @Query("SELECT c FROM Medico c WHERE (c.especialidad1 LIKE %:esp1% ) AND c.provincia=:prov")
     public List<Medico> BuscarNombreApellidoProvinciaEsp(@Param("esp1") String esp1, @Param("prov") String prov);
 
-    // ATENCION! Espera el codigo de registro (unico) en vez del nombre del centro (puede existir otro centro con mismo nombre)
-    @Query("SELECT c FROM Medico c LEFT JOIN c.centrosMedicos m WHERE m=:codigo_registro")
-    public List<Medico> BuscarCentroMedico(@Param("codigo_registro") Long codigo_registro);
+    @Query("SELECT c FROM Medico c LEFT JOIN c.centrosMedicos m WHERE m=:centro_medico")
+    public List<Medico> BuscarCentroMedico(@Param("centro_medico") String centroMedico);
 }

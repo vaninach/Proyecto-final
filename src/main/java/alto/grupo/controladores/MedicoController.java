@@ -1,28 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools || Templates
- * and open the template in the editor.
- */
+
+
 package alto.grupo.controladores;
 
 import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
-import alto.grupo.enums.Genero;
-import alto.grupo.enums.Provincia;
 import alto.grupo.errores.Errores;
 import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -63,27 +57,23 @@ public class MedicoController {
         return "Medico/loginDoctor.html";
     }
 
-    @RequestMapping("/Medico/dashboard")
-    public String Medicodashboard() {
-        return "dashboard.html";
-    }
 
-    @GetMapping("/NuevoMedico")
-    public String Medico() {
-        return "Medico/doctor.html";
-    }
-
-    @PostMapping("/NuevoMedico")
-    public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac,String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
-        System.out.println("\n\n\nPOST MAPPING NUEVOMEDICO");
-        medicose.crear(matricula, nombre, apellido, fechaNac, genero, mail, provincia, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
-        return "Medico/doctor.html";
-    }
+//    @GetMapping("/NuevoMedico")
+//    public String Medico() {
+//        return "Medico/doctor.html";
+//    }
+//
+//    @PostMapping("/NuevoMedico")
+//    public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac,String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
+//        System.out.println("\n\n\nPOST MAPPING NUEVOMEDICO");
+//        medicose.crear(matricula, nombre, apellido, fechaNac, genero, mail, provincia, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
+//        return "Medico/doctor.html";
+//    }
 
     //agregado por nacho //
     @RequestMapping("/Medico/inicioMedico")
     public String incioCentroMedico() {
-        return "Medico/principalMedico";
+        return "Medico/principalMedico.html";
     }
 //////////////////////
 
@@ -254,10 +244,6 @@ public class MedicoController {
     
     @PostMapping("/Medico/BuscarHistoriasClinicas")
     public String verHCfiltro(HttpSession session, Model model, @RequestParam String DNI, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam(required=false) String soloMio, RedirectAttributes re){
-        String greet = "on".equals(soloMio) ? "Good morning" : "Hi";
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+greet);
-        
-        
         List<HistoriasClinicas> listaHC = new ArrayList<>();
         List<String> listaMedicos = new ArrayList<>();
         List<String> listaCentroMedico = new ArrayList<>();
@@ -275,50 +261,53 @@ public class MedicoController {
             model.addAttribute("mensaje", mensaje);
         }
 
-        if ((fechaVisita == null || fechaVisita.isEmpty()) && (especialidad == null || especialidad.isEmpty())) {
+        if (!(centroMedico == null || centroMedico.isEmpty())   ) {
             try {
-                listaHC = histclinSe.buscarPorDNI(pac.getDNI());
-                System.out.println("entramos al 1");
+                listaHC = histclinSe.buscarPorDNICentroMedico(pac.getDNI(), centroMedico);
+                System.out.println("\nBusca por DNI y CM");
             } catch (Errores ex) {
-                String mensaje = "No se encontraron registros del paciente";
+                String mensaje = "No se encontraron registros del paciente en el centro médico solicitado";
                 model.addAttribute("mensaje", mensaje);
             }
-        } else if ((fechaVisita == null || fechaVisita.isEmpty())) {
+        } else if (!(especialidad == null || especialidad.isEmpty())) {
             try {
                 listaHC = histclinSe.buscarPorDNIEspecialidad(pac.getDNI(), especialidad);
-                System.out.println("entramos al 2");
+                System.out.println("\nBusca por DNI y especialidad");
             } catch (Errores ex) {
-                String mensaje = "No se encontraron registros en la especialidad solicitada";
+                String mensaje = "No se encontraron registros en la especialidad solicitada para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
             }
-        } else if ((especialidad == null || especialidad.isEmpty())) {
+        } else if (!(fechaVisita == null || fechaVisita.isEmpty())) {
             try {
                 listaHC = histclinSe.buscarPorDNIFecha(pac.getDNI(), fechaVisita);
-                System.out.println("entramos al 3");
+                System.out.println("\nBusca por DNI y fecha");
             } catch (Errores ex) {
-                String mensaje = "No se encontraron registros en la fecha solicitada";
+                String mensaje = "No se encontraron registros en la fecha solicitada para el paciente elegido.";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } else if (!(fechaVisita == null || fechaVisita.isEmpty()) && !(especialidad == null || especialidad.isEmpty())){
+            try {
+                listaHC = histclinSe.buscarPorDNIFechaEspecialidad(pac.getDNI(), fechaVisita, especialidad);
+                System.out.println("\nBusca por DNI, fecha y especialidad");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha y especialidad solicitados para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
             }
         } else {
             try {
-                listaHC = histclinSe.buscarPorDNIFechaEspecialidad(pac.getDNI(), fechaVisita, especialidad);
-                System.out.println("entramos al 4");
+                listaHC = histclinSe.buscarPorDNI(pac.getDNI());
+                System.out.println("\nBusca SOLO por DNI (trae todas las HC)");
             } catch (Errores ex) {
-                String mensaje = "No se encontraron registros en la fecha y especialidad solicitados";
+                String mensaje = "No se encontraron historias clinicas para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
             }
-
-        }        
+        }       
 
         if("on".equals(soloMio)){
             Iterator<HistoriasClinicas> itr = listaHC.iterator();
             while(itr.hasNext()) {
                 HistoriasClinicas histClin = itr.next();
-                System.out.println("\n\n1-"+histClin.getMatricula());
-                System.out.println("2-"+med.getMatricula());
                 if(!Objects.equals(histClin.getMatricula(), med.getMatricula())){
-                    System.out.println("==> removing "+histClin.getMatricula());
-                    System.out.println("==>          "+histClin.getInforme());
                     itr.remove();
                 }                
             }
@@ -359,18 +348,175 @@ public class MedicoController {
         //return "inicio";
     }
     
-    @PostMapping("/Medico/AgregarHistoriaClinica")
-    public String agregarHC(HttpSession session, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe){
+    @GetMapping("/Medico/AgregarHistoriaClinica")
+    public String agregarHC(Model model, HttpSession session, String dni/*, @RequestParam String fechaVisita, @RequestParam String especialidad, @RequestParam String centroMedico, @RequestParam String informe*/){
         Medico med = (Medico)session.getAttribute("medicosesion");
         if(med == null){
             throw new Error("Debe registrarse!");
         }
+
+        HistoriasClinicas hclinica = new HistoriasClinicas();
+        hclinica.setDNI(dni);
+        hclinica.setMatricula(med.getMatricula());
+        hclinica.setEspecialidad(med.getEspecialidad1());
+        hclinica.setMatricula(med.getMatricula());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        hclinica.setFechaVisita(formatter.format(date));
         
-        if(fechaVisita==null || fechaVisita.isEmpty() || especialidad==null || especialidad.isEmpty() || centroMedico==null || centroMedico.isEmpty() || informe==null || informe.isEmpty()){
-            System.out.println("===========================================================\nERROEERRRRERAREG");
-            throw new Error("Todos los campos deben ser completados.");
+        model.addAttribute("hclinica",hclinica);
+        
+        return "HistoriasClinicas/NuevoHistoriaClinica";
+    }
+    
+    
+    
+    
+       @GetMapping("Medico/VincularCM")
+    public String BuscarCM(HttpSession session, Model model){
+        
+        return "Medico/Vincular-CM";
+    }
+
+    @PostMapping("/Medico/VincularCM")
+    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM){
+        
+        
+        
+
+        Medico med = (Medico)session.getAttribute("medicosesion");
+
+        if(med == null){
+            model.addAttribute("mensaje", "Debe Registrarse!!");
+            
+            return "redirect:/inicio";
         }
         
-        return "Medico/BuscarPaciente";
+       try{
+           CentroMedico cmed=centromedicoSe.buscarPorCodigo(RegistroCM);
+        List<CentroMedico> listaCM=new ArrayList<>();
+        
+           listaCM.add(cmed);
+           model.addAttribute("listaCM", listaCM);
+       }
+       catch(Errores er){
+           model.addAttribute("mensaje", er.getMessage());
+       }
+       
+        
+        return "Medico/Vincular-CM";
     }
+    
+    
+    
+    
+//       @GetMapping("Medico/VincularCM")
+//    public String BuscarCM(HttpSession session, Model model){
+//        
+//        return "Medico/Vincular-CM";
+//    }
+//
+//    @PostMapping("/Medico/VincularCM")
+//    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM) throws Errores{
+//        
+//        CentroMedico cmed=centromedicoSe.buscarPorCodigo(RegistroCM);
+//        List<CentroMedico> listaCM=new ArrayList<>();
+//        
+//        
+//
+//        Medico med = (Medico)session.getAttribute("medicosesion");
+//
+//        if(med == null){
+//            model.addAttribute("mensaje", "Debe Registrarse!!");
+//            
+//            return "redirect:/inicio";
+//        }
+//        
+//       if(cmed!=null){
+//           listaCM.add(cmed);
+//           model.addAttribute("listaCM", listaCM);
+//       }
+//       
+//        
+//        return "Medico/Vincular-CM";
+//    }
+    
+    @GetMapping("/Medico/ElegirCM")
+    public String ElegirCM(HttpSession session, Long id, Model model,RedirectAttributes re) throws Errores{
+        
+        
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            return "redirect:/inicio";
+        }
+        
+        try{
+        medicose.ModificarCentrosMedicos(med.getMatricula(), id);
+        }
+        catch(Errores ex){
+            re.addFlashAttribute("mensaje", ex.getMessage());
+            model.addAttribute("mensaje", ex.getMessage());
+            return "redirect:/Medico/VincularCM";
+        }
+        
+        
+        model.addAttribute("mensaje", "Se vinculó el centro medico exitosamente!!");
+        re.addFlashAttribute("mensaje", "Se vinculó el centro medico exitosamente!");
+        
+        return "redirect:/Medico/VincularCM";
+    }
+    
+    
+    @GetMapping("/Medico/MostrarCM")
+    public String MostrarCM(HttpSession session, Model model,RedirectAttributes re) throws Errores{
+        
+        
+        
+
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            return "redirect:/inicio";
+        }
+        
+        
+        List<Long> listaCM=medicose.MostrarCentrosMedicos(med.getMatricula());
+
+        
+        model.addAttribute("listaCM", listaCM);
+        
+        
+        return "/Medico/Mostrar-CM";
+    }
+    
+    @GetMapping("/Medico/EliminarCM")
+    public String MostrarCM(HttpSession session, Long id, Model model,RedirectAttributes re) throws Errores{
+        
+        Medico med = (Medico)session.getAttribute("medicosesion");
+        if(med == null){
+            return "redirect:/inicio";
+        }
+        
+        
+        medicose.EliminarCentrosMedicos(med.getMatricula(),id);
+
+        
+        re.addFlashAttribute("mensaje", "Registro eliminado exitosamente");
+        
+        
+        return "redirect:/Medico/MostrarCM";
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

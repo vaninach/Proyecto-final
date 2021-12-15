@@ -152,6 +152,59 @@ public class CentroMedicoSe implements UserDetailsService{
             throw new Errores("No se encuentra el centro médico solicitado");
         }
     }
+    
+    
+      @Transactional
+    public void ModificarMedicos(Long codigo,Integer matricula) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<Integer> listaM=cmed.getMedicos();
+            if(listaM.contains(matricula)) throw new Errores("El registro ya se encuentra en la lista");
+            listaM.add(matricula);
+            cmed.setMedicos(listaM);
+            centroRep.save(cmed);
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }    
+    
+     @Transactional
+    public List<Integer> MostrarMedicos(Long codigo) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<Integer> listaM=cmed.getMedicos();
+            return listaM;
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }    
+    
+      @Transactional
+    public void EliminarMedicos(Long codigo,Integer matricula) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<Integer> listaM=cmed.getMedicos();
+            
+            listaM.remove(matricula);
+            
+            cmed.setMedicos(listaM);
+            centroRep.save(cmed);
+            
+            
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }
+    
+    
+    
+    
     // ======================== END CRUD ======================
     
     
