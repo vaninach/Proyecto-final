@@ -23,6 +23,10 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>telefono</th><!-- comment -->
+                    <th>correo</th>
+                    <th>ciudad</th>
+                    <th>provincia</th>
                     <th></th>
                     
                    
@@ -30,8 +34,13 @@
             </thead>
             <tbody>
                 <tr th:each="cm,iterStat :${listaCM}">
-                    <td th:text="${cm}"></td>
-                    <td><a th:href="@{/Medico/EliminarCM(id=${cm})}">Eliminar</a></td>
+                    <td th:text="${cm.nombre}"></td>
+                    <td th:text="${cm.telefono}"></td>
+                    <td th:text="${cm.mail}"></td>
+                    <td th:text="${cm.ciudad}"></td>
+                    <td th:text="${cm.provincia}"></td>
+                    
+                    <td><a th:href="@{/Medico/EliminarCM(id=${cm.codigoRegistro})}"class="btn btn-danger">Eliminar</a></td>
                 </tr>
             </tbody>
         </table>

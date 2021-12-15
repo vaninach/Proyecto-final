@@ -480,9 +480,19 @@ public class MedicoController {
         
         
         List<Long> listaCM=medicose.MostrarCentrosMedicos(med.getMatricula());
-
+        if(listaCM.size()!=0){
+            List<CentroMedico> listaCM_fin=new ArrayList<>();
+            for (Long long1 : listaCM) {
+                CentroMedico cmed=centromedicoSe.buscarPorCodigo(long1);
+                listaCM_fin.add(cmed);
+            }
+            model.addAttribute("listaCM", listaCM_fin);
+        }
+        else{
+            model.addAttribute("mensaje", "No se encontraron Centros Medicos asociados");
+        }
         
-        model.addAttribute("listaCM", listaCM);
+        
         
         
         return "/Medico/Mostrar-CM";

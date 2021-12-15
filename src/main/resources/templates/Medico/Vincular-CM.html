@@ -42,7 +42,7 @@
                     <td th:text="${cm.nombre}"></td>
                     <td th:text="${cm.provincia}"></td>
                     <td th:text="${cm.ciudad}"></td> 
-                    <td><a th:href="@{/Medico/ElegirCM(id=${cm.codigoRegistro})}" >Elegir</a></td>
+                    <td><a th:href="@{/Medico/ElegirCM(id=${cm.codigoRegistro})}" class="btn btn-success" >Elegir</a></td>
                 </tr>
             </tbody>
         </table>

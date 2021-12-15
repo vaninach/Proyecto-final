@@ -190,7 +190,23 @@ public class CentroMedicoController {
 
         List<Integer> listaM = centroMedicose.MostrarMedicos(cmed.getCodigoRegistro());
 
-        model.addAttribute("listaM", listaM);
+        if(listaM.size()!=0){
+            List<Medico> listaM_fin=new ArrayList<>();
+            for (Integer long1 : listaM) {
+                Medico med=medicoSe.BuscarPorMatricula(long1);
+                listaM_fin.add(med);
+            }
+            System.out.println(listaM_fin);
+            model.addAttribute("listaM", listaM_fin);
+        }
+        else{
+            model.addAttribute("mensaje", "No se encontraron Medicos asociados");
+        }
+        
+        
+        
+        
+        
 
         return "/CentroMedico/Mostrar-M";
     }
