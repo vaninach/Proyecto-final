@@ -7,7 +7,7 @@
     --first-color: #4181E8;
     --first-color-light: #aab3c0;
     --white-color: #F7F6FB;
-    --body-font: 'Nunito', sans-serif;
+    --body-font: Verdana, 'Nunito', sans-serif;
     --normal-font-size: 1rem;
     --z-fixed: 100
 }
@@ -42,13 +42,13 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    background-color: var(--white-color);
+    background-color: #c5cedbb9;
     z-index: var(--z-fixed);
     transition: .5s
 }
 
 .header_toggle {
-    color: var(--first-color);
+    color: #4181E8;
     font-size: 1.5rem;
     cursor: pointer
 }
