@@ -196,6 +196,7 @@ public class CentroMedicoController {
                 Medico med=medicoSe.BuscarPorMatricula(long1);
                 listaM_fin.add(med);
             }
+            System.out.println(listaM_fin);
             model.addAttribute("listaM", listaM_fin);
         }
         else{
@@ -206,7 +207,6 @@ public class CentroMedicoController {
         
         
         
-        model.addAttribute("listaM", listaM);
 
         return "/CentroMedico/Mostrar-M";
     }
