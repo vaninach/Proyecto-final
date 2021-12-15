@@ -43,12 +43,12 @@
                         <div class="nav_list">
                             <a th:href="@{editar-perfil-M(matricula=__${session.medicosesion.matricula}__)}" class="nav_link active"> 
                                 <i class='bx bxs-user'></i>
-                                <span class="nav_name">MIS DATOS</span> 
+                                <span class="nav_name">Mis datos</span> 
                             </a> 
 
                             <a th:href="@{BuscarPaciente}" class="nav_link"> 
                                 <i class='bx bx-plus-medical'></i>
-                                <span class="nav_name">PACIENTES</span> 
+                                <span class="nav_name">Pacientes</span> 
                             </a> 
 <!--                            <a href="@{/Medico/BuscarHistoriasClinicas}" class="nav_link"> 
                                 <i class='bx bx-book-add'></i>
@@ -56,7 +56,7 @@
                             </a> -->
                             <a th:href="@{AgregarHistoriaClinica}" class="nav_link"> 
                                 <i class='bx bx-book-add'></i> 
-                                <span class="nav_name">Datos</span> 
+                                <span class="nav_name">Nueva historia clinica</span> 
                             </a> 
                             <a href="VincularCM" class="nav_link"> 
                                 <i class='bx bxs-band-aid'></i> 
@@ -66,15 +66,19 @@
                                 <i class='bx bxs-band-aid'></i> 
                                 <span class="nav_name">Gestion Centros Medicos</span>
                             </a>
-                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item bx bx-log-out nav_icon " >
-                                <input class="" type="submit" value="" >
+                            
+                            <form th:action="@{/logout}" action="/logout" method="post" >
+                                <button class="nav_link bx bx-log-out" type="submit" value="" 
+                                        style="background-color: Transparent;border: none;"/> 
+                                <span class="nav_name">Log out</span>
                             </form>
+                           
                         </div>
                     </div> 
-                    <a href="#" class="nav_link"> 
+<!--                    <a href="#" class="nav_link"> 
                         <i class='bx bx-log-out nav_icon'></i> 
                         <span class="nav_name">Salir</span>
-                    </a>
+                    </a>-->
                 </nav>
             </div>
 
