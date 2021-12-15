@@ -13,20 +13,33 @@
 </head>
 <body>
     <div class="buscador">
+        
+        <div th:if=${mensaje!=null}>
+        <p th:text="${mensaje}" class="alert alert-danger"></p>
+    </div>
        
-
-        <form th:action="@{/Medico/VincularCM}" method="POST">
-            <label> Filtro de búsqueda</label><br>
-            <input type="number" id="RegistroCM" name="RegistroCM" placeholder="Cogigo del Centro Medico"  /><br>
-            
-            <button type="submit" >Buscar</button><br>
-
-        </form>
+   <div class="resultados" th:if="${!#lists.isEmpty(listaM)}">    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th></th>
+                    
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="med,iterStat :${listaM}">
+                    <td th:text="${med}"></td>
+                    <td><a th:href="@{/CentroMedico/EliminarM(id=${med})}">Eliminar</a></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
+        
     
-    
-    <div class="resultados" th:if="${!#lists.isEmpty(listaCM)}">    
+<!--    <div class="resultados" th:if="${!#lists.isEmpty(listaCM)}">    
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -46,11 +59,9 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 
-    <div th:if=${mensaje!=null}>
-        <p th:text="${mensaje}" class="alert alert-info"></p>
-    </div>
+  
 
 </body>
 </html>

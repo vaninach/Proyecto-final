@@ -15,9 +15,9 @@
     <div class="buscador">
        
 
-        <form th:action="@{/Medico/VincularCM}" method="POST">
+        <form th:action="@{/CentroMedico/VincularM}" method="POST">
             <label> Filtro de búsqueda</label><br>
-            <input type="number" id="RegistroCM" name="RegistroCM" placeholder="Cogigo del Centro Medico"  /><br>
+            <input type="number" id="matricula" name="matricula" placeholder="Matricula Medico"  /><br>
             
             <button type="submit" >Buscar</button><br>
 
@@ -26,7 +26,7 @@
 
     
     
-    <div class="resultados" th:if="${!#lists.isEmpty(listaCM)}">    
+    <div class="resultados" th:if="${!#lists.isEmpty(listaM)}">    
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -38,11 +38,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="cm,iterStat :${listaCM}">
-                    <td th:text="${cm.nombre}"></td>
-                    <td th:text="${cm.provincia}"></td>
-                    <td th:text="${cm.ciudad}"></td> 
-                    <td><a th:href="@{/Medico/ElegirCM(id=${cm.codigoRegistro})}" >Elegir</a></td>
+                <tr th:each="med,iterStat :${listaM}">
+                    <td th:text="${med.nombre}"></td>
+                    <td th:text="${med.provincia}"></td>
+                    <td th:text="${med.ciudad}"></td> 
+                    <td><a th:href="@{/CentroMedico/ElegirM(id=${med.matricula})}" >Elegir</a></td>
                 </tr>
             </tbody>
         </table>
