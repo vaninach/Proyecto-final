@@ -30,7 +30,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Nombre</th>
+                    <th>Nombre Completo</th>
                     <th>Provincia</th>
                     <th>Ciudad</th>
                     <th></th>
@@ -39,10 +39,10 @@
             </thead>
             <tbody>
                 <tr th:each="med,iterStat :${listaM}">
-                    <td th:text="${med.nombre}"></td>
+                    <td th:text="${med.nombre} + ' '+ ${med.apellido}"></td>
                     <td th:text="${med.provincia}"></td>
                     <td th:text="${med.ciudad}"></td> 
-                    <td><a th:href="@{/CentroMedico/ElegirM(id=${med.matricula})}" >Elegir</a></td>
+                    <td><a th:href="@{/CentroMedico/ElegirM(id=${med.matricula})}" class="btn btn-success" >Elegir</a></td>
                 </tr>
             </tbody>
         </table>
