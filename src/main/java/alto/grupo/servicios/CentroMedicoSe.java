@@ -239,7 +239,6 @@ public class CentroMedicoSe implements UserDetailsService{
             List<String> listaOS = cmed.getObrasSociales();
             
             listaOS.remove(nombreOS);
-            System.out.println(nombreOS);
             
             cmed.setObrasSociales(listaOS);
             centroRep.save(cmed);
@@ -407,12 +406,9 @@ public class CentroMedicoSe implements UserDetailsService{
  @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         
-        System.out.println("holasldkfjadsfjadñs");
         Optional<CentroMedico> usersList = usersRepository.findById(Long.parseLong(userName));
-        System.out.println(userName+"efwl");
         if (usersList.isPresent()) {
             CentroMedico users = usersList.get();
-            System.out.println(users.getCodigoRegistro()+" "+users.getClave());
             List<String> roleList = new ArrayList<String>();
             //for (Role role : users.getRoles()) {
                 roleList.add("CENTRO_MEDICO");
