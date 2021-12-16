@@ -65,7 +65,12 @@
                     <a href="/Paciente/BuscarPorMedico" th:href="@{/Paciente/BuscarPorMedico}" class="nav_link">
                         <i class='bx bx-search-alt-2'></i>
                         <span class="nav_name">Buscar Médico</span> 
-                    </a> 
+                    </a>
+                    
+                    <a href="/Paciente/BuscarPorCentroMedico" th:href="@{/Paciente/BuscarPorCentroMedico}" class="nav_link">
+                        <i class='bx bx-search-alt-2'></i>
+                        <span class="nav_name">Buscar Centro Médico</span> 
+                    </a>
                     <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
                         <input class="boton" type="submit" value="salir" >
                     </form>
@@ -76,119 +81,9 @@
                     </a>
                 </nav>
             </div>
-            <!--Container Main start-->
-            <div class="height-100 bg-light">
-                <h4>Menú</h4>
-            </div>
+            
             <!--Container Main end-->
-            <!-- Footer -->
-            <footer class="text-center text-lg-start bg-light text-muted">
-                <!-- Section: Social media -->
-                <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-                    <!-- Left -->
-                    <div class="me-5 d-none d-lg-block">
-                        <span>Conectate con nosotros:</span>
-                    </div>
-                    <!-- Left -->
-
-                    <!-- Right -->
-                    <div>
-                        <a href="https://www.facebook.com/histomed" class="me-4 text-reset">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://twitter.com/histomed?lang=es" class="me-4 text-reset">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="" class="me-4 text-reset">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="https://www.instagram.com/histomed/" class="me-4 text-reset">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-
-                    </div>
-                    <!-- Right -->
-                </section>
-                <!-- Section: Social media -->
-
-                <!-- Section: Links  -->
-                <section class="">
-                    <div class="container text-center text-md-start mt-5">
-                        <!-- Grid row -->
-                        <div class="row mt-3">
-                            <!-- Grid column -->
-                            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                                <!-- Content -->
-                                <h6 class="text-uppercase fw-bold mb-4">
-                                    <i class="fas fa-gem me-3"></i>HISTOMED
-                                </h6>
-                                <p>
-                                    Somos una empresa que brinda soluciones
-                                    eficaces a las necesidades de pacientes,
-                                    profesionales de la salud y centros medicos.
-                                </p>
-                            </div>
-                            <!-- Grid column -->
-
-                            <!-- Grid column -->
-                            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                                <!-- Links -->
-                                <h6 class="text-uppercase fw-bold mb-4">
-                                    Productos
-                                </h6>
-                                <p>
-                                    <a href="#!" class="text-reset">Team 5.1</a>
-                                </p>
-                                <p>
-                                    <a href="#!" class="text-reset">Team 5.2</a>
-                                </p>
-
-                            </div>
-                            <!-- Grid column -->
-
-                            <!-- Grid column -->
-                            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                                <!-- Links -->
-                                <h6 class="text-uppercase fw-bold mb-4">
-                                    Links de utilidad
-                                </h6>
-                                <p>
-                                    <a href="https://www.argentina.gob.ar/salud" class="text-reset">Ministerio de salud - Arg</a>
-                                </p>
-                                <p>
-                                    <a href="https://www.mendoza.gov.ar/salud/" class="text-reset">Ministerio de salud - Mza</a>
-                                </p>
-
-                            </div>
-                            <!-- Grid column -->
-
-                            <!-- Grid column -->
-                            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                                <!-- Links -->
-                                <h6 class="text-uppercase fw-bold mb-4">
-                                    CONTACTO
-                                </h6>
-                                <p><i class="fas fa-home me-3"></i> Mendoza, Argentina</p>
-                                <p>
-                                    <i class="fas fa-envelope me-3"></i>
-                                    info@histomed.com
-                                </p>
-                                <p><i class="fas fa-phone me-3"></i> + 261 5464646</p>
-                                <p><i class="fas fa-print me-3"></i> + 354 5686868</p>
-                            </div>
-                            <!-- Grid column -->
-                        </div>
-                        <!-- Grid row -->
-                    </div>
-                </section>
-                <!-- Section: Links  -->
-
-                <!-- Copyright -->
-                <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-                    ©️ 2021 Copyright:
-                    <a class="text-reset fw-bold" href="https://mdbootstrap.com/">TEAM 5</a>
-                </div>
-                <!-- Copyright -->
+            
 
                 <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
         </div>

@@ -33,7 +33,7 @@
 
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-                  <div class="header_toggle"> <i class='fas fa-user-md'></i> </div>
+                <div class="header_toggle"> <i class='fas fa-user-md'></i> </div>
             </header>
 
             <div class="l-navbar" id="nav-bar">
@@ -60,22 +60,32 @@
                             <!--                            <a href="#" class="nav_link"> <i
                                                                 class='bx bx-search'></i> <span class="nav_name">MEDICOS</span> </a> -->
 
-                            <a href="VincularM" class="nav_link"> <i
-                                    class='bx bx-add-to-queue'></i><span class="nav_name">Vincular Medico</span> </a> 
-                                    
-                           <a href="MostrarM" class="nav_link"> <i
-                                    class='bx bx-add-to-queue'></i><span class="nav_name">Medicos Asociados</span> </a> 
-                            
                             <a href="NuevoMedico2" class="nav_link"> <i
                                     class='bx bx-add-to-queue'></i><span class="nav_name">Agregar medico</span> </a> 
-                                    
-                                    
-                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
-                                <input class="boton" type="submit" value="salir" >
+
+                            <a href="VincularM" class="nav_link"> <i
+                                    class='bx bx-add-to-queue'></i><span class="nav_name">Vincular Medico</span> </a> 
+
+                            <a href="MostrarM" class="nav_link"> <i
+                                    class='bx bx-add-to-queue'></i><span class="nav_name">Medicos Asociados</span> </a> 
+
+                            <a href="ObrasSociales" class="nav_link"> <i
+                                    class='bx bx-add-to-queue'></i><span class="nav_name">Obras Sociales</span> </a> 
+
+                            <a href="Especialidades" class="nav_link"> <i
+                                    class='bx bx-add-to-queue'></i><span class="nav_name">Especialidades</span> </a> 
+
+                            <a href="NuevoEstudio" class="nav_link"> <i
+                                    class='bx bx-add-to-queue'></i><span class="nav_name">Subir Estudio</span> </a> 
+
+
+                            <form th:action="@{/logout}" action="/logout" method="post" >
+                                <button class="nav_link bx bx-log-out" type="submit" value="" 
+                                        style="background-color: Transparent;border: none;"/> 
+                                <span class="nav_name">Salir</span>
                             </form>
                         </div>
-                    </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Salir</span>
-                    </a>
+                    </div> 
                 </nav>
             </div>
 
@@ -83,10 +93,10 @@
 
 
             <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
-        </div>
-         
+    </div>
 
-    </body>
+
+</body>
 
 
 </html>
