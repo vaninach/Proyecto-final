@@ -154,7 +154,8 @@ public class CentroMedicoSe implements UserDetailsService{
     }
     
     
-      @Transactional
+    // =============== VINCULACION DE MEDICOS A CM ===============
+    @Transactional
     public void ModificarMedicos(Long codigo,Integer matricula) throws Errores {
         Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
         if(cmedOpt.isPresent()){
@@ -170,7 +171,7 @@ public class CentroMedicoSe implements UserDetailsService{
 
     }    
     
-     @Transactional
+    @Transactional
     public List<Integer> MostrarMedicos(Long codigo) throws Errores {
         Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
         if(cmedOpt.isPresent()){
@@ -183,7 +184,7 @@ public class CentroMedicoSe implements UserDetailsService{
 
     }    
     
-      @Transactional
+    @Transactional
     public void EliminarMedicos(Long codigo,Integer matricula) throws Errores {
         Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
         if(cmedOpt.isPresent()){
@@ -202,8 +203,55 @@ public class CentroMedicoSe implements UserDetailsService{
 
     }
     
+    // =============== VINCULACION DE OS A CM ===============
+    @Transactional
+    public void ModificarOS(Long codigo, String nombreOS) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed = cmedOpt.get();
+            List<String> listaOS = cmed.getObrasSociales();
+            if(listaOS.contains(nombreOS)) throw new Errores("La obra social ya se encuentra en la lista");
+            listaOS.add(nombreOS);
+            cmed.setObrasSociales(listaOS);
+            centroRep.save(cmed);
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+    }
     
-     @Transactional
+    @Transactional
+    public List<String> MostrarObrasSociales(Long codigo) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<String> listaOS=cmed.getObrasSociales();
+            return listaOS;
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+    } 
+    
+    @Transactional
+    public void EliminarOS(Long codigo, String nombreOS) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<String> listaOS = cmed.getObrasSociales();
+            
+            listaOS.remove(nombreOS);
+            
+            cmed.setObrasSociales(listaOS);
+            centroRep.save(cmed);
+            
+            
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }
+    
+    // =============== VINCULACION DE ESPECIALIDADES A CM ===============
+    @Transactional
     public List<String> MostrarEspecialidades(Long codigo) throws Errores {
         Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
         if(cmedOpt.isPresent()){
@@ -216,18 +264,7 @@ public class CentroMedicoSe implements UserDetailsService{
 
     }  
     
-     @Transactional
-    public List<String> MostrarObrasSociales(Long codigo) throws Errores {
-        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
-        if(cmedOpt.isPresent()){
-            CentroMedico cmed=cmedOpt.get();
-            List<String> listaOS=cmed.getObrasSociales();
-            return listaOS;
-        } else {
-            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
-        }
-
-    }  
+    
     
     
     
@@ -343,6 +380,7 @@ public class CentroMedicoSe implements UserDetailsService{
             throw new Errores("No se encontra ningun centro medico correspondiente a la especialidad (" + especialidad + ") en " + provincia + ", " + ciudad + ".");
         }
     }
+    
     // ======================== END SERVICE FOR QUERIES ====================== 
      
     private Boolean buscarCambiosClave(String text) {
@@ -354,11 +392,7 @@ public class CentroMedicoSe implements UserDetailsService{
             throw new Errores("Los datos no pueden ser nulos");
         }
     }
-    
-    private void validar(Integer nb) throws Errores {
-        
-    }
-    
+   
     
 
  @Autowired
@@ -372,12 +406,9 @@ public class CentroMedicoSe implements UserDetailsService{
  @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         
-        System.out.println("holasldkfjadsfjadñs");
         Optional<CentroMedico> usersList = usersRepository.findById(Long.parseLong(userName));
-        System.out.println(userName+"efwl");
         if (usersList.isPresent()) {
             CentroMedico users = usersList.get();
-            System.out.println(users.getCodigoRegistro()+" "+users.getClave());
             List<String> roleList = new ArrayList<String>();
             //for (Role role : users.getRoles()) {
                 roleList.add("CENTRO_MEDICO");
