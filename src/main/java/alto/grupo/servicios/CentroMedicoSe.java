@@ -208,8 +208,14 @@ public class CentroMedicoSe implements UserDetailsService{
     public void ModificarOS(Long codigo, String nombreOS) throws Errores {
         Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
         if(cmedOpt.isPresent()){
+            System.out.println("EN MODIFICAROS CMED ESTA PRESENTE");
             CentroMedico cmed=cmedOpt.get();
             List<String> listaOS = cmed.getObrasSociales();
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("LISTA OS");
+            for (String os : listaOS) {
+                System.out.println("*"+os);
+            }
             if(listaOS.contains(nombreOS)) throw new Errores("La obra social ya se encuentra en la lista");
             listaOS.add(nombreOS);
             cmed.setObrasSociales(listaOS);

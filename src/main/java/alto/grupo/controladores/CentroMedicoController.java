@@ -212,7 +212,7 @@ public class CentroMedicoController {
         return "redirect:/CentroMedico/MostrarM";
     }
     
-    // ===================== VINCULACION DE MEDICOS A CM ==========================
+    // ===================== VINCULACION DE OS A CM ==========================
     @GetMapping("CentroMedico/VincularOS")
     public String BuscarOS(HttpSession session, Model model) {
         return "CentroMedico/Vincular-OS";
@@ -226,21 +226,27 @@ public class CentroMedicoController {
             return "redirect:/inicio";
         }
 
+        //
+        List<String> listaOS = cmed.getObrasSociales();
+        model.addAttribute("listaOS", listaOS);
+        re.addFlashAttribute("listaOS", listaOS);
+        
         try{
-            List<String> listaOS = new ArrayList<>();
-            listaOS.add(nombreOS);
-            System.out.println("========================");
-            System.out.println("LISTA OS");
-            for (String os : listaOS) {
-                System.out.println("*"+os);
-            }
-            model.addAttribute("listaOS", listaOS);
             centroMedicose.ModificarOS(cmed.getCodigoRegistro(), nombreOS);
+            //* List<String> listaOS = new ArrayList<>();
+            //* listaOS = cmed.getObrasSociales();
+//            listaOS.add(nombreOS);
+            //* System.out.println("========================");
+            //* System.out.println("LISTA OS");
+//            for (String os : listaOS) {
+//                System.out.println("*"+os);
+//            }
+            
         }
-        catch(Exception er){
+        catch(Errores er){
             re.addFlashAttribute("mensaje", er.getMessage());
             model.addAttribute("mensaje", er.getMessage());
-            return "redirect:/CentroMedico/VincularM";
+            return "redirect:/CentroMedico/VincularOS";
         }
 
         model.addAttribute("mensaje", "Se vinculó la obra social exitosamente!!");
@@ -249,28 +255,28 @@ public class CentroMedicoController {
         return "redirect:/CentroMedico/VincularOS";
     }
     
-    @GetMapping("/CentroMedico/ElegirOS")
-    public String ElegirOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
-        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
-        if (cmed == null) {
-            model.addAttribute("mensaje", "Debe Registrarse!!");
-            return "redirect:/inicio";
-        }
-
-        try {
-            centroMedicose.ModificarOS(cmed.getCodigoRegistro(), nombreOS);
-            
-        } catch (Exception ex) {
-            re.addFlashAttribute("mensaje", ex.getMessage());
-            model.addAttribute("mensaje", ex.getMessage());
-            return "redirect:/CentroMedico/VincularM";
-        }
-
-        model.addAttribute("mensaje", "Se vinculó la obra social exitosamente!!");
-        re.addFlashAttribute("mensaje", "Se vinculó la obra social exitosamente!");
-
-        return "redirect:/CentroMedico/VincularM";
-    }
+//    @GetMapping("/CentroMedico/ElegirOS")
+//    public String ElegirOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
+//        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+//        if (cmed == null) {
+//            model.addAttribute("mensaje", "Debe Registrarse!!");
+//            return "redirect:/inicio";
+//        }
+//
+//        try {
+//            centroMedicose.ModificarOS(cmed.getCodigoRegistro(), nombreOS);
+//            
+//        } catch (Exception ex) {
+//            re.addFlashAttribute("mensaje", ex.getMessage());
+//            model.addAttribute("mensaje", ex.getMessage());
+//            return "redirect:/CentroMedico/VincularM";
+//        }
+//
+//        model.addAttribute("mensaje", "Se vinculó la obra social exitosamente!!");
+//        re.addFlashAttribute("mensaje", "Se vinculó la obra social exitosamente!");
+//
+//        return "redirect:/CentroMedico/VincularOS";
+//    }
     
     // ====================== MAIL SENDER =======================
 
