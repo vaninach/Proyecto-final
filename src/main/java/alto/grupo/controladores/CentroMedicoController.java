@@ -61,7 +61,7 @@ public class CentroMedicoController {
     }
 
     @RequestMapping("/CentroMedico/inicioCentroMedico")
-    public String incioCentroMedico() {
+    public String inicioCentroMedico() {
         return "CentroMedico/sidebarCentroMedico.html";
     }
 
@@ -222,7 +222,7 @@ public class CentroMedicoController {
     }
     
     // ===================== VINCULACION DE OS A CM ==========================
-    @GetMapping("CentroMedico/VincularOS")
+    @GetMapping("CentroMedico/ObrasSociales")
     public String BuscarOS(HttpSession session, Model model, RedirectAttributes re)  throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
@@ -230,23 +230,18 @@ public class CentroMedicoController {
             return "redirect:/inicio";
         }
         
-        List<String> listaOS1 = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
-        if(listaOS1.size()!=0){
-            List<String> listaOS = new ArrayList<>();
-            for (String string : listaOS1) {
-                listaOS.add(string);
-            }
-            System.out.println(listaOS);
+        List<String> listaOS = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
+        if(listaOS.size()!=0){
             model.addAttribute("listaOS", listaOS);
             model.addAttribute("nombreCmed", cmed.getNombre());
         }
         else{
-            model.addAttribute("mensaje", "No se encontraron Obras Sociales asociadas");
+            model.addAttribute("mensaje", "No se encontraron Obras Sociales asociadas a " + cmed.getNombre());
         }
-        return "CentroMedico/Vincular-OS";
+        return "CentroMedico/ObrasSociales";
     }
     
-    @PostMapping("/CentroMedico/VincularOS")
+    @PostMapping("/CentroMedico/ObrasSociales")
     public String ElegirOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
@@ -256,7 +251,7 @@ public class CentroMedicoController {
         
         if(nombreOS == null || nombreOS.isEmpty()){
             re.addFlashAttribute("mensaje", "Por favor, ingrese un nombre para la obra social.");
-            return "redirect:/CentroMedico/VincularOS";
+            return "redirect:/CentroMedico/ObrasSociales";
         }
 
         try {
@@ -264,31 +259,26 @@ public class CentroMedicoController {
         } catch (Errores ex) {
             re.addFlashAttribute("mensaje", ex.getMessage());
             model.addAttribute("mensaje", ex.getMessage());
-            return "redirect:/CentroMedico/VincularOS";
+            return "redirect:/CentroMedico/ObrasSociales";
         }
         
-        List<String> listaOS1 = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
-        if(listaOS1.size()!=0){
-            List<String> listaOS = new ArrayList<>();
-            for (String string : listaOS1) {
-                listaOS.add(string);
-            }
-            System.out.println(listaOS);
+        List<String> listaOS = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
+        if(listaOS.size()!=0){
             re.addFlashAttribute("listaOS", listaOS);
             re.addFlashAttribute("nombreCmed", cmed.getNombre());
         }
         else{
-            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales asociadas");
+            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales asociadas a " + cmed.getNombre());
         }  
 
         model.addAttribute("mensaje", "Se vinculó la obra social exitosamente!!");
         re.addFlashAttribute("mensaje", "Se vinculó la obra social exitosamente!");
 
-        return "redirect:/CentroMedico/VincularOS";
+        return "redirect:/CentroMedico/ObrasSociales";
     }
 
     @GetMapping("/CentroMedico/EliminarOS")
-    public String MostrarOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
+    public String EliminarOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
 
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
@@ -300,23 +290,97 @@ public class CentroMedicoController {
 
         re.addFlashAttribute("mensaje", "Registro (" + nombreOS + ") eliminado exitosamente.");
         
-        List<String> listaOS1 = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
-        if(listaOS1.size()!=0){
-            List<String> listaOS = new ArrayList<>();
-            for (String string : listaOS1) {
-                listaOS.add(string);
-            }
-            System.out.println(listaOS);
+        List<String> listaOS = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
+        if(listaOS.size()!=0){
             re.addFlashAttribute("listaOS", listaOS);
             re.addFlashAttribute("nombreCmed", cmed.getNombre());
         }
         else{
-            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales asociadas.");
+            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales  a " + cmed.getNombre());
         }  
 
-        return "redirect:/CentroMedico/VincularOS";
+        return "redirect:/CentroMedico/ObrasSociales";
+    }
+    // ===================== VINCULACION DE ESPECIALIDADES A CM ==========================
+    @GetMapping("CentroMedico/Especialidades")
+    public String BuscarEspecialidades(HttpSession session, Model model, RedirectAttributes re)  throws Errores {
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            return "redirect:/inicio";
+        }
+        
+        List<String> listaEspecialidades = centroMedicose.MostrarEspecialidades(cmed.getCodigoRegistro());
+        if(listaEspecialidades.size()!=0){
+            model.addAttribute("listaEspecialidades", listaEspecialidades);
+            model.addAttribute("nombreCmed", cmed.getNombre());
+        }
+        else{
+            model.addAttribute("mensaje", "No se encontraron especialidades asociadas a " + cmed.getNombre());
+        }
+        return "CentroMedico/Especialidades";
     }
     
+    @PostMapping("/CentroMedico/Especialidades")
+    public String ElegirEspecialidad(HttpSession session, String nombreEspecialidad, Model model, RedirectAttributes re) throws Errores {
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            return "redirect:/inicio";
+        }
+        
+        if(nombreEspecialidad == null || nombreEspecialidad.isEmpty()){
+            re.addFlashAttribute("mensaje", "Por favor, ingrese un nombre para la especialidad.");
+            return "redirect:/CentroMedico/Especialidades";
+        }
+
+        try {
+            centroMedicose.ModificarEspecialidad(cmed.getCodigoRegistro(), nombreEspecialidad);           
+        } catch (Errores ex) {
+            re.addFlashAttribute("mensaje", ex.getMessage());
+            model.addAttribute("mensaje", ex.getMessage());
+            return "redirect:/CentroMedico/Especialidades";
+        }
+        
+        List<String> listaEspecialidades = centroMedicose.MostrarEspecialidades(cmed.getCodigoRegistro());
+        if(listaEspecialidades.size()!=0){
+            re.addFlashAttribute("listaEspecialidades", listaEspecialidades);
+            re.addFlashAttribute("nombreCmed", cmed.getNombre());
+        }
+        else{
+            re.addFlashAttribute("mensaje", "No se encontraron especialidades asociadas a " + cmed.getNombre());
+        }  
+
+        model.addAttribute("mensaje", "Se vinculó la especialidad exitosamente!!");
+        re.addFlashAttribute("mensaje", "Se vinculó la especialidad exitosamente!");
+
+        return "redirect:/CentroMedico/Especialidades";
+    }
+    
+    @GetMapping("/CentroMedico/EliminarEspecialidad")
+    public String EliminarEspecialidad(HttpSession session, String nombreEspecialidad, Model model, RedirectAttributes re) throws Errores {
+
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            return "redirect:/inicio";
+        }
+
+        centroMedicose.EliminarEspecialidad(cmed.getCodigoRegistro(), nombreEspecialidad);
+
+        re.addFlashAttribute("mensaje", "Registro (" + nombreEspecialidad + ") eliminado exitosamente.");
+        
+        List<String> listaEspecialidades = centroMedicose.MostrarEspecialidades(cmed.getCodigoRegistro());
+        if(listaEspecialidades.size()!=0){
+            re.addFlashAttribute("listaEspecialidades", listaEspecialidades);
+            re.addFlashAttribute("nombreCmed", cmed.getNombre());
+        }
+        else{
+            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales  a " + cmed.getNombre());
+        }  
+
+        return "redirect:/CentroMedico/Especialidades";
+    }
     // ====================== Nuevo Estudio ========================
     
      @GetMapping("/CentroMedico/NuevoEstudio") 

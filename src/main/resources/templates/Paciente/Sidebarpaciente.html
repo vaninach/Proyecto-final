@@ -29,7 +29,7 @@
       
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-                <div class="header_img"> <img src="/imagenes/Logo-Histomed.jpeg" alt="HistoMed"> </div>
+                <div class="header_toogle"> <i class="fas fa-user-alt"></i> </div>
             </header>
 
             <div class="l-navbar" id="nav-bar">
@@ -74,11 +74,17 @@
                     <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
                         <input class="boton" type="submit" value="salir" >
                     </form>
+                    
+                    <form th:action="@{/logout}" action="/logout" method="post" >
+                                <button class="nav_link bx bx-log-out" type="submit" value="" 
+                                        style="background-color: Transparent;border: none;"/> 
+                                <span class="nav_name">Cerrar Sesión</span>
+                            </form>
 
-                    <a href="#" class="nav_link"> 
+                    <!--<a href="#" class="nav_link"> 
                         <i class='bx bx-log-out nav_icon'></i> 
                         <span class="nav_name">Cerrar Sesión</span>
-                    </a>
+                    </a>-->
                 </nav>
             </div>
             

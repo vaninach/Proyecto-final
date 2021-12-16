@@ -22,7 +22,7 @@
 
         <!-- llamado al propio css del archivo -->
         <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{/css/sidebar.css}">
-        <title>HISTOMED - Obras sociales</title>
+        <title>HISTOMED - Especialidades</title>
     </head>
     <body>
         <!--            Fragment SideBar-->
@@ -30,9 +30,9 @@
 
         <div class="centrado">
             <div class="buscador">
-                <form th:action="@{/CentroMedico/VincularOS}" method="POST">
-                    <label> Nueva obra social</label><br>
-                    <input type="text" id="nombreOS" name="nombreOS" placeholder="Nombre de la Obra Social"  /><br>
+                <form th:action="@{/CentroMedico/Especialidades}" method="POST">
+                    <label> Nueva especialidad</label><br>
+                    <input type="text" id="nombreEspecialidad" name="nombreEspecialidad" placeholder="Especialidad"  /><br>
 
                     <button type="submit" >Agregar</button><br>
 
@@ -43,19 +43,19 @@
                 <p th:text="${mensaje}" class="alert alert-info"></p>
             </div>
 
-            <div class="resultados" th:if="${!#lists.isEmpty(listaOS)}">
-                <h1>Obras sociales asociadas a <span th:text="${nombreCmed}"></span></h1>
+            <div class="resultados" th:if="${!#lists.isEmpty(listaEspecialidades)}">
+                <h1>Especialidades asociadas a <span th:text="${nombreCmed}"></span></h1>
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Obra social</th>
+                            <th>Especialidad</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="nombreOS :${listaOS}">
-                            <td th:text="${nombreOS}"></td>
-                            <td><a th:href="@{/CentroMedico/EliminarOS(nombreOS=${nombreOS})}" class="btn btn-danger" >Eliminar</a></td>
+                        <tr th:each="nombreEspecialidad :${listaEspecialidades}">
+                            <td th:text="${nombreEspecialidad}"></td>
+                            <td><a th:href="@{/CentroMedico/EliminarEspecialidad(nombreEspecialidad=${nombreEspecialidad})}" class="btn btn-danger" >Eliminar</a></td>
                         </tr>
                     </tbody>
                 </table>

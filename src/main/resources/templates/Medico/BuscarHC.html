@@ -27,11 +27,12 @@
 </head>
 
 <body>
-    
+
         <!--    Fragment SideBar-->
        
         <div th:replace="Medico/sidebarMedico.html :: sidebarMedico"></div>
     <div class="buscador">
+        <center>
         <label> DNI y nombre del paciente</label>
         <h4 th:text="${paciente.nombre} + ' ' + ${paciente.apellido}"></h4>
         <h4 th:text="${paciente.DNI}"></h4>
@@ -75,7 +76,7 @@
             </tbody>
         </table>
     </div>
-
+   
     <div class="agregarHC">
         <button>Nueva historia clinica</button>
         <button><a th:href="@{AgregarHistoriaClinica(dni=${paciente.DNI})}">Nueva historia clinica</a></button>
@@ -83,7 +84,9 @@
 
     <div th:if=${mensaje!=null}>
         <p th:text="${mensaje}" class="alert alert-danger"></p>
+        
     </div>
+        
 <!--        Fragment Footer-->
    <div th:replace="footer.html :: footer"></div>
 </body>
