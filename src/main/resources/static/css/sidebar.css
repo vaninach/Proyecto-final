@@ -7,7 +7,7 @@
     --first-color: #4181E8;
     --first-color-light: #aab3c0;
     --white-color: #F7F6FB;
-    --body-font: Verdana, 'Nunito', sans-serif;
+    --body-font: Verdana,'Nunito', sans-serif;
     --normal-font-size: 1rem;
     --z-fixed: 100
 }
@@ -192,4 +192,5 @@ a {
     .body-pd {
         padding-left: calc(var(--nav-width) + 188px)
     }
+   
 }

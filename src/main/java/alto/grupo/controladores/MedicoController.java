@@ -369,21 +369,14 @@ public class MedicoController {
         return "HistoriasClinicas/NuevoHistoriaClinica";
     }
     
-    
-    
-    
-       @GetMapping("Medico/VincularCM")
+    // ======================= VINCULACION DE CM A MEDICOS ==========================
+    @GetMapping("Medico/VincularCM")
     public String BuscarCM(HttpSession session, Model model){
-        
         return "Medico/Vincular-CM";
     }
 
     @PostMapping("/Medico/VincularCM")
     public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam Long RegistroCM){
-        
-        
-        
-
         Medico med = (Medico)session.getAttribute("medicosesion");
 
         if(med == null){
@@ -469,10 +462,6 @@ public class MedicoController {
     
     @GetMapping("/Medico/MostrarCM")
     public String MostrarCM(HttpSession session, Model model,RedirectAttributes re) throws Errores{
-        
-        
-        
-
         Medico med = (Medico)session.getAttribute("medicosesion");
         if(med == null){
             return "redirect:/inicio";
@@ -491,10 +480,6 @@ public class MedicoController {
         else{
             model.addAttribute("mensaje", "No se encontraron Centros Medicos asociados");
         }
-        
-        
-        
-        
         return "/Medico/Mostrar-CM";
     }
     
@@ -515,7 +500,6 @@ public class MedicoController {
         
         return "redirect:/Medico/MostrarCM";
     }
-    
     
     
     
