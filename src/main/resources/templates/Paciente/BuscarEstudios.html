@@ -48,15 +48,20 @@ and open the template in the editor.
                             <th>Especialidad</th>
                             <th>Nombre Estudio</th>
                             <th>Centro Medico</th>
-                            <th>Medico Informa</th>
+                            <th>Medico Informe</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="listas,iterStat :${lista}">
                             <td th:text="${listas.fechaVisita}"></td>
-                            <td th:text="${listamedico[__${iterStat.index}__]}"></td>
+                            <td th:text="${listamedicoP[__${iterStat.index}__]}"></td>
+                            <td th:text="${listas.especialidad}"></td>
+                            <td th:text="${listas.nombreEst}"></td>
                             <td th:text="${listacentromedico[__${iterStat.index}__]}"></td>
+                            <td th:text="${listamedicoH[__${iterStat.index}__]}"></td>
+                            
+                            
                     <td > <a th:href="@{MostrarHistoriaClinica(id=${listas.id})}">Elegir</a></td>
                         </tr>
                     </tbody>

@@ -11,7 +11,6 @@ import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.errores.Errores;
-import alto.grupo.repositorios.ArchivosRep;
 import alto.grupo.repositorios.HistClinicaRep;
 import alto.grupo.servicios.ArchivosSe;
 import alto.grupo.servicios.CentroMedicoSe;
