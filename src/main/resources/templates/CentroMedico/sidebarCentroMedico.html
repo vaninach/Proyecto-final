@@ -70,15 +70,16 @@
                                     class='bx bx-add-to-queue'></i><span class="nav_name">Medicos Asociados</span> </a> 
                             
                             <a href="VincularOS" class="nav_link"> <i
-                                    class='bx bx-add-to-queue'></i><span class="nav_name">Vincular Obra Social</span> </a> 
-                                           
+                                    class='bx bx-add-to-queue'></i><span class="nav_name">Obras Sociales</span> </a> 
+
                                     
-                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
-                                <input class="boton" type="submit" value="salir" >
+                            <form th:action="@{/logout}" action="/logout" method="post" >
+                                <button class="nav_link bx bx-log-out" type="submit" value="" 
+                                        style="background-color: Transparent;border: none;"/> 
+                                <span class="nav_name">Salir</span>
                             </form>
                         </div>
-                    </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Salir</span>
-                    </a>
+                    </div> 
                 </nav>
             </div>
 

@@ -52,7 +52,7 @@ public class CentroMedicoController {
     }
 
     @RequestMapping("/CentroMedico/inicioCentroMedico")
-    public String incioCentroMedico() {
+    public String inicioCentroMedico() {
         return "CentroMedico/sidebarCentroMedico.html";
     }
 
