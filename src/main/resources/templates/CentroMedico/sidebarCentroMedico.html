@@ -30,20 +30,23 @@
 
 
         <body id="body-pd">
-
+<!--Esto es el logo de la derecha del header -->
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-                  <div class="header_toggle"> <i class='fas fa-user-md'></i> </div>
+                <div class="header_img"> <img src="/imagenes/Logo-Histomed.jpeg" alt="HistoMed"> </div>
             </header>
-
+<!--Esto va arriba de Mis Datos(Icono)-->
             <div class="l-navbar" id="nav-bar">
                 <nav class="nav">
-                    <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span
-                                class="nav_logo-name">HISTOMED</span> </a>
+                    <div> <a href="#" class="nav_logo"> <i class=''></i> 
+                            <span class="nav_logo-name">
+                                    <img class="img-sidebar" src="/imagenes/Logo-Histomed.jpeg" alt="HistoMed"/>
+                            </span></a>
                         <div class="nav_list"> 
                             <a th:href="@{editar-perfil-CM(codigo=__${session.centromedicosesion.codigoRegistro}__)}" th:if='${session.centromedicosesion != null}' 
-                               class="nav_link active"> <span
-                                    class="nav_name">MIS DATOS</span> </a>
+                               class="nav_link active"> 
+                                     <i class='bx bxs-user'></i>
+                                <span  class="nav_name">Mis Datos</span> </a>
 
                             <!--Linea comentada, creo que eso se podria hacer con JS-->
                             <!--                            <a href="#" class="nav_link"> <i class='bx bx-pencil'></i> <span
@@ -70,11 +73,11 @@
                                     class='bx bx-add-to-queue'></i><span class="nav_name">Agregar medico</span> </a> 
                                     
                                     
-                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
-                                <input class="boton" type="submit" value="salir" >
+                                <form th:action="@{/logout}" action="/logout" method="post" >
+                                <button class="nav_link bx bx-log-out" type="submit" value="" 
+                                        style="background-color: Transparent;border: none;"/> 
+                                <span class="nav_name">SALIR</span>
                             </form>
-                        </div>
-                    </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Salir</span>
                     </a>
                 </nav>
             </div>
