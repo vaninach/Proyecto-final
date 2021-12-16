@@ -18,12 +18,12 @@
     <body>
 
         <div th:replace="nav-bar.html :: nav-bar"></div>
-
-        <div class="centrado">
-            <div th:if=${mensaje!=null}>
+        
+        <div th:if=${mensaje!=null}>
                 <p th:text="${mensaje}" class="alert alert-info"></p>
-            </div>
-
+        </div>
+        
+        <div class="centrado">
             <div class="containerImg">
                 <a href="/Paciente/login" >
                     <img src="/imagenes/pacientesinmod8x10.png" alt="Pacientes"  class="alignleft size-full wp-image-3032"  />

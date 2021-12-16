@@ -150,7 +150,6 @@ public class CentroMedicoController {
 
     @GetMapping("/CentroMedico/ElegirM")
     public String ElegirM(HttpSession session, Integer id, Model model, RedirectAttributes re) throws Errores {
-
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
             model.addAttribute("mensaje", "Debe Registrarse!!");
@@ -193,7 +192,8 @@ public class CentroMedicoController {
         }
         else{
             model.addAttribute("mensaje", "No se encontraron Medicos asociados");
-        }        return "/CentroMedico/Mostrar-M";
+        }  
+        return "/CentroMedico/Mostrar-M";
     }
 
     @GetMapping("/CentroMedico/EliminarM")
@@ -214,69 +214,99 @@ public class CentroMedicoController {
     
     // ===================== VINCULACION DE OS A CM ==========================
     @GetMapping("CentroMedico/VincularOS")
-    public String BuscarOS(HttpSession session, Model model) {
-        return "CentroMedico/Vincular-OS";
-    }
-
-    @PostMapping("/CentroMedico/VincularOS")
-    public String resultadosBuscarOS(HttpSession session, Model model, @RequestParam String nombreOS, RedirectAttributes re) {
+    public String BuscarOS(HttpSession session, Model model, RedirectAttributes re)  throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            model.addAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
             return "redirect:/inicio";
         }
-
-        //
-        List<String> listaOS = cmed.getObrasSociales();
-        model.addAttribute("listaOS", listaOS);
-        re.addFlashAttribute("listaOS", listaOS);
         
-        try{
-            centroMedicose.ModificarOS(cmed.getCodigoRegistro(), nombreOS);
-            //* List<String> listaOS = new ArrayList<>();
-            //* listaOS = cmed.getObrasSociales();
-//            listaOS.add(nombreOS);
-            //* System.out.println("========================");
-            //* System.out.println("LISTA OS");
-//            for (String os : listaOS) {
-//                System.out.println("*"+os);
-//            }
-            
+        List<String> listaOS1 = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
+        if(listaOS1.size()!=0){
+            List<String> listaOS = new ArrayList<>();
+            for (String string : listaOS1) {
+                listaOS.add(string);
+            }
+            System.out.println(listaOS);
+            model.addAttribute("listaOS", listaOS);
+            model.addAttribute("nombreCmed", cmed.getNombre());
         }
-        catch(Errores er){
-            re.addFlashAttribute("mensaje", er.getMessage());
-            model.addAttribute("mensaje", er.getMessage());
+        else{
+            model.addAttribute("mensaje", "No se encontraron Obras Sociales asociadas");
+        }
+        return "CentroMedico/Vincular-OS";
+    }
+    
+    @PostMapping("/CentroMedico/VincularOS")
+    public String ElegirOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            return "redirect:/inicio";
+        }
+        
+        if(nombreOS == null || nombreOS.isEmpty()){
+            re.addFlashAttribute("mensaje", "Por favor, ingrese un nombre para la obra social.");
             return "redirect:/CentroMedico/VincularOS";
         }
+
+        try {
+            centroMedicose.ModificarOS(cmed.getCodigoRegistro(), nombreOS);           
+        } catch (Errores ex) {
+            re.addFlashAttribute("mensaje", ex.getMessage());
+            model.addAttribute("mensaje", ex.getMessage());
+            return "redirect:/CentroMedico/VincularOS";
+        }
+        
+        List<String> listaOS1 = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
+        if(listaOS1.size()!=0){
+            List<String> listaOS = new ArrayList<>();
+            for (String string : listaOS1) {
+                listaOS.add(string);
+            }
+            System.out.println(listaOS);
+            re.addFlashAttribute("listaOS", listaOS);
+            re.addFlashAttribute("nombreCmed", cmed.getNombre());
+        }
+        else{
+            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales asociadas");
+        }  
 
         model.addAttribute("mensaje", "Se vinculó la obra social exitosamente!!");
         re.addFlashAttribute("mensaje", "Se vinculó la obra social exitosamente!");
 
         return "redirect:/CentroMedico/VincularOS";
     }
-    
-//    @GetMapping("/CentroMedico/ElegirOS")
-//    public String ElegirOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
-//        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
-//        if (cmed == null) {
-//            model.addAttribute("mensaje", "Debe Registrarse!!");
-//            return "redirect:/inicio";
-//        }
-//
-//        try {
-//            centroMedicose.ModificarOS(cmed.getCodigoRegistro(), nombreOS);
-//            
-//        } catch (Exception ex) {
-//            re.addFlashAttribute("mensaje", ex.getMessage());
-//            model.addAttribute("mensaje", ex.getMessage());
-//            return "redirect:/CentroMedico/VincularM";
-//        }
-//
-//        model.addAttribute("mensaje", "Se vinculó la obra social exitosamente!!");
-//        re.addFlashAttribute("mensaje", "Se vinculó la obra social exitosamente!");
-//
-//        return "redirect:/CentroMedico/VincularOS";
-//    }
+
+    @GetMapping("/CentroMedico/EliminarOS")
+    public String MostrarOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
+
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            return "redirect:/inicio";
+        }
+
+        centroMedicose.EliminarOS(cmed.getCodigoRegistro(), nombreOS);
+
+        re.addFlashAttribute("mensaje", "Registro (" + nombreOS + ") eliminado exitosamente.");
+        
+        List<String> listaOS1 = centroMedicose.MostrarObrasSociales(cmed.getCodigoRegistro());
+        if(listaOS1.size()!=0){
+            List<String> listaOS = new ArrayList<>();
+            for (String string : listaOS1) {
+                listaOS.add(string);
+            }
+            System.out.println(listaOS);
+            re.addFlashAttribute("listaOS", listaOS);
+            re.addFlashAttribute("nombreCmed", cmed.getNombre());
+        }
+        else{
+            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales asociadas.");
+        }  
+
+        return "redirect:/CentroMedico/VincularOS";
+    }
     
     // ====================== MAIL SENDER =======================
 
