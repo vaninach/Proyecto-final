@@ -25,9 +25,16 @@ public interface CentroMedicoRep extends JpaRepository<CentroMedico, Long> {
     
     @Query("SELECT c FROM CentroMedico c WHERE c.provincia=:provincia")
     public List<CentroMedico> buscarProvincia(@Param("provincia") String provincia);
+   
+    
+    @Query("SELECT c FROM CentroMedico c WHERE c.provincia=:provincia AND c.nombre LIKE %:nombre%")
+    public List<CentroMedico> buscarProvincia(@Param("provincia") String provincia,@Param("nombre") String nombre);
 
     @Query("SELECT c FROM CentroMedico c WHERE c.provincia=:provincia AND c.ciudad=:ciudad")
     public List<CentroMedico> buscarProvinciaCiudad(@Param("provincia") String provincia,@Param("ciudad") String ciudad);
+    
+    @Query("SELECT c FROM CentroMedico c WHERE c.provincia=:provincia AND c.ciudad=:ciudad AND c.nombre LIKE %:nombre%")
+    public List<CentroMedico> buscarProvinciaCiudad(@Param("provincia") String provincia,@Param("ciudad") String ciudad,@Param("nombre") String nombre);
     
     @Query("SELECT c FROM CentroMedico c LEFT JOIN c.medicos e WHERE e LIKE :matricula")
     public List<CentroMedico> buscarMatricula(@Param("matricula") String matricula);
