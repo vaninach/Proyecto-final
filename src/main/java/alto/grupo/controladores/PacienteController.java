@@ -402,6 +402,228 @@ public class PacienteController {
     
     
     
+    
+    
+    
+    
+    
+    @GetMapping("/Paciente/BuscarPorCentroMedico")
+
+    public String BuscarCMedico(HttpSession session, Model model) {
+
+        return "Paciente/BuscarCentroMedico";
+    }
+
+    
+    @PostMapping("/Paciente/BuscarPorCentroMedico")
+
+    public String BuscarMedico2(HttpSession session, Model model, @RequestParam String nombre, @RequestParam String provincia, @RequestParam String ciudad, RedirectAttributes re) {
+        List<CentroMedico> listaCentroMedico = new ArrayList<>();
+
+//        model.addAttribute("nombre", nombre);
+//        model.addAttribute("apellido", apellido);
+//        model.addAttribute("especialidad", especialidad);
+
+        Paciente pac = (Paciente) session.getAttribute("pacientesesion");
+
+        if (pac == null) {
+            return "redirect:/inicio";
+
+        }
+
+        
+        
+        //Buscar por nombre 
+        if (   (provincia == null || provincia.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && !(nombre==null || nombre.isEmpty()) ) {
+            try {
+                System.out.println("entro 1"+ nombre);
+                listaCentroMedico = centromedicose.buscarPorNombre(nombre);
+               
+            } catch (Errores ex) {
+                model.addAttribute("mensaje", "No se encontraron centros medicos con el nombre solicitado, vuelva a intentar");
+            }
+        } 
+
+            //Buscar por nombre ciudad y provincia
+        else if (!(provincia == null || provincia.isEmpty()) && !(ciudad == null || ciudad.isEmpty()) && !(nombre==null || nombre.isEmpty())) {
+            try {
+                System.out.println("entro 2");
+                listaCentroMedico = centromedicose.buscarPorProvinciaCiudad(provincia, ciudad,nombre);
+            } catch (Errores ex) {
+                model.addAttribute("mensaje", "No se encontraron centros medicos, vuelva a intentar");
+            }
+        } 
+
+            // nombre provincia
+        else if ( !(provincia == null || provincia.isEmpty())  && !(nombre==null || nombre.isEmpty()) ) {
+            try {
+                System.out.println("entro 3");
+                listaCentroMedico=centromedicose.buscarPorProvincia(provincia, nombre);
+            } catch (Errores ex) {
+                model.addAttribute("mensaje", "No se encontraron centros medicos, vuelva a intentar");
+            }
+        } 
+
+
+            //provincia y ciudad
+        else if ( !(provincia == null || provincia.isEmpty())  && !(ciudad==null || ciudad.isEmpty())   ) {
+            try {
+                System.out.println("entro 4");
+                listaCentroMedico=centromedicose.buscarPorProvinciaCiudad(provincia, ciudad);
+            } catch (Errores ex) {
+                model.addAttribute("mensaje", "No se encontraron centros medicos, vuelva a intentar");
+            }
+        } 
+        
+            //provincia 
+        else if ( !(provincia == null || provincia.isEmpty())    ) {
+            try {
+                System.out.println("entro 4");
+                listaCentroMedico=centromedicose.buscarPorProvincia(provincia);
+            } catch (Errores ex) {
+                model.addAttribute("mensaje", "No se encontraron centros medicos, vuelva a intentar");
+            }
+        } 
+        
+        else {
+            
+            System.out.println("entro 5");
+
+            model.addAttribute("mensaje", "No se puede realizar la busqueda, intente completando otros campos");
+
+        }
+
+
+        model.addAttribute("listacentromedico", listaCentroMedico);
+
+        re.addFlashAttribute("listacentromedico", listaCentroMedico);
+
+        return "Paciente/BuscarCentroMedico";
+    }
+
+    
+    
+    @GetMapping("/Paciente/MostrarInfoCM")
+    public String MostrarInfoCM(HttpSession session, Model model, Long id, RedirectAttributes re) {
+        List<String> Especialidades=new ArrayList<>();
+        List<String> ObrasS=new ArrayList<>();
+        
+        Paciente pac = (Paciente) session.getAttribute("pacientesesion");
+
+        if (pac == null) {
+            return "redirect:/inicio";
+
+        }
+
+        try {
+            CentroMedico cmed = centromedicose.buscarPorCodigo(id);
+
+            List<String> listaE=centromedicose.MostrarEspecialidades(id);
+            List<String> listaOS=centromedicose.MostrarObrasSociales(id);
+            
+            re.addFlashAttribute("centrosm", cmed);
+            model.addAttribute("centrosm", cmed); 
+            
+            
+            if (listaE.size() != 0) {
+                re.addFlashAttribute("especialidades", listaE);
+                model.addAttribute("especialidades", listaE); 
+            } else {
+                model.addAttribute("mensajeEsp", "No se encontró ningún Centro Medico asociado");
+                re.addFlashAttribute("mensajeEsp", "No se encontró ningún Centro Medico asociado");
+            }
+            
+            if (listaOS.size() != 0) {
+                re.addFlashAttribute("obrasS", listaOS);
+                model.addAttribute("obrasS", listaOS); 
+            } else {
+                model.addAttribute("mensajeOS", "No se encontró ningún Centro Medico asociado");
+                re.addFlashAttribute("mensajeOS", "No se encontró ningún Centro Medico asociado");
+            }
+            
+            
+        } catch (Errores ex) {
+            model.addAttribute("mensaje", ex.getMessage());
+        }
+
+        return "redirect:/Paciente/BuscarPorCentroMedico";
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     void sendEmail(String email) {
 
