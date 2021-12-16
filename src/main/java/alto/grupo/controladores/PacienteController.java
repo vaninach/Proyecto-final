@@ -5,12 +5,14 @@
  */
 package alto.grupo.controladores;
 
+import alto.grupo.entidades.Archivos;
 import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.HistClinicaRep;
+import alto.grupo.servicios.ArchivosSe;
 import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
@@ -57,6 +59,9 @@ public class PacienteController {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    
+    @Autowired
+    private ArchivosSe archivosSe;
 
     @RequestMapping("/Paciente/login")
     public String login() {
@@ -552,12 +557,127 @@ public class PacienteController {
     
     
     
+    // ========== BUSCAR Y VER INFORMES =====================
     
     
     
-    
-    
-    
+      @GetMapping("/Paciente/BuscarEstudios")
+
+    public String BuscarE(HttpSession session, Model model) {
+
+        return "Paciente/BuscarEstudios";
+    }
+
+    @PostMapping("/Paciente/BuscarEstudios")
+    public String BuscarE(HttpSession session, Model model, @RequestParam String fecha, @RequestParam String especialidad, String nombreEst, String centroM, RedirectAttributes re) throws Errores {
+        List<Archivos> listaAr=new ArrayList<>();
+        List<String> listaMedP=new ArrayList<>();
+        List<String> listaMedH=new ArrayList<>();
+        List<String> listaCM=new ArrayList<>();
+       
+        Paciente pac = (Paciente) session.getAttribute("pacientesesion");
+
+        if (pac == null) {
+            re.addFlashAttribute("mensaje", "Debe iniciar Sesión!");
+            return "redirect:/inicio";
+
+        }
+        
+        //Buscar por fecha
+        if ( !(fecha == null || fecha.isEmpty()) && (especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty()) ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIFecha(pac.getDNI(), fecha);
+                System.out.println("entramos al 1");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros del paciente";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Buscar por especialidad
+        else if (   (fecha == null || fecha.isEmpty()) && !(especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())   ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIEsp(pac.getDNI(), especialidad);
+                System.out.println("entramos al 2");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la especialidad solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Buscar por fecha y especialidad
+        else if (  !(fecha == null || fecha.isEmpty()) && !(especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())  ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIFechaEsp(pac.getDNI(), fecha, especialidad);
+                System.out.println("entramos al 3");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        
+         //Buscar por todos
+        else if (  (fecha == null || fecha.isEmpty()) && (especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())  ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNI(pac.getDNI());
+                System.out.println("entramos al 3");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Alguna busqueda que no tuvimos en cuenta
+        else {
+            String mensaje = "No se puede realizar la busqueda con los parametros solicitados, intentelo nuevamente";
+                model.addAttribute("mensaje", mensaje);
+        }
+
+        if (listaAr.size() != 0) {
+
+            for (Archivos ar : listaAr) {
+                try {
+                    Medico med = medicose.BuscarPorMatricula(ar.getMatriculaPide());
+                    if (med != null) {
+                        listaMedP.add(med.getNombre() + " " + med.getApellido());
+                    }
+                } catch (Errores ex) {
+                    listaMedP.add("INVALID");
+                }
+                
+                try {
+                    Medico med = medicose.BuscarPorMatricula(ar.getMatriculaInforme());
+                    if (med != null) {
+                        listaMedH.add(med.getNombre() + " " + med.getApellido());
+                    }
+                } catch (Errores ex) {
+                    listaMedH.add("INVALID");
+                }
+
+                try {
+                    CentroMedico cmed = centromedicose.buscarPorCodigo(ar.getCentroMedico());
+                    if (cmed != null) {
+                        listaCM.add(cmed.getNombre());
+                    }
+                } catch (Errores ex) {
+                    listaCM.add("INVALID");
+                }
+
+            }
+
+        }
+
+        model.addAttribute("lista", listaAr);
+        model.addAttribute("listamedicoP", listaMedP);
+        model.addAttribute("listamedicoH", listaMedH);
+        model.addAttribute("listacentromedico", listaCM);
+
+        re.addFlashAttribute("lista", listaAr);
+        re.addFlashAttribute("listamedicoP", listaMedP);
+        re.addFlashAttribute("listamedicoH", listaMedH);
+        re.addFlashAttribute("listacentromedico", listaCM);
+
+        return "Paciente/BuscarHistoriasClinicas";
+    }
+
+   
     
     
     

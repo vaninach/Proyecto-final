@@ -37,6 +37,63 @@ public class Archivos implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date subida;
     private byte[] contenido;
+    
+    
+    private String DNI;
+    private String fechaVisita;
+    private String especialidad;
+    private String nombreEst;
+    private Integer matriculaInforme;
+    private Integer matriculaPide;
+    private Long centroMedico;
+
+    public void setDNI(String DNI) {
+        this.DNI = DNI;
+    }
+
+    public void setFechaVisita(String fechaVisita) {
+        this.fechaVisita = fechaVisita;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public void setMatriculaInforme(Integer matriculaInforme) {
+        this.matriculaInforme = matriculaInforme;
+    }
+
+    public void setMatriculaPide(Integer matriculaPide) {
+        this.matriculaPide = matriculaPide;
+    }
+
+    public void setCentroMedico(Long centroMedico) {
+        this.centroMedico = centroMedico;
+    }
+
+    public String getDNI() {
+        return DNI;
+    }
+
+    public String getFechaVisita() {
+        return fechaVisita;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public Integer getMatriculaInforme() {
+        return matriculaInforme;
+    }
+
+    public Integer getMatriculaPide() {
+        return matriculaPide;
+    }
+
+    public Long getCentroMedico() {
+        return centroMedico;
+    }
 
     public Long getId() {
         return id;
@@ -85,6 +142,14 @@ public class Archivos implements Serializable {
 
     public void setContenido(byte[] contenido) {
         this.contenido = contenido;
+    }
+
+    public String getNombreEst() {
+        return nombreEst;
+    }
+
+    public void setNombreEst(String nombreEst) {
+        this.nombreEst = nombreEst;
     }
     
     

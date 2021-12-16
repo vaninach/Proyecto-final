@@ -264,7 +264,37 @@ public class CentroMedicoSe implements UserDetailsService{
 
     }  
     
+    @Transactional
+    public void ModificarEspecialidad(Long codigo, String nombreEspecialidad) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed = cmedOpt.get();
+            List<String> listaEspecialidades = cmed.getEspecialidades();
+            if(listaEspecialidades.contains(nombreEspecialidad)) throw new Errores("La obra social ya se encuentra en la lista");
+            listaEspecialidades.add(nombreEspecialidad);
+            cmed.setEspecialidades(listaEspecialidades);
+            centroRep.save(cmed);
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+    }
     
+    @Transactional
+    public void EliminarEspecialidad(Long codigo, String nombreEspecialidad) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<String> listaEspecialidades = cmed.getEspecialidades();
+            
+            listaEspecialidades.remove(nombreEspecialidad);
+            
+            cmed.setEspecialidades(listaEspecialidades);
+            centroRep.save(cmed);
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }
     
     
     

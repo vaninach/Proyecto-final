@@ -32,55 +32,128 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class ArchivosController {
 
+    @Autowired
+    private ArchivosRep archivosrep;
 
-@Autowired
-private ArchivosRep archivosrep;
+    @GetMapping("/Archivos")
+    public String Archivos(Model modelo, Archivos archivo) {
 
+        List<Archivos> listarchivos = archivosrep.findAll();
+        modelo.addAttribute("listarchivos", listarchivos);
+        return "Archivos.html";
+    }
 
+    @PostMapping("/upload")
+    public String upload(@RequestParam("archivo") MultipartFile multipartfile, RedirectAttributes ra) throws IOException {
+        String nombrearchivo = StringUtils.cleanPath(multipartfile.getOriginalFilename());
+        Archivos archivo = new Archivos();
+        archivo.setNombre(nombrearchivo);
+        archivo.setContenido(multipartfile.getBytes());
+        archivo.setTamaño(multipartfile.getSize());
+        archivo.setSubida(new Date());
+        archivosrep.save(archivo);
+        ra.addFlashAttribute("message", "El archivo fue subido correctamente");
+        return "redirect:/Archivos";
+
+    }
+
+    @GetMapping("/download")
+    public void downloadFile(@RequestParam("id") Long id, HttpServletResponse response) throws Exception {
+        System.out.println(id + " Por aca anda...");
+        Optional<Archivos> result = archivosrep.findById(id);
+        System.out.println("Por aca sigue andando...2");
+        if (!result.isPresent()) {
+            throw new Exception("No se ha encontrado archivo con el ID" + id);
+        }
+
+        Archivos archivo = result.get();
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=" + archivo.getNombre();
+
+        response.setHeader(headerKey, headerValue);
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        outputStream.write(archivo.getContenido());
+        outputStream.close();
+
+    }
     
-  @GetMapping("/Archivos")
-public String Archivos(Model modelo, Archivos archivo){
     
-   List<Archivos> listarchivos = archivosrep.findAll();
-   modelo.addAttribute("listarchivos", listarchivos);
-    return "Archivos.html";
-}
+    
+    
+    
+//    @GetMapping("/CentroMedico/NuevoEstudio")
+//    public String NArchivos(Model modelo, Archivos archivo) {
+//
+//        List<Archivos> listarchivos = archivosrep.findAll();
+//        modelo.addAttribute("listarchivos", listarchivos);
+//        return "CentroMedico/NuevoEstudio";
+//    }
+//
+//    @PostMapping("/CentroMedico/NuevoEstudio")
+//    public String upload(@RequestParam("archivo") MultipartFile multipartfile, String DNI,String fechaVisita,Integer matPide, String especialidad, String nombreEst,Integer matInf, RedirectAttributes ra) throws IOException {
+//        
+//        
+//        String nombrearchivo = StringUtils.cleanPath(multipartfile.getOriginalFilename());
+//        Archivos archivo = new Archivos();
+//        
+//        archivo.setDNI(DNI);
+//        archivo.setFechaVisita(fechaVisita);
+//        archivo.setMatriculaPide(matPide);
+//        archivo.setEspecialidad(especialidad);
+//        archivo.setNombreEst(nombreEst);
+//        archivo.setMatriculaInforme(matInf);
+//        
+//        archivo.setNombre(nombrearchivo);
+//        archivo.setContenido(multipartfile.getBytes());
+//        archivo.setTamaño(multipartfile.getSize());
+//        archivo.setSubida(new Date());
+//        archivosrep.save(archivo);
+//        ra.addFlashAttribute("message", "El archivo fue subido correctamente");
+//        return "redirect:/CentroMedico/NuevoEstudio";
+//
+//    }
 
-  @PostMapping("/upload")
-  public String upload(@RequestParam("archivo") MultipartFile multipartfile, RedirectAttributes ra) throws IOException{
-      String nombrearchivo = StringUtils.cleanPath(multipartfile.getOriginalFilename()) ;
-     Archivos archivo= new Archivos(); 
-archivo.setNombre(nombrearchivo);
-archivo.setContenido(multipartfile.getBytes());
-archivo.setTamaño(multipartfile.getSize());
-archivo.setSubida(new Date());
-archivosrep.save(archivo);
-ra.addFlashAttribute("message", "El archivo fue subido correctamente");
-return "Archivos.html";
-      
-  }
-  
-  @GetMapping("/download")
-  public void downloadFile (@RequestParam("id") Long id, HttpServletResponse response) throws Exception {
-      System.out.println(id + " Por aca anda...");
-      Optional<Archivos> result = archivosrep.findById(id);
-      System.out.println("Por aca sigue andando...2");
-      if (!result.isPresent()) {
-          throw new Exception("No se ha encontrado archivo con el ID" + id);    
-      }       
-          
-      Archivos archivo = result.get();
-      response.setContentType("application/octet-stream");
-      String headerKey = "Content-Disposition";
-      String headerValue= "attachment; filename=" + archivo.getNombre();
-      
-      response.setHeader(headerKey, headerValue);
-      ServletOutputStream outputStream = response.getOutputStream();
-      
-      outputStream.write(archivo.getContenido());
-      outputStream.close();
-      
-      
-      
-  }
+//    @GetMapping("/download")
+//    public void downloadFile(@RequestParam("id") Long id, HttpServletResponse response) throws Exception {
+//        System.out.println(id + " Por aca anda...");
+//        Optional<Archivos> result = archivosrep.findById(id);
+//        System.out.println("Por aca sigue andando...2");
+//        if (!result.isPresent()) {
+//            throw new Exception("No se ha encontrado archivo con el ID" + id);
+//        }
+//
+//        Archivos archivo = result.get();
+//        response.setContentType("application/octet-stream");
+//        String headerKey = "Content-Disposition";
+//        String headerValue = "attachment; filename=" + archivo.getNombre();
+//
+//        response.setHeader(headerKey, headerValue);
+//        ServletOutputStream outputStream = response.getOutputStream();
+//
+//        outputStream.write(archivo.getContenido());
+//        outputStream.close();
+//
+//    }
+//    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
