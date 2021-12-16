@@ -74,7 +74,8 @@
                     <td th:text="${paciente.provincia} + ', ' + ${paciente.ciudad}"></td>>
                     <td th:text="${paciente.telefono}"></td>
                     <td th:text="${paciente.mail}"></td>
-                    <td><a th:href="@{BuscarHistoriasClinicas(dni=${paciente.DNI})}">Buscar historias clinicas</td>
+                    <td><a th:href="@{BuscarHistoriasClinicas(dni=${paciente.DNI})}">Buscar historias clinicas</a></td>
+                    <td><a th:href="@{BuscarPorEstudios(dni=${paciente.DNI})}">Buscar Estudios</a></td>
                 </tr>
             </tbody>
         </table>

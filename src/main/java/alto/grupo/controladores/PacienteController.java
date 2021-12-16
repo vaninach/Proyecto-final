@@ -11,6 +11,7 @@ import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.errores.Errores;
+import alto.grupo.repositorios.ArchivosRep;
 import alto.grupo.repositorios.HistClinicaRep;
 import alto.grupo.servicios.ArchivosSe;
 import alto.grupo.servicios.CentroMedicoSe;
@@ -22,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -62,6 +65,9 @@ public class PacienteController {
     
     @Autowired
     private ArchivosSe archivosSe;
+    
+    @Autowired
+    private ArchivosRep archivosrep;
 
     @RequestMapping("/Paciente/login")
     public String login() {
@@ -674,13 +680,38 @@ public class PacienteController {
         re.addFlashAttribute("listamedicoH", listaMedH);
         re.addFlashAttribute("listacentromedico", listaCM);
 
-        return "Paciente/BuscarHistoriasClinicas";
+        return "Paciente/BuscarEstudios";
     }
 
    
     
     
     
+     @GetMapping("/Paciente/download")
+    public void downloadFile(@RequestParam("id") Long id, HttpServletResponse response) throws Exception {
+        System.out.println(id + " Por aca anda...");
+        Optional<Archivos> result = archivosrep.findById(id);
+        System.out.println("Por aca sigue andando...2");
+        if (!result.isPresent()) {
+            throw new Exception("No se ha encontrado archivo con el ID" + id);
+        }
+        
+        
+        
+
+        Archivos archivo = result.get();
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=" + archivo.getNombre();
+
+        response.setHeader(headerKey, headerValue);
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        outputStream.write(archivo.getContenido());
+        outputStream.close();
+        
+        
+    }
     
     
     
