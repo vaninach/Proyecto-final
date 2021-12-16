@@ -6,11 +6,14 @@
 package alto.grupo.servicios;
 
 import alto.grupo.entidades.Archivos;
+import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.ArchivosRep;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,41 +26,39 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArchivosSe {
     
-//    @Autowired
-//    private ArchivosRep archivosrepo;
-//    
-//    
-//    
-//    @Transactional
-//    public void subirArchivo() throws IOException{
-//        
-//        File file = new File("C:\\Users\\Mariano\\Desktop\\reintegro.pdf");
-//        Archivos archivo = new Archivos();
-//        
-//        archivo.setNombre(file.getName());
-//        
-//        byte[] bytes = Files.readAllBytes(file.toPath());
-//        
-//        archivo.setContenido(bytes);
-//        
-//        long tamañoarchivo = bytes.length;
-//        archivo.setTamaño(tamañoarchivo);
-//        archivo.setSubida(new Date());
-//        System.out.println(archivo.getNombre());
-//       Archivos archivoguardado = archivosrepo.save(archivo);
-//       
-//       
-//       
-//       
-//        
-//        
-//        
-//       
-//        
-//        
-//        
-//        
-//    }
-//    
+    @Autowired
+    ArchivosRep archivoRep;
+
+     @Transactional
+    public List<Archivos> BuscarPorDNI(String DNI) throws Errores {
+        List<Archivos> ar = archivoRep.buscarDNI(DNI);
+        if(ar.size()!=0) return ar;
+        else  throw new Errores("No se encontraron estudios");
+        
+    }
+    
+      @Transactional
+    public List<Archivos> BuscarPorDNIFecha(String DNI,String fecha) throws Errores {
+        List<Archivos> ar = archivoRep.buscarDNIFecha(DNI, fecha);
+        if(ar.size()!=0) return ar;
+        else  throw new Errores("No se encontraron estudios");
+        
+    }
+    
+       @Transactional
+    public List<Archivos> BuscarPorDNIFechaEsp(String DNI,String fecha,String especialidad) throws Errores {
+        List<Archivos> ar = archivoRep.buscarDNIFechaEsp(DNI, fecha, especialidad);
+        if(ar.size()!=0) return ar;
+        else  throw new Errores("No se encontraron estudios");
+        
+    }
+    
+       @Transactional
+    public List<Archivos> BuscarPorDNIEsp(String DNI,String especialidad) throws Errores {
+        List<Archivos> ar = archivoRep.buscarDNIEsp(DNI, especialidad);
+        if(ar.size()!=0) return ar;
+        else  throw new Errores("No se encontraron estudios");
+        
+    }
 }
  
