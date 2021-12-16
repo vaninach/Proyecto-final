@@ -19,8 +19,8 @@
 }
 
 body{
-    background-color: #D1F0E8;
-}
+    background-color: #b1cdfa;
+    }
 .centrado {
     width: 100%;
     max-width: 600px;
@@ -29,7 +29,8 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
   }
-  .centrado{
-      border: 2px solid lightcyan;
-  }
+  h1 {
+border-bottom: 2px solid #4181e8;
+}

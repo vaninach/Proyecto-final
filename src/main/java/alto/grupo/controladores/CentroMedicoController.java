@@ -6,9 +6,13 @@
 package alto.grupo.controladores;
 
 import alto.grupo.entidades.CentroMedico;
+import alto.grupo.entidades.Medico;
 import alto.grupo.errores.Errores;
 import alto.grupo.repositorios.CentroMedicoRep;
 import alto.grupo.servicios.CentroMedicoSe;
+import alto.grupo.servicios.MedicoSe;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -34,6 +39,9 @@ public class CentroMedicoController {
 
     @Autowired
     private CentroMedicoRep centroMedicorep;
+    
+    @Autowired
+    private MedicoSe medicoSe;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -55,11 +63,13 @@ public class CentroMedicoController {
     }
 
     @PostMapping("/NuevoCentroMedico")
-    public String nuevoCentroMedico(Model modelo, CentroMedico cmedico,String clave2) throws Errores {
+    public String nuevoCentroMedico(Model modelo, CentroMedico cmedico, String clave2) throws Errores {
         modelo.addAttribute("cmedico", cmedico);
-        
+
         try {
-            if(!cmedico.getClave().equals(clave2)) throw new Errores("Las claves deben coincidir, intentelo nuevamente");
+            if (!cmedico.getClave().equals(clave2)) {
+                throw new Errores("Las claves deben coincidir, intentelo nuevamente");
+            }
             centroMedicose.crear(cmedico);
             sendEmail(cmedico.getMail());
         } catch (Errores ex) {
@@ -89,22 +99,139 @@ public class CentroMedicoController {
     }
 
     @PostMapping("CentroMedico/modificarCentroMedicos")
-    public String modificarCentroMedico2(final CentroMedico cmed, HttpSession session, Model model,String clave2) {
+    public String modificarCentroMedico2(final CentroMedico cmed, HttpSession session, Model model, String clave2) {
         try {
-            
-             if(clave2!=null && !cmed.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
+
+            if (clave2 != null && !cmed.getClave().equals(clave2)) {
+                throw new Errores("Las claves no coinciden, intentelo nuevamente");
+            }
             model.addAttribute("cmedico", cmed);
             centroMedicose.modificarCentro(cmed.getCodigoRegistro(), cmed.getNombre(), cmed.getTelefono(), cmed.getMail(), cmed.getProvincia(), cmed.getCiudad(), cmed.getCalle(), cmed.getNumero(), cmed.getPiso(), cmed.getDepartamento(), cmed.getOtros(), cmed.getClave());
             session.setAttribute("centromedicosesion", cmed);
-            
+
         } catch (Errores ex) {
-            String mensaje=ex.getMessage();
-            model.addAttribute("mensaje",mensaje);
+            String mensaje = ex.getMessage();
+            model.addAttribute("mensaje", mensaje);
             return "CentroMedico/modificarCentroMedico";
         }
         return "CentroMedico/modificarCentroMedico";
     }
+    
+    
+    
+    
+    
+    
 
+    @GetMapping("CentroMedico/VincularM")
+    public String BuscarM(HttpSession session, Model model) {
+
+        return "CentroMedico/Vincular-M";
+    }
+
+    @PostMapping("/CentroMedico/VincularM")
+    public String resultadosBuscarM(HttpSession session, Model model, @RequestParam Integer matricula) {
+
+        
+
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+
+        if (cmed == null) {
+            model.addAttribute("mensaje", "Debe Registrarse!!");
+
+            return "redirect:/inicio";
+        }
+
+        try{
+            Medico med=medicoSe.BuscarPorMatricula(matricula);
+        List<Medico> listaM = new ArrayList<>();
+            System.out.println(med+"+++++++++++++++++++++++");
+            listaM.add(med);
+            model.addAttribute("listaM", listaM);
+        }
+        catch(Errores er){
+            model.addAttribute("mensaje", er.getMessage());
+        }
+
+        return "CentroMedico/Vincular-M";
+    }
+
+    @GetMapping("/CentroMedico/ElegirM")
+    public String ElegirM(HttpSession session, Integer id, Model model, RedirectAttributes re) throws Errores {
+
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            return "redirect:/inicio";
+        }
+
+        try {
+            centroMedicose.ModificarMedicos(cmed.getCodigoRegistro(), id);
+            
+        } catch (Errores ex) {
+            re.addFlashAttribute("mensaje", ex.getMessage());
+            model.addAttribute("mensaje", ex.getMessage());
+            return "redirect:/CentroMedico/VincularM";
+        }
+
+        model.addAttribute("mensaje", "Se vinculó el medico exitosamente!!");
+        re.addFlashAttribute("mensaje", "Se vinculó el medico exitosamente!");
+
+        return "redirect:/CentroMedico/VincularM";
+    }
+
+    @GetMapping("/CentroMedico/MostrarM")
+    public String MostrarM(HttpSession session, Model model, RedirectAttributes re) throws Errores {
+
+        
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            return "redirect:/inicio";
+        }
+
+        List<Integer> listaM = centroMedicose.MostrarMedicos(cmed.getCodigoRegistro());
+
+        if(listaM.size()!=0){
+            List<Medico> listaM_fin=new ArrayList<>();
+            for (Integer long1 : listaM) {
+                Medico med=medicoSe.BuscarPorMatricula(long1);
+                listaM_fin.add(med);
+            }
+            System.out.println(listaM_fin);
+            model.addAttribute("listaM", listaM_fin);
+        }
+        else{
+            model.addAttribute("mensaje", "No se encontraron Medicos asociados");
+        }
+        
+        
+        
+        
+        
+
+        return "/CentroMedico/Mostrar-M";
+    }
+
+    @GetMapping("/CentroMedico/EliminarM")
+    public String MostrarM(HttpSession session, Integer id, Model model, RedirectAttributes re) throws Errores {
+
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            return "redirect:/inicio";
+        }
+
+        centroMedicose.EliminarMedicos(cmed.getCodigoRegistro(), id);
+
+        re.addFlashAttribute("mensaje", "Registro eliminado exitosamente");
+
+        return "redirect:/CentroMedico/MostrarM";
+    }
+
+    
+    
+    
+    
+    
+    
     void sendEmail(String email) {
 
         SimpleMailMessage msg = new SimpleMailMessage();

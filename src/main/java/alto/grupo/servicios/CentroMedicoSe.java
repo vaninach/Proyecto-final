@@ -152,6 +152,85 @@ public class CentroMedicoSe implements UserDetailsService{
             throw new Errores("No se encuentra el centro médico solicitado");
         }
     }
+    
+    
+      @Transactional
+    public void ModificarMedicos(Long codigo,Integer matricula) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<Integer> listaM=cmed.getMedicos();
+            if(listaM.contains(matricula)) throw new Errores("El registro ya se encuentra en la lista");
+            listaM.add(matricula);
+            cmed.setMedicos(listaM);
+            centroRep.save(cmed);
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }    
+    
+     @Transactional
+    public List<Integer> MostrarMedicos(Long codigo) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<Integer> listaM=cmed.getMedicos();
+            return listaM;
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }    
+    
+      @Transactional
+    public void EliminarMedicos(Long codigo,Integer matricula) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<Integer> listaM=cmed.getMedicos();
+            
+            listaM.remove(matricula);
+            
+            cmed.setMedicos(listaM);
+            centroRep.save(cmed);
+            
+            
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }
+    
+    
+     @Transactional
+    public List<String> MostrarEspecialidades(Long codigo) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<String> listaE=cmed.getEspecialidades();
+            return listaE;
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }  
+    
+     @Transactional
+    public List<String> MostrarObrasSociales(Long codigo) throws Errores {
+        Optional<CentroMedico> cmedOpt = centroRep.findById(codigo);
+        if(cmedOpt.isPresent()){
+            CentroMedico cmed=cmedOpt.get();
+            List<String> listaOS=cmed.getObrasSociales();
+            return listaOS;
+        } else {
+            throw new Errores("No se encuentra centro medico con codigo " + codigo + " en la base de datos");
+        }
+
+    }  
+    
+    
+    
     // ======================== END CRUD ======================
     
     
@@ -175,8 +254,26 @@ public class CentroMedicoSe implements UserDetailsService{
         }
     }
      
+    public List<CentroMedico> buscarPorProvincia(String provincia,String nombre) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarProvincia(provincia,nombre);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente a la provincia (" + provincia + ") solicitada.");
+        }
+    }
+     
     public List<CentroMedico> buscarPorProvinciaCiudad(String provincia, String ciudad) throws Errores{
         List<CentroMedico> centrosMedicos = centroRep.buscarProvinciaCiudad(provincia,ciudad);
+        if (!centrosMedicos.isEmpty()) {
+            return centrosMedicos;
+        } else {
+            throw new Errores("No se encontra ningun centro medico correspondiente a la provincia (" + provincia + ") y ciudad (" + ciudad + ")solicitadas.");
+        }
+    }
+     
+    public List<CentroMedico> buscarPorProvinciaCiudad(String provincia, String ciudad,String nombre) throws Errores{
+        List<CentroMedico> centrosMedicos = centroRep.buscarProvinciaCiudad(provincia,ciudad,nombre);
         if (!centrosMedicos.isEmpty()) {
             return centrosMedicos;
         } else {

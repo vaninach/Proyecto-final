@@ -1,0 +1,18 @@
+
+body {
+    background: #b5c2d3;
+    color:#ffff;
+    font:'Nunito', sans-serif;
+
+
+}
+
+.btn{
+    color:#e4efff;
+    border-radius: 5px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+    font-size: x-large;
+    padding: 10px 40px;
+    box-shadow: 0 2px 1px rgba (0,0,0,0.2);
+    
+}

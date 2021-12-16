@@ -136,6 +136,7 @@ public class PacienteSe implements UserDetailsService {
                 pac.setPiso(piso);
                 pac.setDepartamento(departamento);
                 pac.setOtros(otros);
+                
                 String encriptada = new BCryptPasswordEncoder().encode(clave);
                 pac.setClave(encriptada);
 
@@ -161,47 +162,64 @@ public class PacienteSe implements UserDetailsService {
             pac.setNombre(nombre);
             validar(apellido);
             pac.setApellido(apellido);
+            
             validar(fechaNac);  
             pac.setFechaNac(fechaNac);
+            
             validar(genero);
             pac.setGenero(genero);
+            
             validar(estadoCivil);
             pac.setEstadoCivil(estadoCivil);
+            
             validar(telefono);
             pac.setTelefono(telefono);
+            
             validar(mail);
             pac.setMail(mail);
+            
             validar(nombreContacto);
             pac.setNombreContacto(nombreContacto);
             validar(telefonoContacto);
             pac.setTelefonoContacto(telefonoContacto);
+            
             validar(grupoS);
             pac.setGrupoS(grupoS);
+            
             pac.setObraS1(obraS1);      // puede ser vacio
-            if(obraS1!=null || !obraS1.isEmpty()) validar(nAfiliadoOS1);
+            if(!(obraS1==null || obraS1.isEmpty())){ validar(nAfiliadoOS1);System.out.println("aca afiliado so1"); }
             pac.setnAfiliadoOS1(nAfiliadoOS1);
-            validar(obraS2);      // puede ser vacio
-            pac.setObraS1(obraS2);
-            if(obraS2!=null || !obraS2.isEmpty()) validar(nAfiliadoOS2);
+            
+            pac.setObraS1(obraS2); // puede ser vacio
+            if(!(obraS2==null || obraS2.isEmpty())){ validar(nAfiliadoOS2);System.out.println("aca afiliado so2");}
             pac.setnAfiliadoOS1(nAfiliadoOS2);
-            validar(obraS3);      // puede ser vacio
-            pac.setObraS1(obraS3);
-            if(obraS3!=null || !obraS3.isEmpty()) validar(nAfiliadoOS3);
-            pac.setnAfiliadoOS1(nAfiliadoOS3);
+            
+            pac.setObraS3(obraS3); // puede ser vacio
+            if(!(obraS3==null || obraS3.isEmpty())){ validar(nAfiliadoOS3);System.out.println("aca afiliado so3");}
+            pac.setnAfiliadoOS3(nAfiliadoOS3);
+            
             validar(nacionalidad);
             pac.setNacionalidad(nacionalidad);
+            
             validar(provincia);  
             pac.setProvincia(provincia);
+            
             validar(ciudad);
             pac.setCiudad(ciudad);
+            
             validar(calle);
             pac.setCalle(calle);
+            
             validar(numero);
             pac.setNumero(numero);
+            
             pac.setPiso(piso);      // puede ser vacio
+            
             validar(departamento);
             pac.setDepartamento(departamento);
+            
             pac.setOtros(otros);      // puede ser vacio
+            
             String encriptada = new BCryptPasswordEncoder().encode(clave);
             if(buscarCambiosClave(clave))
                 pac.setClave(encriptada);

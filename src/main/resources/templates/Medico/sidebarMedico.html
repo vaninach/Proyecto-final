@@ -25,12 +25,13 @@
 
 
 
+    <div th:fragment="sidebarMedico">
+        <body id="body-pd">
 
-    <body id="body-pd">
-        <div th:fragment="sidebarMedico">
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-                <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
+                <div class="header_toggle"> <i class='fas fa-user-md'></i> </div>
+                
             </header>
 
             <div class="l-navbar" id="nav-bar">
@@ -43,43 +44,51 @@
                         <div class="nav_list">
                             <a th:href="@{editar-perfil-M(matricula=__${session.medicosesion.matricula}__)}" class="nav_link active"> 
                                 <i class='bx bxs-user'></i>
-                                <span class="nav_name">MIS DATOS</span> 
+                                <span class="nav_name">Mis datos</span> 
                             </a> 
 
-                            <a href="#" class="nav_link"> 
+                            <a th:href="@{BuscarPaciente}" class="nav_link"> 
                                 <i class='bx bx-plus-medical'></i>
-                                <span class="nav_name">PACIENTES</span> 
+                                <span class="nav_name">Pacientes</span> 
                             </a> 
-                            <a href="#" class="nav_link"> 
+                            <a href="@{/Medico/BuscarHistoriasClinicas}" class="nav_link"> 
                                 <i class='bx bx-book-add'></i>
                                 <span class="nav_name">Historia clinica</span>
                             </a> 
-                            <a href="#" class="nav_link"> 
-                                <i class='bx bxs-info-circle'></i> 
-                                <span class="nav_name">Datos</span> 
+                            <a th:href="@{AgregarHistoriaClinica}" class="nav_link"> 
+                                <i class='bx bx-book-add'></i> 
+                                <span class="nav_name">Nueva historia clinica</span> 
                             </a> 
-                            <a href="#" class="nav_link"> 
+                            <a href="VincularCM" class="nav_link"> 
                                 <i class='bx bxs-band-aid'></i> 
-                                <span class="nav_name">Recetas</span>
-                            </a> 
-                            <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
-                                <input class="boton" type="submit" value="salir" >
+                                <span class="nav_name">Vincular Centro Medico</span>
+                            </a>
+                            <a href="MostrarCM" class="nav_link"> 
+                                <i class='bx bxs-band-aid'></i> 
+                                <span class="nav_name">Gestion Centros Medicos</span>
+                            </a>
+                            
+                            <form th:action="@{/logout}" action="/logout" method="post" >
+                                <button class="nav_link bx bx-log-out" type="submit" value="" 
+                                        style="background-color: Transparent;border: none;"/> 
+                                <span class="nav_name">Log out</span>
                             </form>
+                           
                         </div>
                     </div> 
-                    <a href="#" class="nav_link"> 
+<!--                    <a href="#" class="nav_link"> 
                         <i class='bx bx-log-out nav_icon'></i> 
                         <span class="nav_name">Salir</span>
-                    </a>
+                    </a>-->
                 </nav>
             </div>
 
 
 
             <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script> 
-        </div>
+    </div>
 
 
-    </body>
+</body>
 
 </html>

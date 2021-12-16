@@ -1,188 +1,237 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+        <!-- javascript -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" />
+        <!-- FONTAWESOME -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+              integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <!-- otro CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+        <!-- que es esto? -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 
-        <meta charset="UTF-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>HISTOMED - Añadir paciente</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <!-- llamado al propio css del archivo -->
+        <link rel="stylesheet" href="../../static/css/doctor.css"  th:href="@{../css/doctor.css}"/>
+
+        <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{../css/sidebar.css}">
+       
+
+        <title>HISTOMED - Modificar mis datos</title>
     </head>
     <body>
-        
-        <div th:fragment="nav-var">
-        <nav class="nav justify-content-end">
-            <a class="nav-item" th:href="@{editar-perfil(DNI=__${session.pacientesesion.DNI}__)}" th:if='${session.pacientesesion != null}' th:text='${"Hola " + session.pacientesesion.nombre +"!"}' >hola</a>
-            <form  th:action="@{/logout}" method="post" class="nav-item" >
-                <input class="boton" type="submit" value="salir" >
+
+        <div th:replace="Paciente/Sidebarpaciente.html :: Sidebarpaciente"></div>
+
+
+
+
+        <div class="centrado">
+            <h1>Datos Personales</h1>
+            <form class="need-validation" th:action="@{/Paciente/modificar2}" th:object="${paciente}" method="POST">
+
+                <div th:if="${mensaje != null}">
+                    <p th:text="${mensaje}" class="alert alert-danger"></p>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="DNI" aria-describedby="dniHelp"  th:field="*{DNI}" placeholder="DNI"/>
+
+                </div> 
+
+                <div class="form-group  col-md-12 " >
+
+                    <br/>
+                    <input type=text class="form-control" id="nombre" aria-describedby="nombreHelp"  th:field="*{nombre}" placeholder="NOMBRE"/>
+
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="apellido" aria-describedby="apellidoHelp"  th:field="*{apellido}" placeholder="APELLIDO"/>
+
+                </div>  
+
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=date class="form-control" id="fechaNac" aria-describedby="fechaNacHelp"  th:field="*{fechaNac}" placeholder="FECHA NACIMIENTO"/>
+
+                </div> 
+
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <label for="genero" class="col-sm-2 control-label col-md-12">Seleccione su genero </label>
+                    <div class="col-sm-2 col-md-12">
+                        <select class="form-control inputstl" id="Genero"  name="genero" th:field="*{genero}">
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Intersexual">Intrasexual</option>
+                        </select>
+                    </div>
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <label for="estadoCivil" class="col-sm-2 control-label col-md-12">Seleccione su estado civil </label>
+                    <div class="col-sm-2 col-md-12">
+                        <select class="form-control inputstl" id="estadoCivil"  name="estadoCivil" th:field="*{estadoCivil}">
+                            <option value="Soltero">Soltero</option>
+                            <option value="Casado">Casado</option>
+                            <option value="Divorciado">Divorciado</option>
+                            <option value="Viudo">Viudo</option>
+                        </select>
+                    </div>
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="telefono" aria-describedby="telefonoHelp" name="telefono" th:field="*{telefono}" placeholder="TELEFONO"/>
+
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=email class="form-control" id="mail" aria-describedby="mailHelp" name="mail" th:field="*{mail}" placeholder="MAIL"/>
+
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="nombreContacto" aria-describedby="nombreContactoHelp" name="nombreContacto" th:field="*{nombreContacto}" placeholder="NOMBRE CONTACTO"/>
+
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="telefonoContacto" aria-describedby="telefonoContactoHelp" name="telefonoContacto" th:field="*{telefonoContacto}" placeholder="TELEFONO CONTACTO"/>
+
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <label for="grupoS" class="col-sm-2 control-label col-md-12">Seleccione su grupo sanguineo </label>
+                    <div class="col-sm-2 col-md-12">
+                        <select class="form-control inputstl" id="grupoS" name="grupoS" th:field="*{grupoS}">
+
+
+                            <option value="O-">O -</option>
+                            <option value="O+">O +</option>
+                            <option value="A-">A -</option>
+                            <option value="A+">A +</option>
+                            <option value="B-">B -</option>
+                            <option value="B+">B +</option>
+                            <option value="AB-">AB -</option>
+                            <option value="AB+">AB +</option>
+
+                        </select>
+                    </div>
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="obraS1" aria-describedby="obaS1Help" name="obraS1" th:field="*{obraS1}" placeholder="OBRA SOCIAL 1"/>
+
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="nAfiliadoOS1" aria-describedby="nAfiliadoOS1Help" name="nAfiliadoOS1" th:field="*{nAfiliadoOS1}" placeholder="NUMERO DE AFILIADO"/>
+
+                </div> <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="obraS2" aria-describedby="obaS2Help" name="obraS2" th:field="*{obraS2}" placeholder="OBRA SOCIAL 2"/>
+
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="nAfiliadoOS2" aria-describedby="nAfiliadoOS2Help" name="nAfiliadoOS2" th:field="*{nAfiliadoOS2}" placeholder="NUMERO DE AFILIADO"/>
+
+
+                </div>
+                <div> 
+                    <input type=text class="form-control" id="obraS3" aria-describedby="obaS3Help" name="obraS3" th:field="*{obraS3}" placeholder="OBRA SOCIAL 3"/>
+                    <br/>
+                </div>
+                <div>
+                    <input type=text class="form-control" id="nAfiliadoOS3" aria-describedby="nAfiliadoOS3Help" name="nAfiliadoOS3" th:field="*{nAfiliadoOS3}" placeholder="NUMERO DE AFILIADO"/>
+                    <br/>
+                </div> 
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="nacionalidad" aria-describedby="nacionalidadHelp" name="nacionalidad" th:field="*{nacionalidad}" placeholder="NACIONALIDAD"/>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <label for="provincia">Seleccione su provincia</label>
+                    <br>
+                    <select class="form-control inputstl camposFormulario" id="provincia" aria-describedby="provinciaHelp" name="provincia" th:field="*{provincia}">
+                    </select>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <label for="exampleInputNombre">Seleccione su ciudad</label>
+                    <br>
+                    <select  class="form-control camposFormulario" id="ciudad" aria-describedby="ciudadHelp" name="ciudad" th:field="*{ciudad}" placeholder="">
+                    </select>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="calle" aria-describedby="calleHelp" name="calle" th:field="*{calle}" placeholder="CALLE"/>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="numero" aria-describedby="numeroHelp" name="numero" th:field="*{numero}" placeholder="NUMERO"/>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="piso" aria-describedby="pisoHelp" name="piso" th:field="*{piso}" placeholder="PISO"/>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="departamento" aria-describedby="departamentoHelp" name="departamento" th:field="*{departamento}" placeholder="DEPARTAMENTO"/>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=text class="form-control" id="otros" aria-describedby="otrosHelp" name="otros" th:field="*{otros}" placeholder="OTROS"/>
+                </div>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=password class="form-control" id="clave" aria-describedby="claveHelp" name="clave" th:name="clave" placeholder="Ingrese la nueva clave"/>
+                </div>
+                <br/>
+                <div class="form-group  col-md-12">
+
+                    <br/>
+                    <input type=password class="form-control" id="clave2" aria-describedby="claveHelp" name="clave2" th:name="clave2" placeholder="Ingrese Nuevamente su clave"/>
+                </div>
+                <br/>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
             </form>
-        </nav>
         </div>
         
-        
-        <h1>Datos Personales</h1>
-        <form class="need-validation" th:action="@{/Paciente/modificar2}" th:object="${paciente}" method="POST">
-           
-            <div th:if="${mensaje != null}">
-                <p th:text="${mensaje}" class="alert alert-danger"></p>
-            </div>
-            <div class="form-group col-md-6">
+        <!-- Fragment Footer-->
+            <div th:replace="footer.html :: footer"></div>
 
-                <br/>
-                <input type=text class="form-control" id="DNI" aria-describedby="dniHelp"  th:field="*{DNI}" placeholder="DNI"/>
-
-            </div> 
-
-            <div class="form-group col-md-6 " >
-
-                <br/>
-                <input type=text class="form-control" id="nombre" aria-describedby="nombreHelp"  th:field="*{nombre}" placeholder="NOMBRE"/>
-
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="apellido" aria-describedby="apellidoHelp"  th:field="*{apellido}" placeholder="APELLIDO"/>
-
-            </div>  
-
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=date class="form-control" id="fechaNac" aria-describedby="fechaNacHelp"  th:field="*{fechaNac}" placeholder="FECHA NACIMIENTO"/>
-
-            </div> 
-
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="genero" aria-describedby="generoHelp" name="genero" th:field="*{genero}" placeholder="GENERO"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="estadoCivil" aria-describedby="estadoCivilHelp" name="estadoCivil" th:field="*{estadoCivil}" placeholder="ESTADO CIVIL"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="telefono" aria-describedby="telefonoHelp" name="telefono" th:field="*{telefono}" placeholder="TELEFONO"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=email class="form-control" id="mail" aria-describedby="mailHelp" name="mail" th:field="*{mail}" placeholder="MAIL"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="nombreContacto" aria-describedby="nombreContactoHelp" name="nombreContacto" th:field="*{nombreContacto}" placeholder="NOMBRE CONTACTO"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="telefonoContacto" aria-describedby="telefonoContactoHelp" name="telefonoContacto" th:field="*{telefonoContacto}" placeholder="TELEFONO CONTACTO"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="grupoS" aria-describedby="grupoSHelp" name="grupoS" th:field="*{grupoS}" placeholder="GRUPO SANGUINO"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="obraS1" aria-describedby="obaS1Help" name="obraS1" th:field="*{obraS1}" placeholder="OBRA SOCIAL 1"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="nAfiliadoOS1" aria-describedby="nAfiliadoOS1Help" name="nAfiliadoOS1" th:field="*{nAfiliadoOS1}" placeholder="NUMERO DE AFILIADO"/>
-
-            </div> <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="obraS2" aria-describedby="obaS2Help" name="obraS2" th:field="*{obraS2}" placeholder="OBRA SOCIAL 2"/>
-
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="nAfiliadoOS2" aria-describedby="nAfiliadoOS2Help" name="nAfiliadoOS2" th:field="*{nAfiliadoOS2}" placeholder="NUMERO DE AFILIADO"/>
-
-
-            </div>
-            <div> 
-                <input type=text class="form-control" id="obraS3" aria-describedby="obaS3Help" name="obraS3" th:field="*{obraS3}" placeholder="OBRA SOCIAL 3"/>
-                <br/>
-            </div>
-            <div>
-                <input type=text class="form-control" id="nAfiliadoOS3" aria-describedby="nAfiliadoOS3Help" name="nAfiliadoOS3" th:field="*{nAfiliadoOS3}" placeholder="NUMERO DE AFILIADO"/>
-                <br/>
-            </div> 
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="nacionalidad" aria-describedby="nacionalidadHelp" name="nacionalidad" th:field="*{nacionalidad}" placeholder="NACIONALIDAD"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="provincia" aria-describedby="provinciaHelp" name="provincia" th:field=*{provincia}  placeholder="PROVINCIA"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="ciudad" aria-describedby="ciudadHelp" name="ciudad" th:field="*{ciudad}" placeholder="CIUDAD"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="calle" aria-describedby="calleHelp" name="calle" th:field="*{calle}" placeholder="CALLE"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="numero" aria-describedby="numeroHelp" name="numero" th:field="*{numero}" placeholder="NUMERO"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="piso" aria-describedby="pisoHelp" name="piso" th:field="*{piso}" placeholder="PISO"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="departamento" aria-describedby="departamentoHelp" name="departamento" th:field="*{departamento}" placeholder="DEPARTAMENTO"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=text class="form-control" id="otros" aria-describedby="otrosHelp" name="otros" th:field="*{otros}" placeholder="OTROS"/>
-            </div>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=password class="form-control" id="clave" aria-describedby="claveHelp" name="clave" th:name="clave" placeholder="Ingrese la nueva clave"/>
-            </div>
-            <br/>
-            <div class="form-group col-md-6">
-
-                <br/>
-                <input type=password class="form-control" id="clave2" aria-describedby="claveHelp" name="clave2" th:name="clave2" placeholder="Ingrese Nuevamente su clave"/>
-            </div>
-            <br/>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        </form>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     </body>
+
+    <script src="../../static/scripts/sidebar.js" th:src="@{../../static/scripts/sidebar.js}" ></script> 
+
+</html>
