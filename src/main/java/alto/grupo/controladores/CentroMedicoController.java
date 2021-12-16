@@ -118,11 +118,7 @@ public class CentroMedicoController {
     }
     
     
-    
-    
-    
-    
-
+    // ===================== VINCULACION DE MEDICOS A CM ==========================
     @GetMapping("CentroMedico/VincularM")
     public String BuscarM(HttpSession session, Model model) {
 
@@ -131,14 +127,10 @@ public class CentroMedicoController {
 
     @PostMapping("/CentroMedico/VincularM")
     public String resultadosBuscarM(HttpSession session, Model model, @RequestParam Integer matricula) {
-
-        
-
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
 
         if (cmed == null) {
             model.addAttribute("mensaje", "Debe Registrarse!!");
-
             return "redirect:/inicio";
         }
 
@@ -161,6 +153,7 @@ public class CentroMedicoController {
 
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
+            model.addAttribute("mensaje", "Debe Registrarse!!");
             return "redirect:/inicio";
         }
 
@@ -181,10 +174,9 @@ public class CentroMedicoController {
 
     @GetMapping("/CentroMedico/MostrarM")
     public String MostrarM(HttpSession session, Model model, RedirectAttributes re) throws Errores {
-
-        
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
+            model.addAttribute("mensaje", "Debe Registrarse!!");
             return "redirect:/inicio";
         }
 
@@ -201,14 +193,7 @@ public class CentroMedicoController {
         }
         else{
             model.addAttribute("mensaje", "No se encontraron Medicos asociados");
-        }
-        
-        
-        
-        
-        
-
-        return "/CentroMedico/Mostrar-M";
+        }        return "/CentroMedico/Mostrar-M";
     }
 
     @GetMapping("/CentroMedico/EliminarM")
@@ -216,6 +201,7 @@ public class CentroMedicoController {
 
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
+            model.addAttribute("mensaje", "Debe Registrarse!!");
             return "redirect:/inicio";
         }
 
@@ -225,13 +211,69 @@ public class CentroMedicoController {
 
         return "redirect:/CentroMedico/MostrarM";
     }
+    
+    // ===================== VINCULACION DE MEDICOS A CM ==========================
+    @GetMapping("CentroMedico/VincularOS")
+    public String BuscarOS(HttpSession session, Model model) {
+        return "CentroMedico/Vincular-OS";
+    }
 
+    @PostMapping("/CentroMedico/VincularOS")
+    public String resultadosBuscarOS(HttpSession session, Model model, @RequestParam String nombreOS, RedirectAttributes re) {
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            model.addAttribute("mensaje", "Debe Registrarse!!");
+            return "redirect:/inicio";
+        }
+
+        try{
+            List<String> listaOS = new ArrayList<>();
+            listaOS.add(nombreOS);
+            System.out.println("========================");
+            System.out.println("LISTA OS");
+            for (String os : listaOS) {
+                System.out.println("*"+os);
+            }
+            model.addAttribute("listaOS", listaOS);
+            centroMedicose.ModificarOS(cmed.getCodigoRegistro(), nombreOS);
+        }
+        catch(Exception er){
+            re.addFlashAttribute("mensaje", er.getMessage());
+            model.addAttribute("mensaje", er.getMessage());
+            return "redirect:/CentroMedico/VincularM";
+        }
+
+        model.addAttribute("mensaje", "Se vinculó la obra social exitosamente!!");
+        re.addFlashAttribute("mensaje", "Se vinculó la obra social exitosamente!");
+
+        return "redirect:/CentroMedico/VincularOS";
+    }
     
+    @GetMapping("/CentroMedico/ElegirOS")
+    public String ElegirOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
+        CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
+        if (cmed == null) {
+            model.addAttribute("mensaje", "Debe Registrarse!!");
+            return "redirect:/inicio";
+        }
+
+        try {
+            centroMedicose.ModificarOS(cmed.getCodigoRegistro(), nombreOS);
+            
+        } catch (Exception ex) {
+            re.addFlashAttribute("mensaje", ex.getMessage());
+            model.addAttribute("mensaje", ex.getMessage());
+            return "redirect:/CentroMedico/VincularM";
+        }
+
+        model.addAttribute("mensaje", "Se vinculó la obra social exitosamente!!");
+        re.addFlashAttribute("mensaje", "Se vinculó la obra social exitosamente!");
+
+        return "redirect:/CentroMedico/VincularM";
+    }
     
-    
-    
-    
-    
+    // ====================== MAIL SENDER =======================
+
     void sendEmail(String email) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
