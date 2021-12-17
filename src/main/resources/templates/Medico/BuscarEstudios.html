@@ -19,8 +19,16 @@ and open the template in the editor.
         <div class="container">
 
             <section name="buscador">
-                <form th:action="@{/Paciente/BuscarEstudios}" method="POST">
+                
+                <label> DNI y nombre del paciente</label>
+        <h4 th:text="${paciente.nombre} + ' ' + ${paciente.apellido}"></h4>
+        <h4 th:text="${paciente.DNI}"></h4>
+        <br><br>
+                
+                <form th:action="@{/Medico/BuscarPorEstudios}" method="POST">
 
+                    <input type="text" id="DNI" th:field="${paciente.DNI}" name="DNI" />
+                    
                     <input type="date" id="fechaVisita" name="fecha"/>
 
                     <input type="text" id="especialidad" name="especialidad" placeholder="Especialidad"/>

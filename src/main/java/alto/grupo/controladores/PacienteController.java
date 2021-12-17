@@ -11,6 +11,7 @@ import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.errores.Errores;
+import alto.grupo.repositorios.ArchivosRep;
 import alto.grupo.repositorios.HistClinicaRep;
 import alto.grupo.servicios.ArchivosSe;
 import alto.grupo.servicios.CentroMedicoSe;
@@ -22,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -62,6 +65,9 @@ public class PacienteController {
     
     @Autowired
     private ArchivosSe archivosSe;
+    
+    @Autowired
+    private ArchivosRep archivosrep;
 
     @RequestMapping("/Paciente/login")
     public String login() {
@@ -299,14 +305,14 @@ public class PacienteController {
         }
         // System.out.println(nombre + " " + especialidad);
 
-        if(nombre==null || nombre.isEmpty() || apellido==null || apellido.isEmpty()){
-            model.addAttribute("mensaje", "Debe completar el nombre y apellido del medico!");
+        if( provincia == null || provincia.isEmpty()){
+            model.addAttribute("mensaje", "Debe completar la prvincia del medico!");
             
             return "Paciente/BuscarMedico";
         }
         
-        //Buscar por nombre, apellido, 
-        if (   (provincia == null || provincia.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty())) {
+        //Buscar por nombre, apellido, provincia
+        if (  !(nombre==null || nombre.isEmpty()) && !(apellido==null || apellido.isEmpty()) &&  (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty()) ) {
             try {
                 System.out.println("entro 1"+ nombre + apellido);
                 listaMedicos = medicose.BuscarPorNAPC(nombre, apellido);
@@ -316,30 +322,45 @@ public class PacienteController {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
             }
         } //Buscar por nombre apellido ciudad y provincia
-        else if ((especialidad == null || especialidad.isEmpty())) {
+        else if ( !(nombre==null || nombre.isEmpty()) && !(apellido==null || apellido.isEmpty()) && !(ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty())) {
             try {
                 System.out.println("entro 2");
                 listaMedicos = medicose.BuscarPorNAPC(nombre, apellido, provincia, ciudad);
             } catch (Errores ex) {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
             }
-        } // nombre apellido provincia
-        else if ((especialidad == null || especialidad.isEmpty()) && (ciudad == null || ciudad.isEmpty())) {
+        } // nombre apellido provincia especialidad
+        else if (!(nombre==null || nombre.isEmpty()) && !(apellido==null || apellido.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && !(especialidad == null || especialidad.isEmpty())) {
             try {
                 System.out.println("entro 3");
-                listaMedicos = medicose.BuscarPorNAPC(nombre, apellido, provincia);
+                listaMedicos = medicose.BuscarPorNAPCE1(nombre, apellido, provincia,especialidad);
             } catch (Errores ex) {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
             }
-        } //todos los campos
-        else if (!((provincia == null || provincia.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty()))) {
+        } 
+        
+         //provincia y especialidad
+        else if (  (nombre==null || nombre.isEmpty()) && (apellido==null || apellido.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && !(especialidad == null || especialidad.isEmpty())) {
+            try {
+                listaMedicos = medicose.BuscarPorNAPCE(especialidad, provincia);
+            } catch (Errores ex) {
+                model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
+            }
+        }
+        
+        
+        //todos los campos
+        else if ( !( (nombre==null || nombre.isEmpty()) && (apellido==null || apellido.isEmpty()) && (ciudad == null || ciudad.isEmpty()) && (especialidad == null || especialidad.isEmpty()))) {
             try {
                 System.out.println("entro 4");
                 listaMedicos = medicose.BuscarPorNAPC(nombre, apellido, provincia, ciudad, especialidad);
             } catch (Errores ex) {
                 model.addAttribute("mensaje", "No se encontraron medicos, vuelva a intentar");
             }
-        } else {
+        } 
+        
+        //Busqedas no contempladas
+        else {
             
             System.out.println("entro 5");
 
@@ -674,13 +695,38 @@ public class PacienteController {
         re.addFlashAttribute("listamedicoH", listaMedH);
         re.addFlashAttribute("listacentromedico", listaCM);
 
-        return "Paciente/BuscarHistoriasClinicas";
+        return "Paciente/BuscarEstudios";
     }
 
    
     
     
     
+     @GetMapping("/Paciente/download")
+    public void downloadFile(@RequestParam("id") Long id, HttpServletResponse response) throws Exception {
+        System.out.println(id + " Por aca anda...");
+        Optional<Archivos> result = archivosrep.findById(id);
+        System.out.println("Por aca sigue andando...2");
+        if (!result.isPresent()) {
+            throw new Exception("No se ha encontrado archivo con el ID" + id);
+        }
+        
+        
+        
+
+        Archivos archivo = result.get();
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=" + archivo.getNombre();
+
+        response.setHeader(headerKey, headerValue);
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        outputStream.write(archivo.getContenido());
+        outputStream.close();
+        
+        
+    }
     
     
     

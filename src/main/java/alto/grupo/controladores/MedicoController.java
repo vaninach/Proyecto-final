@@ -2,11 +2,14 @@
 
 package alto.grupo.controladores;
 
+import alto.grupo.entidades.Archivos;
 import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.errores.Errores;
+import alto.grupo.repositorios.ArchivosRep;
+import alto.grupo.servicios.ArchivosSe;
 import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
@@ -17,6 +20,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -48,6 +54,12 @@ public class MedicoController {
     
     @Autowired
     private HistClinicaSe histclinSe;
+    
+    @Autowired
+    private ArchivosSe archivosSe;
+    
+    @Autowired
+    private ArchivosRep arvhivosrep;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -140,6 +152,9 @@ public class MedicoController {
         javaMailSender.send(msg);
 
     }
+    
+    
+    
     @GetMapping("Medico/BuscarPaciente")
     public String BuscarHC(HttpSession session, Model model){
         Medico med = (Medico)session.getAttribute("medicosesion");
@@ -500,6 +515,178 @@ public class MedicoController {
         
         return "redirect:/Medico/MostrarCM";
     }
+    
+    
+    
+    
+       @GetMapping("/Medico/BuscarPorEstudios")
+
+    public String BuscarE(HttpSession session, Model model,String dni) throws Errores {
+
+        Paciente pac = pacienteSe.BuscarPorDNI(dni); 
+        
+        model.addAttribute("paciente", pac);
+        
+        return "Medico/BuscarEstudios";
+    }
+
+    @PostMapping("/Medico/BuscarPorEstudios")
+    public String BuscarE(HttpSession session, Model model,@RequestParam String DNI ,@RequestParam String fecha, @RequestParam String especialidad, String nombreEst, String centroM, RedirectAttributes re) throws Errores {
+        List<Archivos> listaAr=new ArrayList<>();
+        List<String> listaMedP=new ArrayList<>();
+        List<String> listaMedH=new ArrayList<>();
+        List<String> listaCM=new ArrayList<>();
+       
+        Paciente pac = pacienteSe.BuscarPorDNI(DNI); 
+        
+        model.addAttribute("paciente", pac);
+        
+        Medico med = (Medico) session.getAttribute("medicosesion");
+
+        if (med == null) {
+            re.addFlashAttribute("mensaje", "Debe iniciar Sesión!");
+            return "redirect:/inicio";
+
+        }
+        
+        //Buscar por fecha
+        if ( !(fecha == null || fecha.isEmpty()) && (especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty()) ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIFecha(DNI, fecha);
+                System.out.println("entramos al 1");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros del paciente";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Buscar por especialidad
+        else if (   (fecha == null || fecha.isEmpty()) && !(especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())   ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIEsp(DNI, especialidad);
+                System.out.println("entramos al 2");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la especialidad solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Buscar por fecha y especialidad
+        else if (  !(fecha == null || fecha.isEmpty()) && !(especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())  ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIFechaEsp(DNI, fecha, especialidad);
+                System.out.println("entramos al 3");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        
+         //Buscar por todos
+        else if (  (fecha == null || fecha.isEmpty()) && (especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())  ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNI(DNI);
+                System.out.println("entramos al 3");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Alguna busqueda que no tuvimos en cuenta
+        else {
+            String mensaje = "No se puede realizar la busqueda con los parametros solicitados, intentelo nuevamente";
+                model.addAttribute("mensaje", mensaje);
+        }
+
+        if (listaAr.size() != 0) {
+
+            for (Archivos ar : listaAr) {
+                try {
+                    Medico med2 = medicose.BuscarPorMatricula(ar.getMatriculaPide());
+                    if (med2 != null) {
+                        listaMedP.add(med2.getNombre() + " " + med2.getApellido());
+                    }
+                } catch (Errores ex) {
+                    listaMedP.add("INVALID");
+                }
+                
+                try {
+                    Medico med2 = medicose.BuscarPorMatricula(ar.getMatriculaInforme());
+                    if (med2 != null) {
+                        listaMedH.add(med2.getNombre() + " " + med2.getApellido());
+                    }
+                } catch (Errores ex) {
+                    listaMedH.add("INVALID");
+                }
+
+                try {
+                    CentroMedico cmed = centromedicoSe.buscarPorCodigo(ar.getCentroMedico());
+                    if (cmed != null) {
+                        listaCM.add(cmed.getNombre());
+                    }
+                } catch (Errores ex) {
+                    listaCM.add("INVALID");
+                }
+
+            }
+
+        }
+
+        model.addAttribute("lista", listaAr);
+        model.addAttribute("listamedicoP", listaMedP);
+        model.addAttribute("listamedicoH", listaMedH);
+        model.addAttribute("listacentromedico", listaCM);
+
+        re.addFlashAttribute("lista", listaAr);
+        re.addFlashAttribute("listamedicoP", listaMedP);
+        re.addFlashAttribute("listamedicoH", listaMedH);
+        re.addFlashAttribute("listacentromedico", listaCM);
+
+        return "Medico/BuscarEstudios";
+    }
+
+   
+    
+    
+    
+     @GetMapping("/Medico/download")
+    public void downloadFile(@RequestParam("id") Long id, HttpServletResponse response) throws Exception {
+        System.out.println(id + " Por aca anda...");
+        Optional<Archivos> result = arvhivosrep.findById(id);
+        System.out.println("Por aca sigue andando...2");
+        if (!result.isPresent()) {
+            throw new Exception("No se ha encontrado archivo con el ID" + id);
+        }
+        
+        
+        
+
+        Archivos archivo = result.get();
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=" + archivo.getNombre();
+
+        response.setHeader(headerKey, headerValue);
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        outputStream.write(archivo.getContenido());
+        outputStream.close();
+        
+        
+    }
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
