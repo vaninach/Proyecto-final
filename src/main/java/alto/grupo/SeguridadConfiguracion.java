@@ -53,7 +53,7 @@ public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter {
                 
                 
                 http.antMatcher("/Paciente/**")
-			.authorizeRequests().anyRequest().permitAll()//.authenticated()
+			.authorizeRequests().anyRequest().authenticated()
 			.and().formLogin().loginPage("/Paciente/login")
 				.defaultSuccessUrl("/Paciente/inicioPaciente", true)
 			.permitAll()

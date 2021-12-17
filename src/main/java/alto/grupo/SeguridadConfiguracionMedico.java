@@ -62,7 +62,7 @@ public class SeguridadConfiguracionMedico extends WebSecurityConfigurerAdapter {
 
 
 			http.antMatcher("/Medico/**")
-			.authorizeRequests().anyRequest().permitAll()//.authenticated()
+			.authorizeRequests().anyRequest().authenticated()
 			.and().formLogin().loginPage("/Medico/login")
 				.defaultSuccessUrl("/Medico/inicioMedico", true)
 				.failureUrl("/Medico/login?error")
