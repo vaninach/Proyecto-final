@@ -71,10 +71,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="paciente:${lista}">
+                <tr th:each="paciente,iterStat:${lista}">
                     <td th:text="${paciente.nombre} + ' ' + ${paciente.apellido}"></td>
                     <td th:text="${paciente.DNI}"></td>
-                    <td th:text="${paciente.fechaNac}"></td>
+                    <td th:text="${listaedad[__${iterStat.index}__]}"></td>
                     <td th:text="${paciente.genero}"></td>
                     <td th:text="${paciente.grupoS}"></td>
                     <td th:text="${paciente.provincia} + ', ' + ${paciente.ciudad}"></td>>
