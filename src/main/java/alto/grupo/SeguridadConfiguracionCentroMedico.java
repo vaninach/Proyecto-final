@@ -57,7 +57,7 @@ public class SeguridadConfiguracionCentroMedico extends WebSecurityConfigurerAda
 //		
 //		http.csrf().disable();
         http.antMatcher("/CentroMedico/**")
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests().anyRequest().permitAll()//.hasRole("CENTRO_MEDICO")
                 .and().formLogin().loginPage("/CentroMedico/login")
                 .defaultSuccessUrl("/CentroMedico/inicioCentroMedico", true)
                 .failureUrl("/CentroMedico/login?error")
