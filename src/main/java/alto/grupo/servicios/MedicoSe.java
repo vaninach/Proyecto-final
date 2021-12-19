@@ -248,6 +248,15 @@ public class MedicoSe implements UserDetailsService {
             throw new Errores("No se encontro ningun medico");
         }
     }
+   
+    public List<Medico> BuscarPorNAPCE1(String nombre,String apellido,String provincia, String especialidad) throws Errores{
+        List<Medico> med = medRep.BuscarNombreApellidoProvinciaEsp1(nombre, apellido, provincia, especialidad);
+        if (!med.isEmpty()) {
+            return med;
+        } else {
+            throw new Errores("No se encontro ningun medico");
+        }
+    }
     
     public List<Medico> BuscarPorNAPC(String nombre,String apellido,String provincia) throws Errores{
         List<Medico> med = medRep.BuscarNombreApellidoProvincia(nombre, apellido, provincia);

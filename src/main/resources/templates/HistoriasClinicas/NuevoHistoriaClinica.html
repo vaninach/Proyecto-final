@@ -23,6 +23,8 @@
 
         <!-- llamado al propio css del archivo -->
         <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{/css/sidebar.css}">
+        <!--  Link Archivo del estilo CSS-->
+                    <link rel="stylesheet" href="../../static/css/doctor.css"  th:href="@{../css/doctor.css}">
     <title>HistoMed</title>
 </head>
 
@@ -31,7 +33,7 @@
      <!--    Fragment SideBar-->
        
         <div th:replace="Medico/sidebarMedico.html :: sidebarMedico"></div>
-
+<center>
 
     <h1>Nueva Historia Clinica </h1>
     <form class="need-validation " action="/NuevaHistoriaClinica" th:action="@{/NuevaHistoriaClinica}"
@@ -86,7 +88,9 @@
 
 
         <button type="submit" class="btn btn-primary">Registrarse</button>
+        
     </form>
+   
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -104,8 +108,8 @@
             <!-- Fragment Footer-->
             <div th:replace="footer.html :: footer"></div>
 
-    </body>
-
+    </body></center>
+ 
  <script src="../../static/scripts/sidebar.js" th:src="@{../../static/scripts/sidebar.js}" ></script> 
 
 </html>

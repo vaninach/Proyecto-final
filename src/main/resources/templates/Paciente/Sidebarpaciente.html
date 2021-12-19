@@ -23,13 +23,13 @@
         <title>Paciente</title>
     </head>
 
-  <div th:fragment="Sidebarpaciente">
+    <div th:fragment="Sidebarpaciente">
 
-    <body id="body-pd">
-      
+        <body id="body-pd">
+
             <header class="header" id="header">
                 <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-                <div class="header_img"> <img src="/imagenes/Logo-Histomed.jpeg" alt="HistoMed"> </div>
+                <div class="header_toogle"> <i class="fas fa-user-alt"></i> </div>
             </header>
 
             <div class="l-navbar" id="nav-bar">
@@ -57,31 +57,47 @@
                         <span class="nav_name">Historia Clínica</span> 
                     </a>
 
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-receipt'></i>
-                        <span class="nav_name">Receta</span>
-                    </a> 
-
                     <a href="/Paciente/BuscarPorMedico" th:href="@{/Paciente/BuscarPorMedico}" class="nav_link">
                         <i class='bx bx-search-alt-2'></i>
                         <span class="nav_name">Buscar Médico</span> 
-                    </a> 
-                    <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
+                    </a>
+
+                    <a href="/Paciente/BuscarPorCentroMedico" th:href="@{/Paciente/BuscarPorCentroMedico}" class="nav_link">
+                        <i class='bx bx-search-alt-2'></i>
+                        <span class="nav_name">Buscar Centro Médico</span> 
+                    </a>
+                    
+                    
+
+                  
+
+                    <a href="/Paciente/BuscarEstudios" th:href="@{/Paciente/BuscarEstudios}" class="nav_link">
+                        <i class='bx bx-search-alt-2'></i>
+                        <span class="nav_name">Buscar Estudios</span> 
+                    </a>
+
+<!--                    <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
                         <input class="boton" type="submit" value="salir" >
+                    </form>-->
+
+                    <form th:action="@{/logout}" action="/logout" method="post" >
+                        <button class="nav_link bx bx-log-out" type="submit" value="" 
+                                style="background-color: Transparent;border: none;"/> 
+                        <span class="nav_name">Cerrar Sesión</span>
                     </form>
 
-                    <a href="#" class="nav_link"> 
+                    <!--<a href="#" class="nav_link"> 
                         <i class='bx bx-log-out nav_icon'></i> 
                         <span class="nav_name">Cerrar Sesión</span>
-                    </a>
+                    </a>-->
                 </nav>
             </div>
-            
-            <!--Container Main end-->
-            
 
-                <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
-        </div>
-    </body>
+            <!--Container Main end-->
+
+
+            <script src="../../static/scripts/sidebar.js" th:src="@{../../scripts/sidebar.js}" ></script>
+    </div>
+</body>
 
 </html>

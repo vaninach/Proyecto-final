@@ -23,16 +23,22 @@
 
         <!-- llamado al propio css del archivo -->
         <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{/css/sidebar.css}">
+        <!--  Link Archivo del estilo CSS-->
+        <link rel="stylesheet" href="../../static/css/doctor.css"  th:href="@{../css/doctor.css}">
+       
     <title>HISTOMED - Busqueda de Pacientes</title>
 </head>
 
 <body>
-    
+     
         <!--    Fragment SideBar-->
        
         <div th:replace="Medico/sidebarMedico.html :: sidebarMedico"></div>
+       <center>
+           
     <h1>Buscar Paciente </h1>
-    <div class="buscador">
+   
+        <div class="buscador">
         <form th:action="@{/Medico/BuscarPaciente}" method="POST">
             <!-- <input id="login-username" type="date" class="form-control" name="fechaNac" value=""
                     placeholder="Ingrese su matricula" /> -->
@@ -43,13 +49,13 @@
             <input type="text" id="provincia" name="provincia" placeholder="Provincia del paciente" th:value="*{miprovincia}" /><br>
             <label for="ciudad"> Ciudad </label>
             <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad del paciente" th:value="*{miciudad}" /><br>
-
-
-            <button type="submit">Buscar</button><br>
+           
+            
+            <button type="submit" class="btn btn-primary">Buscar</button><br>
 
         </form>
     </div>
-
+    </center>
     <div class="resultados">
         <table class="table table-hover">
             <thead class="">
@@ -65,16 +71,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="paciente:${lista}">
+                <tr th:each="paciente,iterStat:${lista}">
                     <td th:text="${paciente.nombre} + ' ' + ${paciente.apellido}"></td>
                     <td th:text="${paciente.DNI}"></td>
-                    <td th:text="${paciente.fechaNac}"></td>
+                    <td th:text="${listaedad[__${iterStat.index}__]}"></td>
                     <td th:text="${paciente.genero}"></td>
                     <td th:text="${paciente.grupoS}"></td>
                     <td th:text="${paciente.provincia} + ', ' + ${paciente.ciudad}"></td>>
                     <td th:text="${paciente.telefono}"></td>
                     <td th:text="${paciente.mail}"></td>
-                    <td><a th:href="@{BuscarHistoriasClinicas(dni=${paciente.DNI})}">Buscar historias clinicas</td>
+                    <td><a th:href="@{BuscarHistoriasClinicas(dni=${paciente.DNI})}">Buscar historias clinicas</a></td>
+                    <td><a th:href="@{BuscarPorEstudios(dni=${paciente.DNI})}">Buscar Estudios</a></td>
                 </tr>
             </tbody>
         </table>
@@ -126,7 +133,7 @@
         crossorigin="anonymous"></script>
  <!-- Fragment Footer-->
             <div th:replace="footer.html :: footer"></div>
-
+ 
     </body>
 
  <script src="../../static/scripts/sidebar.js" th:src="@{../../static/scripts/sidebar.js}" ></script> 
