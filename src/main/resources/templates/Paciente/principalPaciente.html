@@ -28,9 +28,14 @@
         <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{/css/sidebar.css}">
   <title>Paciente</title>
 </head>
+<center>
 <div th:replace="Paciente/Sidebarpaciente.html :: Sidebarpaciente"></div>
 <body>
-
+<img src="https://observatoriodacomunicacao.org.br/wp-content/uploads/2020/03/0010307.png"
+		width="1100" 
+		height="500" 
+		border="5"  
+		style="border:3px solid #337AB7" /> 
 
 <!--        Fragment Footer-->
 <!--     <div th:replace="footer.html :: footer"></div>-->
@@ -38,6 +43,10 @@
 
 <!--     Este anda pero se ve algo gris y repite footer-->
 <!-- <script href="../../static/scripts/sidebar.js" th:href="@../../static/scripts/sidebar.js}" ></script>-->
-</body>
+
+
+ <br><br><br><br>    <!--        Fragment Footer-->
+   <div th:replace="footer.html :: footer"></div>
+</body></center>
 
 </html>
