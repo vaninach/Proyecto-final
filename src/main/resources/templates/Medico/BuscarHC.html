@@ -78,8 +78,7 @@
     </div>
    
     <div class="agregarHC">
-        <button>Nueva historia clinica</button>
-        <button><a th:href="@{AgregarHistoriaClinica(dni=${paciente.DNI})}">Nueva historia clinica</a></button>
+        <a th:href="@{AgregarHistoriaClinica(dni=${paciente.DNI})}" class="btn btn-primary">Nueva historia clinica</a>
     </div>
 
     <div th:if=${mensaje!=null}>

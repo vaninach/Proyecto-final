@@ -2,21 +2,29 @@
 
 package alto.grupo.controladores;
 
+import alto.grupo.entidades.Archivos;
 import alto.grupo.entidades.CentroMedico;
 import alto.grupo.entidades.HistoriasClinicas;
 import alto.grupo.entidades.Medico;
 import alto.grupo.entidades.Paciente;
 import alto.grupo.errores.Errores;
+import alto.grupo.repositorios.ArchivosRep;
+import alto.grupo.servicios.ArchivosSe;
 import alto.grupo.servicios.CentroMedicoSe;
 import alto.grupo.servicios.HistClinicaSe;
 import alto.grupo.servicios.MedicoSe;
 import alto.grupo.servicios.PacienteSe;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -48,6 +56,12 @@ public class MedicoController {
     
     @Autowired
     private HistClinicaSe histclinSe;
+    
+    @Autowired
+    private ArchivosSe archivosSe;
+    
+    @Autowired
+    private ArchivosRep arvhivosrep;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -58,24 +72,11 @@ public class MedicoController {
     }
 
 
-//    @GetMapping("/NuevoMedico")
-//    public String Medico() {
-//        return "Medico/doctor.html";
-//    }
-//
-//    @PostMapping("/NuevoMedico")
-//    public String nuevoMedico(Integer matricula, String nombre, String apellido, String fechaNac,String genero, String mail, String provincia, String ciudad, String otros, String clave, String especialidad1, String especialidad2, String especialidad3) throws Errores {
-//        System.out.println("\n\n\nPOST MAPPING NUEVOMEDICO");
-//        medicose.crear(matricula, nombre, apellido, fechaNac, genero, mail, provincia, ciudad, otros, clave, especialidad1, especialidad2, especialidad3, null);
-//        return "Medico/doctor.html";
-//    }
-
     //agregado por nacho //
     @RequestMapping("/Medico/inicioMedico")
-    public String incioCentroMedico() {
+    public String inicioCentroMedico() {
         return "Medico/principalMedico.html";
     }
-//////////////////////
 
     @GetMapping("CentroMedico/NuevoMedico2")
     public String Medico2(Model modelo, Medico medico) {
@@ -102,7 +103,6 @@ public class MedicoController {
     @GetMapping("Medico/editar-perfil-M")
     public String modificarMedico(Model modelo, HttpSession session, @RequestParam Integer matricula, final Medico medico) {
         
-        System.out.println("fhjadshfasdfadñlsakfj");
         Medico med = (Medico) session.getAttribute("medicosesion");
 
         if (med.getMatricula().intValue() != matricula) {
@@ -140,6 +140,9 @@ public class MedicoController {
         javaMailSender.send(msg);
 
     }
+    
+    
+    
     @GetMapping("Medico/BuscarPaciente")
     public String BuscarHC(HttpSession session, Model model){
         Medico med = (Medico)session.getAttribute("medicosesion");
@@ -154,24 +157,21 @@ public class MedicoController {
     }
 
     @PostMapping("/Medico/BuscarPaciente")
-    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam String nombre,@RequestParam String apellido, @RequestParam String DNI, @RequestParam String provincia, @RequestParam String ciudad) throws Errores{
+    public String resultadosBusquedaPaciente(HttpSession session, Model model, @RequestParam String nombre,@RequestParam String apellido, @RequestParam String DNI, @RequestParam String provincia, @RequestParam String ciudad, RedirectAttributes re) throws Errores{
         List<Paciente> lista = new ArrayList<>();
-        List<Paciente> listaEdad = new ArrayList<>();  ///// para calcular la edad y pasarlo al front
-
-//        model.addAttribute("nombre",nombre);      // <- pienso que no hacen falta
-//        model.addAttribute("apellido",apellido);
+        List<String> listaEdad = new ArrayList<>();  ///// para calcular la edad y pasarlo al front
 
         Medico med = (Medico)session.getAttribute("medicosesion");
 
         if(med == null){
-            throw new Error("Debe registrarse!");
+            re.addFlashAttribute("mensajeR", "Debe registrarse!");
+            return "redirect:/inicio";
         }
         
         // si tengo DNI
         if( !(DNI==null || DNI.isEmpty()) ){
             Paciente pac = pacienteSe.BuscarPorDNI(DNI);
             lista.add(pac);
-            System.out.println("Busqueda por DNI");
         }
         else if(!(provincia==null || provincia.isEmpty() )){
             if(!(ciudad==null || ciudad.isEmpty() )){
@@ -183,10 +183,29 @@ public class MedicoController {
 
         else{   // tengo nombre y apellido
             lista = pacienteSe.BuscarPorNAPC(nombre,apellido);
-            System.out.println("Busqueda por nombre y apellido");
         }
 
+        // calcular edad
+        for (Paciente paciente : lista) {
+            System.out.println("CALCULANDO EDAD PARA " + paciente.getNombre());
+            String edad;
+            String fechaNacS = paciente.getFechaNac();
+            //SimpleDateFormat formatter = new SimpleDateFormat("");
+            LocalDate hoy = LocalDate.now(); 
+            try {
+                LocalDate fechaNac = LocalDate.parse(fechaNacS); 
+                Period p = Period.between(fechaNac, hoy);
+                listaEdad.add(Integer.toString(p.getYears()));
+            } catch (Exception e) {  // si no puede parsear la fecha de nacimiento
+                listaEdad.add("-");
+                System.out.println("Fallo.....");
+            }
+        }
+        
         model.addAttribute("lista",lista);
+        model.addAttribute("listaedad",listaEdad);
+        System.out.println("\n\n\nEDAD");
+        System.out.println(listaEdad);
         
         return "Medico/BuscarPaciente";
     }
@@ -264,7 +283,6 @@ public class MedicoController {
         if (!(centroMedico == null || centroMedico.isEmpty())   ) {
             try {
                 listaHC = histclinSe.buscarPorDNICentroMedico(pac.getDNI(), centroMedico);
-                System.out.println("\nBusca por DNI y CM");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron registros del paciente en el centro médico solicitado";
                 model.addAttribute("mensaje", mensaje);
@@ -272,7 +290,6 @@ public class MedicoController {
         } else if (!(especialidad == null || especialidad.isEmpty())) {
             try {
                 listaHC = histclinSe.buscarPorDNIEspecialidad(pac.getDNI(), especialidad);
-                System.out.println("\nBusca por DNI y especialidad");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron registros en la especialidad solicitada para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
@@ -280,7 +297,6 @@ public class MedicoController {
         } else if (!(fechaVisita == null || fechaVisita.isEmpty())) {
             try {
                 listaHC = histclinSe.buscarPorDNIFecha(pac.getDNI(), fechaVisita);
-                System.out.println("\nBusca por DNI y fecha");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron registros en la fecha solicitada para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
@@ -288,7 +304,6 @@ public class MedicoController {
         } else if (!(fechaVisita == null || fechaVisita.isEmpty()) && !(especialidad == null || especialidad.isEmpty())){
             try {
                 listaHC = histclinSe.buscarPorDNIFechaEspecialidad(pac.getDNI(), fechaVisita, especialidad);
-                System.out.println("\nBusca por DNI, fecha y especialidad");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron registros en la fecha y especialidad solicitados para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
@@ -296,7 +311,6 @@ public class MedicoController {
         } else {
             try {
                 listaHC = histclinSe.buscarPorDNI(pac.getDNI());
-                System.out.println("\nBusca SOLO por DNI (trae todas las HC)");
             } catch (Errores ex) {
                 String mensaje = "No se encontraron historias clinicas para el paciente elegido.";
                 model.addAttribute("mensaje", mensaje);
@@ -500,6 +514,178 @@ public class MedicoController {
         
         return "redirect:/Medico/MostrarCM";
     }
+    
+    
+    
+    
+       @GetMapping("/Medico/BuscarPorEstudios")
+
+    public String BuscarE(HttpSession session, Model model,String dni) throws Errores {
+
+        Paciente pac = pacienteSe.BuscarPorDNI(dni); 
+        
+        model.addAttribute("paciente", pac);
+        
+        return "Medico/BuscarEstudios";
+    }
+
+    @PostMapping("/Medico/BuscarPorEstudios")
+    public String BuscarE(HttpSession session, Model model,@RequestParam String DNI ,@RequestParam String fecha, @RequestParam String especialidad, String nombreEst, String centroM, RedirectAttributes re) throws Errores {
+        List<Archivos> listaAr=new ArrayList<>();
+        List<String> listaMedP=new ArrayList<>();
+        List<String> listaMedH=new ArrayList<>();
+        List<String> listaCM=new ArrayList<>();
+       
+        Paciente pac = pacienteSe.BuscarPorDNI(DNI); 
+        
+        model.addAttribute("paciente", pac);
+        
+        Medico med = (Medico) session.getAttribute("medicosesion");
+
+        if (med == null) {
+            re.addFlashAttribute("mensaje", "Debe iniciar Sesión!");
+            return "redirect:/inicio";
+
+        }
+        
+        //Buscar por fecha
+        if ( !(fecha == null || fecha.isEmpty()) && (especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty()) ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIFecha(DNI, fecha);
+                System.out.println("entramos al 1");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros del paciente";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Buscar por especialidad
+        else if (   (fecha == null || fecha.isEmpty()) && !(especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())   ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIEsp(DNI, especialidad);
+                System.out.println("entramos al 2");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la especialidad solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Buscar por fecha y especialidad
+        else if (  !(fecha == null || fecha.isEmpty()) && !(especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())  ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNIFechaEsp(DNI, fecha, especialidad);
+                System.out.println("entramos al 3");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        
+         //Buscar por todos
+        else if (  (fecha == null || fecha.isEmpty()) && (especialidad == null || especialidad.isEmpty()) && (nombreEst == null || nombreEst.isEmpty())&& (centroM == null || centroM.isEmpty())  ) {
+            try {
+                listaAr = archivosSe.BuscarPorDNI(DNI);
+                System.out.println("entramos al 3");
+            } catch (Errores ex) {
+                String mensaje = "No se encontraron registros en la fecha solicitada";
+                model.addAttribute("mensaje", mensaje);
+            }
+        } 
+        //Alguna busqueda que no tuvimos en cuenta
+        else {
+            String mensaje = "No se puede realizar la busqueda con los parametros solicitados, intentelo nuevamente";
+                model.addAttribute("mensaje", mensaje);
+        }
+
+        if (listaAr.size() != 0) {
+
+            for (Archivos ar : listaAr) {
+                try {
+                    Medico med2 = medicose.BuscarPorMatricula(ar.getMatriculaPide());
+                    if (med2 != null) {
+                        listaMedP.add(med2.getNombre() + " " + med2.getApellido());
+                    }
+                } catch (Errores ex) {
+                    listaMedP.add("INVALID");
+                }
+                
+                try {
+                    Medico med2 = medicose.BuscarPorMatricula(ar.getMatriculaInforme());
+                    if (med2 != null) {
+                        listaMedH.add(med2.getNombre() + " " + med2.getApellido());
+                    }
+                } catch (Errores ex) {
+                    listaMedH.add("INVALID");
+                }
+
+                try {
+                    CentroMedico cmed = centromedicoSe.buscarPorCodigo(ar.getCentroMedico());
+                    if (cmed != null) {
+                        listaCM.add(cmed.getNombre());
+                    }
+                } catch (Errores ex) {
+                    listaCM.add("INVALID");
+                }
+
+            }
+
+        }
+
+        model.addAttribute("lista", listaAr);
+        model.addAttribute("listamedicoP", listaMedP);
+        model.addAttribute("listamedicoH", listaMedH);
+        model.addAttribute("listacentromedico", listaCM);
+
+        re.addFlashAttribute("lista", listaAr);
+        re.addFlashAttribute("listamedicoP", listaMedP);
+        re.addFlashAttribute("listamedicoH", listaMedH);
+        re.addFlashAttribute("listacentromedico", listaCM);
+
+        return "Medico/BuscarEstudios";
+    }
+
+   
+    
+    
+    
+     @GetMapping("/Medico/download")
+    public void downloadFile(@RequestParam("id") Long id, HttpServletResponse response) throws Exception {
+        System.out.println(id + " Por aca anda...");
+        Optional<Archivos> result = arvhivosrep.findById(id);
+        System.out.println("Por aca sigue andando...2");
+        if (!result.isPresent()) {
+            throw new Exception("No se ha encontrado archivo con el ID" + id);
+        }
+        
+        
+        
+
+        Archivos archivo = result.get();
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=" + archivo.getNombre();
+
+        response.setHeader(headerKey, headerValue);
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        outputStream.write(archivo.getContenido());
+        outputStream.close();
+        
+        
+    }
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

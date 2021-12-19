@@ -43,7 +43,7 @@ public String HistoriaClinica(Model modelo, HistoriasClinicas hclinica){
 public String nuevoHistoriaClinica (Model modelo,HistoriasClinicas hclinica) throws Errores{
     HistoriaClinicase.crear(hclinica); 
     modelo.addAttribute("hclinica",hclinica);
-    return "redirect:/NuevaHistoriaClinica";
+    return "redirect:/Medico/AgregarHistoriaClinica";
 }
    
 //Por ahora no vamos a habilitar esta opcion

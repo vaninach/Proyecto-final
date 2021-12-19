@@ -71,16 +71,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="paciente:${lista}">
+                <tr th:each="paciente,iterStat:${lista}">
                     <td th:text="${paciente.nombre} + ' ' + ${paciente.apellido}"></td>
                     <td th:text="${paciente.DNI}"></td>
-                    <td th:text="${paciente.fechaNac}"></td>
+                    <td th:text="${listaedad[__${iterStat.index}__]}"></td>
                     <td th:text="${paciente.genero}"></td>
                     <td th:text="${paciente.grupoS}"></td>
                     <td th:text="${paciente.provincia} + ', ' + ${paciente.ciudad}"></td>>
                     <td th:text="${paciente.telefono}"></td>
                     <td th:text="${paciente.mail}"></td>
-                    <td><a th:href="@{BuscarHistoriasClinicas(dni=${paciente.DNI})}">Buscar historias clinicas</td>
+                    <td><a th:href="@{BuscarHistoriasClinicas(dni=${paciente.DNI})}">Buscar historias clinicas</a></td>
+                    <td><a th:href="@{BuscarPorEstudios(dni=${paciente.DNI})}">Buscar Estudios</a></td>
                 </tr>
             </tbody>
         </table>
