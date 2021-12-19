@@ -66,8 +66,19 @@
                         <i class='bx bx-search-alt-2'></i>
                         <span class="nav_name">Buscar Centro Médico</span> 
                     </a>
+                    
+                    
 
                   
+
+                    <a href="/Paciente/BuscarEstudios" th:href="@{/Paciente/BuscarEstudios}" class="nav_link">
+                        <i class='bx bx-search-alt-2'></i>
+                        <span class="nav_name">Buscar Estudios</span> 
+                    </a>
+
+                    <form  th:action="@{/logout}" action="/logout" method="post" class="nav-item" >
+                        <input class="boton" type="submit" value="salir" >
+                    </form>
 
                     <form th:action="@{/logout}" action="/logout" method="post" >
                         <button class="nav_link bx bx-log-out" type="submit" value="" 
