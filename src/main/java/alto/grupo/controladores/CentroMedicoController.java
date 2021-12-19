@@ -135,11 +135,11 @@ public class CentroMedicoController {
     }
 
     @PostMapping("/CentroMedico/VincularM")
-    public String resultadosBuscarM(HttpSession session, Model model, @RequestParam Integer matricula) {
+    public String resultadosBuscarM(HttpSession session, Model model, RedirectAttributes re,@RequestParam Integer matricula) {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
 
         if (cmed == null) {
-            model.addAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
 
@@ -161,7 +161,7 @@ public class CentroMedicoController {
     public String ElegirM(HttpSession session, Integer id, Model model, RedirectAttributes re) throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            model.addAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
 
@@ -184,7 +184,7 @@ public class CentroMedicoController {
     public String MostrarM(HttpSession session, Model model, RedirectAttributes re) throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            model.addAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
 
@@ -210,7 +210,7 @@ public class CentroMedicoController {
 
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            model.addAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
 
@@ -226,7 +226,7 @@ public class CentroMedicoController {
     public String BuscarOS(HttpSession session, Model model, RedirectAttributes re)  throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
         
@@ -245,7 +245,7 @@ public class CentroMedicoController {
     public String ElegirOS(HttpSession session, String nombreOS, Model model, RedirectAttributes re) throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
         
@@ -282,7 +282,7 @@ public class CentroMedicoController {
 
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
 
@@ -296,7 +296,7 @@ public class CentroMedicoController {
             re.addFlashAttribute("nombreCmed", cmed.getNombre());
         }
         else{
-            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales  a " + cmed.getNombre());
+            re.addFlashAttribute("mensaje", "No se encontraron Obras Sociales asociadas a " + cmed.getNombre());
         }  
 
         return "redirect:/CentroMedico/ObrasSociales";
@@ -306,7 +306,7 @@ public class CentroMedicoController {
     public String BuscarEspecialidades(HttpSession session, Model model, RedirectAttributes re)  throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
         
@@ -325,7 +325,7 @@ public class CentroMedicoController {
     public String ElegirEspecialidad(HttpSession session, String nombreEspecialidad, Model model, RedirectAttributes re) throws Errores {
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
         
@@ -362,7 +362,7 @@ public class CentroMedicoController {
 
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
 
@@ -397,7 +397,7 @@ public class CentroMedicoController {
         
         CentroMedico cmed = (CentroMedico) session.getAttribute("centromedicosesion");
         if (cmed == null) {
-            re.addFlashAttribute("mensaje", "Debe Registrarse!!");
+            re.addFlashAttribute("mensaje-rojo", "Debe registrarse!");
             return "redirect:/inicio";
         }
 

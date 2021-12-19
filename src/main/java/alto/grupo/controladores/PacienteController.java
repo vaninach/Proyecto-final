@@ -169,7 +169,7 @@ public class PacienteController {
             return "redirect:/inicio";
 
         }
-        System.out.println(fecha + " " + especialidad);
+
         if ((fecha == null || fecha.isEmpty()) && (especialidad == null || especialidad.isEmpty())) {
             try {
                 lista = histclinicase.buscarPorDNI(pac.getDNI());
@@ -555,16 +555,16 @@ public class PacienteController {
                 re.addFlashAttribute("especialidades", listaE);
                 model.addAttribute("especialidades", listaE); 
             } else {
-                model.addAttribute("mensajeEsp", "No se encontró ningún Centro Medico asociado");
-                re.addFlashAttribute("mensajeEsp", "No se encontró ningún Centro Medico asociado");
+                model.addAttribute("mensajeEsp", "No se encontró ninguna especialidad asociada");
+                re.addFlashAttribute("mensajeEsp", "No se encontró ninguna especialidad asociada");
             }
             
             if (listaOS.size() != 0) {
                 re.addFlashAttribute("obrasS", listaOS);
                 model.addAttribute("obrasS", listaOS); 
             } else {
-                model.addAttribute("mensajeOS", "No se encontró ningún Centro Medico asociado");
-                re.addFlashAttribute("mensajeOS", "No se encontró ningún Centro Medico asociado");
+                model.addAttribute("mensajeOS", "No se encontró ninguna Obra social asociada");
+                re.addFlashAttribute("mensajeOS", "No se encontró ningún Obra Social asociada");
             }
             
             
@@ -727,60 +727,6 @@ public class PacienteController {
         
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
