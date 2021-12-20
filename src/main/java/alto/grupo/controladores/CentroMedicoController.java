@@ -62,9 +62,9 @@ public class CentroMedicoController {
 
     @RequestMapping("/CentroMedico/inicioCentroMedico")
     public String inicioCentroMedico() {
-        return "CentroMedico/sidebarCentroMedico.html";
+        return "CentroMedico/principalCentroMedico";
     }
-
+   
     @GetMapping("/NuevoCentroMedico")
     public String CentroMedico(Model modelo, CentroMedico cmedico) {
         modelo.addAttribute("cmedico", cmedico);
