@@ -42,21 +42,30 @@ and open the template in the editor.
     <div th:replace="Paciente/Sidebarpaciente.html :: Sidebarpaciente"></div>
     
     <body>
+        
+        <br>
+        <h3><center>Buscar Centro Médico</center></h3>
+        <br>
 
         <div class="container">
 
             <section name="buscador">
                 <form th:action="@{/Paciente/BuscarEstudios}" method="POST">
 
+                    <center>
                     <input type="date" id="fechaVisita" name="fecha"/>
 
                     <input type="text" id="especialidad" name="especialidad" placeholder="Especialidad"/>
                     
-                    <input type="text" id="nombreEst" name="nombreEst" placeholder="nombre del estudio"/>
+                    <input type="text" id="nombreEst" name="nombreEst" placeholder="Nombre del estudio"/>
                     
                     <input type="text" id="centroM" name="centroM" placeholder="Centro Medico"/>
-
-                    <button type="submit" id="buscar"> Buscar </button>
+                    <center/>
+                    <br>
+                    <center>
+                    <button type="submit" class="btn btn-primary" id="buscar"> Buscar </button>
+                    <center/>
+                    <br>
 
 
                 </form>
