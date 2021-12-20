@@ -85,12 +85,13 @@ public class MedicoController {
     }
 
     @PostMapping("CentroMedico/NuevoMedico2")
-    public String nuevoMedico2(Model modelo, Medico medico,String clave2) throws Errores {
+    public String nuevoMedico2(Model modelo, Medico medico,String clave2,RedirectAttributes re) throws Errores {
         modelo.addAttribute("medico", medico);
 
         try {
             if(!medico.getClave().equals(clave2)) throw new Errores("Las claves no coinciden, intentelo nuevamente");
             medicose.crear(medico);
+            re.addFlashAttribute("mensajeE", "Usuario creado con éxito");
             sendEmail(medico.getMail());
         } catch (Errores ex) {
             String mensaje = ex.getMessage();

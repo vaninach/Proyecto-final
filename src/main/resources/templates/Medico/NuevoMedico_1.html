@@ -27,27 +27,30 @@
     <div th:replace="/CentroMedico/sidebarCentroMedico.html :: sidebarCentroMedico"></div>
     <div class="centrado">
         <h1>Registro de Doctores </h1>
+        <div th:if="${mensajeE != null}">
+            <p th:text="${mensajeE}" class="alert alert-success"></p>
+        </div>
         <form class="need-validation " th:action="@{/CentroMedico/NuevoMedico2}" th:object="${medico}" method="POST">
             <div th:if="${mensaje != null}">
                 <p th:text="${mensaje}" class="alert alert-danger"></p>
             </div>
 
             <div class="col-md-offset">
-                <div class="form-group col-md-6 ">
+                <div class="form-group col-md-12 ">
                     <label for="exampleInputNombre"></label>
                     <br />
                     <input type="number" class="form-control " id="nombre" aria-describedby="nombreHelp"
                            name="matricula" th:field="*{matricula}" placeholder="Ingrese su matricula" />
 
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="exampleInputNombre"></label>
                     <br />
                     <input type=text class="form-control" id="dni" aria-describedby="dniHelp" name="nombre"
                            th:field="*{nombre}" placeholder="Ingrese su nombre" />
 
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="exampleInputNombre"></label>
                     <br />
                     <input type=text class="form-control" id="matricula" aria-describedby="dniHelp" name="apellido"
@@ -57,14 +60,14 @@
 
 
 
-                <div class="form-group col-md-6"> Seleccione su fecha de nacimiento
+                <div class="form-group col-md-12"> Seleccione su fecha de nacimiento
 
                     <input class="form-control" id="matricula" name="fechaNac" th:field="*{fechaNac}" type="date" />
                 </div>
 
                 <div class="form-group col-md-12">
-                    <label for="matricula" class="col-sm-2 control-label col-md-6">Seleccione su genero </label>
-                    <div class="col-sm-2 col-md-6">
+                    <label for="matricula" class="col-sm-2 control-label col-md-12">Seleccione su genero </label>
+                    <div class="col-sm-2 col-md-12">
                         <select class="form-control inputstl" id="genero" name="genero" th:field="*{genero}">
                             <option value="Masculino">Masculino</option>
                             <option value="Femenino">Femenino</option>
@@ -75,7 +78,7 @@
                 </div>
 
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputEmail1"></label>
                 <br />
                 <input type="email" class="form-control" id="matricula" aria-describedby="emailHelp" name="mail"
@@ -83,14 +86,14 @@
 
             </div>
             <br />
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputNombre">Seleccione la provincia en la que ejerce</label>
                 <label for="exampleInputNombre"></label>
                 <select class="form-control inputstl camposFormulario" id="provincia" aria-describedby="provinciaHelp"
                         name="provincia" th:field="*{provincia}">
                 </select>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputNombre">Seleccione la ciudad en la que ejerce</label>
                 <br>
                     <select class="form-control camposFormulario" id="ciudad" aria-describedby="ciudadHelp" name="ciudad"
@@ -98,34 +101,34 @@
                     </select>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputPassword1"></label>
                 <br />
                 <input type="password" class="form-control" id="matricula" name="clave" th:field="*{clave}"
                        placeholder="Ingrese su contraseña" />
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputPassword1"></label>
                 <br />
                 <input type="password" class="form-control" id="clave2" name="clave2" th:name="clave2"
                        placeholder="Ingrese nuevamente su contraseña" />
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputNombre"></label>
                 <br />
                 <input type=text class="form-control" id="matricula" aria-describedby="especialidad1Help"
                        name="especialidad1" th:field="*{especialidad1}" placeholder="Ingrese su especialidad" />
 
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputNombre"></label>
                 <br />
                 <input type=text class="form-control" id="matricula" aria-describedby="especialidad2Help"
                        name="especialidad2" th:field="*{especialidad2}" placeholder="Ingrese si tiene otra especialidad" />
 
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="exampleInputNombre"></label>
                 <br />
                 <input type=text class="form-control" id="matricula" aria-describedby="especialidad3Help"
@@ -133,12 +136,12 @@
                        placeholder="Ingrese si tiene otra especialidad mas" />
 
             </div> 
-<!--            <div class="form-group col-md-6">
-                <label for="exampleInputNombre"></label>
-                <br/>
-                <input type=text class="form-control" id="matricula" aria-describedby="especialidad3Help" name="centroMedicos" placeholder="Ingrese el centro medico en el cual atiende"/>
-
-            </div> -->
+            <!--            <div class="form-group col-md-12">
+                            <label for="exampleInputNombre"></label>
+                            <br/>
+                            <input type=text class="form-control" id="matricula" aria-describedby="especialidad3Help" name="centroMedicos" placeholder="Ingrese el centro medico en el cual atiende"/>
+            
+                        </div> -->
             <br />
             <button type="submit" class="btn btn-primary">Registrarse</button>
 

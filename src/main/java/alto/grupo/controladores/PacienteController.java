@@ -81,7 +81,7 @@ public class PacienteController {
     }
 
     @PostMapping("CentroMedico/NuevoPaciente")
-    public String nuevoPaciente(Model modelo, Paciente paciente, String clave2) throws Errores {
+    public String nuevoPaciente(Model modelo, Paciente paciente, String clave2,RedirectAttributes re) throws Errores {
         //System.out.println(paciente.getnAfiliadoOS2()+" "+paciente.getObraS3()+" "+paciente.getTelefonoContacto());
 
         try {
@@ -91,6 +91,7 @@ public class PacienteController {
             }
 
             pacientese.Crearpaciente(paciente.getDNI(), paciente.getNombre(), paciente.getApellido(), paciente.getFechaNac(), paciente.getGenero(), paciente.getEstadoCivil(), paciente.getTelefono(), paciente.getMail(), paciente.getNombreContacto(), paciente.getTelefonoContacto(), paciente.getGrupoS(), paciente.getObraS1(), paciente.getnAfiliadoOS1(), paciente.getObraS2(), paciente.getnAfiliadoOS2(), paciente.getObraS3(), paciente.getnAfiliadoOS3(), paciente.getNacionalidad(), paciente.getProvincia(), paciente.getCiudad(), paciente.getCalle(), paciente.getNumero(), paciente.getPiso(), paciente.getDepartamento(), paciente.getOtros(), paciente.getClave());
+            re.addFlashAttribute("mensajeE", "Usuario creado con éxito");
             sendEmail(paciente.getMail());
         } catch (Errores ex) {
 

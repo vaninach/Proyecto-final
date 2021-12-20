@@ -23,6 +23,26 @@
 
         <!-- llamado al propio css del archivo -->
         <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{/css/sidebar.css}">
+     
+         <link href="../../static/css/doctor.css" rel="stylesheet" type="text/css"/>
+        <!-- llamado al propio css del archivo -->
+        <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{/css/sidebar.css}">
+        
+               <link rel="stylesheet" href="../../static/css/doctor.css"  th:href="@{../css/doctor.css}"/>
+        <!--  Link Archivo del estilo CSS-->
+        <link rel="stylesheet" href="../../static/css/doctor.css"  th:href="@{../css/doctor.css}">
+            <link rel="stylesheet" href="../../static/css/sidebar.css"  th:href="@{/css/sidebar.css}">
+
+        
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+        
+       
+        
+        
+        
+        
         <title>Historias Clinicas</title>
 </head>
 
@@ -85,6 +105,16 @@
         <p th:text="${mensaje}" class="alert alert-danger"></p>
         
     </div>
+        
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/><br/>
+        <br/>
+        
+        
         
 <!--        Fragment Footer-->
    <div th:replace="footer.html :: footer"></div>

@@ -11,7 +11,7 @@ spring:
 #                    required: true
 #                    enable: true
   datasource:
-    url: jdbc:mysql://localhost:3306/HistoMed?allowPublicKeyRetrieval=true&useSSL=false&useTimezone=true&serverTimezone=GMT&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/HistoMed2?allowPublicKeyRetrieval=true&useSSL=false&useTimezone=true&serverTimezone=GMT&characterEncoding=UTF-8
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver

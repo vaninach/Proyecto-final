@@ -45,7 +45,7 @@
      <div th:replace="/CentroMedico/sidebarCentroMedico.html :: sidebarCentroMedico"></div>
          <div class="centrado">
    
-       
+             <h1>Subir Estudio </h1>
         
         <div class="text-success">
                 <h3>
@@ -57,23 +57,23 @@
         <form th:action="@{/CentroMedico/NuevoEstudio}" method="POST" enctype="multipart/form-data">
             <br>
                   
-            <input  class="form-group col-md-8" type="text" id="DNI" name="DNI" placeholder="DNI paciente"  /><br>
+            <input  class="form-group col-md-12" type="text" id="DNI" name="DNI" placeholder="DNI paciente"  /><br>
                  
             <br>
-            <input  class="form-group col-md-8" type="date" id="fehcaVisita" name="fechaVisita" placeholder="Fecha Estudio"  /><br>
+            <input  class="form-group col-md-12" type="date" id="fehcaVisita" name="fechaVisita" placeholder="Fecha Estudio"  /><br>
             <br>
-            <input  class="form-group col-md-8" type="number" id="matPide" name="matPide" placeholder="Matricula del medico"  /><br>
+            <input  class="form-group col-md-12" type="number" id="matPide" name="matPide" placeholder="Matricula del medico"  /><br>
             <br>
-            <input  class="form-group col-md-8" type="text" id="especialidad" name="especialidad" placeholder="especialidad"  /><br>
+            <input  class="form-group col-md-12" type="text" id="especialidad" name="especialidad" placeholder="especialidad"  /><br>
             <br>
-            <input class="form-group col-md-8" type="text" id="nombreEst" name="nombreEst" placeholder="Nombre estudio"  /><br>
+            <input class="form-group col-md-12" type="text" id="nombreEst" name="nombreEst" placeholder="Nombre estudio"  /><br>
             <br>
-            <input class="form-group col-md-8" type="number" id="matInf" name="matInf" placeholder="Matricula del medico informante"  /><br>
+            <input class="form-group col-md-12" type="number" id="matInf" name="matInf" placeholder="Matricula del medico informante"  /><br>
             <br>
-            <input class="form-group col-md-8" type="file" name="archivo" required />
+            <input class="form-group col-md-12" type="file" name="archivo" required />
             <br>
             <br>
-            <button type="submit" >Enviar</button><br>
+            <button type="submit" class="btn btn-primary" >Enviar</button><br>
 
         </form>
     </div>

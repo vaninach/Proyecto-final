@@ -72,7 +72,7 @@ public class CentroMedicoController {
     }
 
     @PostMapping("/NuevoCentroMedico")
-    public String nuevoCentroMedico(Model modelo, CentroMedico cmedico, String clave2) throws Errores {
+    public String nuevoCentroMedico(Model modelo, CentroMedico cmedico, String clave2,RedirectAttributes re) throws Errores {
         modelo.addAttribute("cmedico", cmedico);
 
         try {
@@ -80,6 +80,8 @@ public class CentroMedicoController {
                 throw new Errores("Las claves deben coincidir, intentelo nuevamente");
             }
             centroMedicose.crear(cmedico);
+           re.addFlashAttribute("mensajeE", "Usuario creado con éxito");
+
             sendEmail(cmedico.getMail());
         } catch (Errores ex) {
             String mensaje = ex.getMessage();
