@@ -63,7 +63,7 @@
                 <br>
                 <div class="form-group col-md-6">
                     <label for="genero" class="col-sm-2 control-label col-md-12">Seleccione su genero </label>
-                    <div class="col-sm-2 col-md-6">
+                    <div class="col-sm-2 col-md-12">
                         <select class="form-control inputstl" id="Genero"  name="genero" th:field="*{genero}">
                             <option value="Masculino">Masculino</option>
                             <option value="Femenino">Femenino</option>
@@ -75,7 +75,7 @@
                 <br>
                 <div class="form-group col-md-6">
                     <label for="estadoCivil" class="col-sm-2 control-label col-md-12">Seleccione su estado civil </label>
-                    <div class="col-sm-2 col-md-6">
+                    <div class="col-sm-2 col-md-12">
                         <select class="form-control inputstl" id="estadoCivil"  name="estadoCivil" th:field="*{estadoCivil}">
                             <option value="Soltero">Soltero</option>
                             <option value="Casado">Casado</option>
@@ -221,8 +221,11 @@
                 </div>
                 <br/>
                 <button type="submit" class="btn btn-primary">Registrarse</button>
+                <br>
             </form>
+            <br>
         </div>
+        <br>
         <div th:replace="footer.html :: footer"></div>
 
         <script src="../../static/scripts/index.js" th:src="@{../../scripts/index.js}" ></script>
